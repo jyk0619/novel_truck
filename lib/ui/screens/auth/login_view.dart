@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:novel_truck/core/theme/app_colors.dart';
 import 'package:novel_truck/core/theme/app_images.dart';
 
 class Login extends StatelessWidget {
@@ -12,13 +13,24 @@ class Login extends StatelessWidget {
       ),
       body:  Center(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(10.0),
           child: Column(
             children: [
               Container(
-                margin: const EdgeInsets.all(10),
-                child: const Placeholder()
+                width: double.infinity,
+                child: const Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('기록을',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: AppColors.primary),),
+                    Text('시작해볼까요?',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: AppColors.primary),),
+                  ],
+                )
               ),
+              const SizedBox(height: 20),
+              Placeholder(
+                fallbackHeight: 200,
+              ),
+              const SizedBox(height: 20),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
