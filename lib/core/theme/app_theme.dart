@@ -8,7 +8,8 @@ class AppTheme {
       primaryColor: AppColors.primary,
       scaffoldBackgroundColor: AppColors.background,
       textTheme: const TextTheme(
-        displayLarge: AppTextStyles.headline,
+        titleLarge: AppTextStyles.headline1,
+        displayLarge: AppTextStyles.headline2,
         displayMedium: AppTextStyles.body,
         displaySmall: AppTextStyles.caption,
       ),

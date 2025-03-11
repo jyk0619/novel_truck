@@ -43,21 +43,29 @@ class _RecordGridState extends State<RecordGrid> {
   Widget build(BuildContext context) {
 
     return  Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        GridView(gridDelegate:
-        SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-          children: [
-            Center(child: Text('기록1')),
-            Center(child: Text('기록2')),
-            Center(child: Text('기록3')),
-            Center(child: Text('기록4')),
-            Center(child: Text('기록5')),
-            Center(child: Text('기록6')),
-            Center(child: Text('기록7')),
-            Center(child: Text('기록8')),
-            Center(child: Text('기록9')),
-            Center(child: Text('기록10')),
-          ],),
+        Container(
+          child:DropdownButton(items: [
+            DropdownMenuItem(child: Text('최신순'), value: '전체',),
+            DropdownMenuItem(child: Text('가나다순'), value: '웹소설',),
+            DropdownMenuItem(child: Text('라이트노벨'), value: '라이트노벨',),
+            DropdownMenuItem(child: Text('소설'), value: '소설',),
+          ], onChanged: (value){},),
+        ),
+        Expanded(
+          child: GridView(gridDelegate:
+          SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+            children: [
+              Card(child: Text('기록1')),
+              Card(child: Text('기록2')),
+              Card(child: Text('기록3')),
+              Card(child: Text('기록4')),
+              Card(child: Text('기록5')),
+              Card(child: Text('기록6')),
+              Card(child: Text('기록7')),
+            ],),
+        ),
       ],
     );
   }
