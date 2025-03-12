@@ -6,28 +6,35 @@ class Record extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: DefaultTabController(
-        length: 3,
-      child: Scaffold(
-        appBar: AppBar(
-          bottom: TabBar(
-            tabs: [
-              Tab(text: '기록모음'),
-              Tab(text: '북마크'),
-              Tab(text: '기록검색'),
-            ],
+    return
+       DefaultTabController(
+         length: 3,
+         child: Scaffold(
+          appBar: AppBar(
+            bottom: TabBar(
+              tabs: [
+                Tab(text: '기록모음'),
+                Tab(text: '북마크'),
+                Tab(text: '기록검색'),
+              ],
+            )
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: TabBarView(
+              children: [
+               RecordGrid(),
+                BookMarkGrid(),
+                RecordSearch(),
+              ],
+            ),
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: (){},
+            child: Icon(Icons.add),
           )
-        ),
-        body: TabBarView(
-          children: [
-           RecordGrid(),
-            BookMarkGrid(),
-            RecordSearch(),
-          ],
-        ),
-      ),
-    ) );
+             ),
+       );
   }
 }
 
@@ -68,6 +75,7 @@ class _RecordGridState extends State<RecordGrid> {
         ),
       ],
     );
+
   }
 }
 
@@ -79,11 +87,11 @@ class BookMarkGrid extends StatelessWidget {
     return GridView(gridDelegate:
     SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
       children: [
-        Center(child: Text('북마크1')),
-        Center(child: Text('북마크2')),
-        Center(child: Text('북마크3')),
-        Center(child: Text('북마크4')),
-        Center(child: Text('북마크5')),
+        Card(child: Text('북마크1')),
+        Card(child: Text('북마크2')),
+        Card(child: Text('북마크3')),
+        Card(child: Text('북마크4')),
+        Card(child: Text('북마크5')),
       ],);
   }
 }
