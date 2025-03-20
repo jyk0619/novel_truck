@@ -56,7 +56,7 @@ class _RecordGridState extends State<RecordGrid> {
           child:DropdownButton(items: [
             DropdownMenuItem(child: Text('최신순'), value: '전체',),
             DropdownMenuItem(child: Text('가나다순'), value: '웹소설',),
-            DropdownMenuItem(child: Text('라이트노벨'), value: '라이트노벨',),
+            DropdownMenuItem(child: Text('기본순'), value: '기본순',),
             DropdownMenuItem(child: Text('소설'), value: '소설',),
           ], onChanged: (value){},),
         ),
@@ -64,6 +64,13 @@ class _RecordGridState extends State<RecordGrid> {
           child: GridView(gridDelegate:
           SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
             children: [
+              Card(child: Text('기록1')),
+              Card(child: Text('기록2')),
+              Card(child: Text('기록3')),
+              Card(child: Text('기록4')),
+              Card(child: Text('기록5')),
+              Card(child: Text('기록6')),
+              Card(child: Text('기록7')),
               Card(child: Text('기록1')),
               Card(child: Text('기록2')),
               Card(child: Text('기록3')),
@@ -92,6 +99,7 @@ class BookMarkGrid extends StatelessWidget {
         Card(child: Text('북마크3')),
         Card(child: Text('북마크4')),
         Card(child: Text('북마크5')),
+
       ],);
   }
 }
