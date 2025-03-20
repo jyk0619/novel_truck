@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-
+import 'package:novel_truck/ui/screens/novel/collection_view.dart';
 class Home extends StatelessWidget {
    Home({super.key});
 
@@ -9,6 +8,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
         title: Text('Home'),
       ),
       body: SingleChildScrollView(
@@ -26,10 +26,11 @@ class Home extends StatelessWidget {
                             child: Container(
                               margin: const EdgeInsets.fromLTRB(0, 0, 5, 0),
                                 decoration: BoxDecoration(
+                                  color: Colors.white,
                                   border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                child: const Center(child: Text('Card 1')),
+                                child: const Center(child: Text('기록하기')),
                               ),
                           ),
                           Expanded(
@@ -39,20 +40,28 @@ class Home extends StatelessWidget {
                                   child: Container(
                                     margin: const EdgeInsets.fromLTRB(5, 0, 0, 5),
                                     decoration: BoxDecoration(
+                                      color: Colors.white,
                                       border: Border.all(color: Colors.black),
                                       borderRadius: BorderRadius.circular(10),
                                     ),
-                                    child: const Center(child: Text('Card 2')),
+                                    child: const Center(child: Text('내 서재')),
                                   ),
                                 ),
                                 Expanded(
-                                  child: Container(
-                                  margin: const EdgeInsets.fromLTRB(5, 5, 0, 0),
-                                    decoration: BoxDecoration(
-                                      border: Border.all(color: Colors.black),
-                                      borderRadius: BorderRadius.circular(10),
+                                  child: InkWell(
+                                    child: Container(
+                                    margin: const EdgeInsets.fromLTRB(5, 5, 0, 0),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        border: Border.all(color: Colors.black),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: const Center(child: Text('내 소설 \n플레이리스트')
+                                      ),
                                     ),
-                                    child: const Center(child: Text('Card 3')),
+                                      onTap: () {
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => Collection()));
+                                      },
                                   ),
                                 ),
                               ],

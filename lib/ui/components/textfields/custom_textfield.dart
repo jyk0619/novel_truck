@@ -7,6 +7,8 @@ class CustomTextField extends StatelessWidget {
   final bool obscureText;
    final IconData? prefixIcon;
    final VoidCallback? onEditingComplete;
+   final IconData? suffixIcon;
+   final VoidCallback? onSuffixTap;
 
 
   const CustomTextField({
@@ -16,6 +18,8 @@ class CustomTextField extends StatelessWidget {
     this.obscureText = false,
     this.prefixIcon,
     this.onEditingComplete,
+    this.suffixIcon,
+    this.onSuffixTap,
   }) : super(key: key);
 
   @override
@@ -26,8 +30,14 @@ class CustomTextField extends StatelessWidget {
       onEditingComplete: onEditingComplete,
       decoration: InputDecoration(
         prefixIcon: Icon(prefixIcon),
+        suffixIcon: Icon(suffixIcon)!=null
+            ?IconButton(
+          icon: Icon(suffixIcon),
+          onPressed: onSuffixTap,
+        )
+        :null,
         labelText: label,
-        labelStyle: TextStyle(color: AppColors.textPrimary),
+        labelStyle: TextStyle(color: AppColors.textSecondary, fontSize: 14),
         fillColor: Colors.white,
         filled: true,
         border: OutlineInputBorder(

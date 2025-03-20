@@ -8,6 +8,9 @@ import 'package:novel_truck/ui/screens/auth/login_view.dart';
 import 'package:novel_truck/ui/screens/home/homenav_view.dart';
 import'package:novel_truck/core/theme/app_theme.dart';
 import 'package:novel_truck/ui/screens/auth/signupcom_view.dart';
+import 'package:novel_truck/ui/screens/novel/collection_view.dart';
+import 'package:novel_truck/ui/screens/novel/collectionadd_view.dart';
+import 'package:novel_truck/ui/screens/auth/agree_view.dart';
 
 void main() {
   runApp(MultiProvider(providers: [ChangeNotifierProvider(create: (_)=>SignUpFormViewModel())
@@ -25,7 +28,7 @@ class MyApp extends StatelessWidget {
     return  MaterialApp(
       theme: AppTheme.lightTheme,
       title: 'Flutter Demo',
-      home: HomeNav(),
+      home: Agree(),
       //MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }

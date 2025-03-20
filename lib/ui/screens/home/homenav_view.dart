@@ -14,7 +14,7 @@ class HomeNav extends StatefulWidget {
 }
 
 class _HomeNavState extends State<HomeNav> {
-  var _index = 1;
+  var _index = 2;
   List _pages = [
     Record(),
     Novel(),

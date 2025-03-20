@@ -22,7 +22,8 @@ class AppTheme {
       ),
 
       textTheme: const TextTheme(
-        titleLarge: AppTextStyles.headline1,
+        titleLarge: AppTextStyles.headline0,
+        titleMedium: AppTextStyles.headline1,
         displayLarge: AppTextStyles.headline2,
         displayMedium: AppTextStyles.body,
         displaySmall: AppTextStyles.caption,
@@ -56,6 +57,7 @@ class AppTheme {
           textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
       ),
+
     );
   }
 }
