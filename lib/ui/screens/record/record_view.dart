@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:novel_truck/ui/components/textfields/custom_textfield.dart';
-
+import 'package:novel_truck/ui/screens/record/newrecord_view.dart';
 class Record extends StatelessWidget {
   const Record({super.key});
 
@@ -30,7 +30,9 @@ class Record extends StatelessWidget {
             ),
           ),
           floatingActionButton: FloatingActionButton(
-            onPressed: (){},
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>NewRecord()));
+            },
             child: Icon(Icons.add),
           )
              ),

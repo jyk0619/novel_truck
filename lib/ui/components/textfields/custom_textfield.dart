@@ -40,6 +40,7 @@ class CustomTextField extends StatelessWidget {
         labelStyle: TextStyle(color: AppColors.textSecondary, fontSize: 14),
         fillColor: Colors.white,
         filled: true,
+        floatingLabelBehavior: FloatingLabelBehavior.never,
         border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide(width: 0,

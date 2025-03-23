@@ -20,6 +20,15 @@ List<String> checkList=[
   '약관'
 ];
 
+setCheckAll() {
+  if (_isCheck1 && _isCheck2 && _isCheck3) {
+    _isCheckAll = true;
+  }
+  else {
+    _isCheckAll = false;
+  }
+}
+
 class _AgreeState extends State<Agree> {
   @override
   Widget build(BuildContext context) {
@@ -94,6 +103,8 @@ class _AgreeState extends State<Agree> {
                         _isCheck1 = value;
                         _isCheck2 = value;
                         _isCheck3 = value;
+
+                        setCheckAll();
                       });
                     },
                   ),
@@ -101,6 +112,7 @@ class _AgreeState extends State<Agree> {
                 ],
               ),
             ),
+
             Container(
                 padding: EdgeInsets.symmetric(horizontal: 5),
                 child:Row(
@@ -110,6 +122,7 @@ class _AgreeState extends State<Agree> {
                       onChanged: (value) {
                         setState(() {
                           _isCheck1 = value!;
+                          setCheckAll();
                         });
                       },
                     ),
@@ -118,6 +131,7 @@ class _AgreeState extends State<Agree> {
                   ],
                 )
             ),
+
             Container(
                 padding: EdgeInsets.symmetric(horizontal: 5),
                 child:Row(
@@ -127,6 +141,7 @@ class _AgreeState extends State<Agree> {
                       onChanged: (value) {
                         setState(() {
                           _isCheck2 = value!;
+                          setCheckAll();
                         });
                       },
                     ),
@@ -144,6 +159,7 @@ class _AgreeState extends State<Agree> {
                       onChanged: (value) {
                         setState(() {
                           _isCheck3 = value!;
+                          setCheckAll();
                         });
                       },
                     ),
@@ -153,15 +169,26 @@ class _AgreeState extends State<Agree> {
                 )
             ),
             SizedBox(height: 20,),
-            SizedBox(
+
+            _isCheckAll
+                ? SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                  onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => EzSignUp()));
-                  },
-                  child: Text('다음으로'),
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => EzSignUp()));
+                },
+                child: Text('다음으로'),
               ),
-            )],
+            )
+                : SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+
+                onPressed: null,
+                child: Text('다음으로'),
+              ),
+            )
+           ],
         ),
       ),
     );

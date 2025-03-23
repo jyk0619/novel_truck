@@ -48,7 +48,7 @@ class SignUpCom extends StatelessWidget {
                         height: 3,
                         margin: const EdgeInsets.only(right: 3),
                         decoration: BoxDecoration(
-                          color: AppColors.surface,
+                          color: AppColors.primary,
                           borderRadius: BorderRadius.circular(5),
                         ),
                       )
