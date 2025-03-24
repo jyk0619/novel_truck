@@ -1,11 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:novel_truck/core/theme/app_colors.dart';
 import 'package:novel_truck/core/theme/app_images.dart';
 import 'package:novel_truck/ui/screens/auth/ezsignup_view.dart';
 
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
   const Login({super.key});
+
+  @override
+  State<Login> createState() => _LoginState();
+}
+class _LoginState extends State<Login> {
+
+  LoginPlatform _loginPlatform = LoginPlatform.none;
+
+  void signInWithGoogle() async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    if (googleUser != null) {
+      print('name = ${googleUser.displayName}');
+      print('email = ${googleUser.email}');
+      print('id = ${googleUser.id}');
+
+      setState(() {
+        _loginPlatform = LoginPlatform.google;
+      });
+    }
+  }
+
+  void signOut() async {
+    switch (_loginPlatform) {
+      case LoginPlatform.google:
+        await GoogleSignIn().signOut();
+        break;
+      case LoginPlatform.kakao:
+        break;
+      case LoginPlatform.apple:
+        break;
+      case LoginPlatform.none:
+        break;
+    }
+
+    setState(() {
+      _loginPlatform = LoginPlatform.none;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,32 +110,37 @@ class Login extends StatelessWidget {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => EzSignUp() ));
                     }
                   ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.7,
-                    margin: const EdgeInsets.symmetric(vertical: 5),
-                      padding: const EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 1,
-                            blurRadius: 5,
-                            offset: const Offset(0, 2), // changes position of shadow
-                          ),
-                        ],
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          SizedBox(
-                              width: 30,
-                              height: 30,
-                              child: Image.asset(AppImages.glogo,fit: BoxFit.fill)),
-                          Text('Google 계정으로 로그인', style: TextStyle(color: Colors.black),),
-                        ],
-                      )),
+                  InkWell(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.7,
+                      margin: const EdgeInsets.symmetric(vertical: 5),
+                        padding: const EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 1,
+                              blurRadius: 5,
+                              offset: const Offset(0, 2), // changes position of shadow
+                            ),
+                          ],
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            SizedBox(
+                                width: 30,
+                                height: 30,
+                                child: Image.asset(AppImages.glogo,fit: BoxFit.fill)),
+                            Text('Google 계정으로 로그인', style: TextStyle(color: Colors.black),),
+                          ],
+                        )),
+                    onTap: () {
+                      signInWithGoogle();
+                    }
+                  ),
                   Container(
                     width: MediaQuery.of(context).size.width * 0.7,
                     padding: const EdgeInsets.all(5),
@@ -122,6 +167,13 @@ class Login extends StatelessWidget {
                           Text('Apple 계정으로 로그인', style: TextStyle(color: Colors.white),),
                         ],
                       )),
+                  Text('현재 로그인 상태 : $_loginPlatform', style: TextStyle(fontSize: 20),),
+                  ElevatedButton(
+                    onPressed: () {
+                      signOut();
+                    },
+                    child: const Text('로그아웃'),
+                  ),
                 ],
               ),
 
@@ -131,4 +183,11 @@ class Login extends StatelessWidget {
       ),
     );
   }
+}
+
+enum LoginPlatform {
+  google,
+  kakao,
+  apple,
+  none,
 }
