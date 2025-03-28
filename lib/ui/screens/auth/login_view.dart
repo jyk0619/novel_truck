@@ -1,54 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:novel_truck/core/theme/app_colors.dart';
 import 'package:novel_truck/core/theme/app_images.dart';
 import 'package:novel_truck/ui/screens/auth/ezsignup_view.dart';
+import 'package:novel_truck/ui/screens/auth/login_viewmodel.dart';
+import 'package:provider/provider.dart';
 
-
-class Login extends StatefulWidget {
-  const Login({super.key});
-
-  @override
-  State<Login> createState() => _LoginState();
-}
-class _LoginState extends State<Login> {
-
-  LoginPlatform _loginPlatform = LoginPlatform.none;
-
-  void signInWithGoogle() async {
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-    if (googleUser != null) {
-      print('name = ${googleUser.displayName}');
-      print('email = ${googleUser.email}');
-      print('id = ${googleUser.id}');
-
-      setState(() {
-        _loginPlatform = LoginPlatform.google;
-      });
-    }
-  }
-
-  void signOut() async {
-    switch (_loginPlatform) {
-      case LoginPlatform.google:
-        await GoogleSignIn().signOut();
-        break;
-      case LoginPlatform.kakao:
-        break;
-      case LoginPlatform.apple:
-        break;
-      case LoginPlatform.none:
-        break;
-    }
-
-    setState(() {
-      _loginPlatform = LoginPlatform.none;
-    });
-  }
+class Login extends StatelessWidget {
+   Login({super.key});
 
   @override
   Widget build(BuildContext context) {
+
+    final authViewModel = Provider.of<AuthViewModel>(context);
+
     return Scaffold(
       appBar: AppBar(
         surfaceTintColor: Colors.transparent,
@@ -58,7 +22,7 @@ class _LoginState extends State<Login> {
           padding: const EdgeInsets.all(10.0),
           child: Column(
             children: [
-              Container(
+              SizedBox(
                 width: double.infinity,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,7 +71,7 @@ class _LoginState extends State<Login> {
                           ],
                         )),
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => EzSignUp() ));
+                      authViewModel.signInWithKakao();
                     }
                   ),
                   InkWell(
@@ -138,7 +102,7 @@ class _LoginState extends State<Login> {
                           ],
                         )),
                     onTap: () {
-                      signInWithGoogle();
+                      authViewModel.signInWithGoogle();
                     }
                   ),
                   Container(
@@ -167,10 +131,10 @@ class _LoginState extends State<Login> {
                           Text('Apple 계정으로 로그인', style: TextStyle(color: Colors.white),),
                         ],
                       )),
-                  Text('현재 로그인 상태 : $_loginPlatform', style: TextStyle(fontSize: 20),),
+                  Text('현재 로그인 상태 : ${authViewModel.loginPlatform}', style: TextStyle(fontSize: 20),),
                   ElevatedButton(
                     onPressed: () {
-                      signOut();
+                      authViewModel.signOut();
                     },
                     child: const Text('로그아웃'),
                   ),
@@ -184,7 +148,6 @@ class _LoginState extends State<Login> {
     );
   }
 }
-
 enum LoginPlatform {
   google,
   kakao,
