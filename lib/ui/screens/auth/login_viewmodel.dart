@@ -17,6 +17,7 @@ class AuthViewModel extends ChangeNotifier {
       print('name = ${googleUser.displayName}');
       print('email = ${googleUser.email}');
       print('id = ${googleUser.id}');
+      print('$googleUser');
 
       _loginPlatform = LoginPlatform.google;
       notifyListeners(); // UI 업데이트
