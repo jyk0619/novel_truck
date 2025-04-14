@@ -12,12 +12,20 @@ class AuthViewModel extends ChangeNotifier {
   LoginPlatform get loginPlatform => _loginPlatform;
 
   Future<void> signInWithGoogle() async {
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    final GoogleSignIn googleSignIn = GoogleSignIn(
+      scopes: ['email'],
+      serverClientId: "407727758351-0g4oqnb90ifhb5ebguilh8u1tghelc4m.apps.googleusercontent.com", // 👈 WebClientId 추가
+
+    ); //웹 클라이언트id 입력 (serverauth )
+
+    final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
     if (googleUser != null) {
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
       print('name = ${googleUser.displayName}');
       print('email = ${googleUser.email}');
       print('id = ${googleUser.id}');
-      print('$googleUser');
+      print(googleUser);
 
       _loginPlatform = LoginPlatform.google;
       notifyListeners(); // UI 업데이트

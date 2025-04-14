@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:novel_truck/ui/screens/auth/ezsignup_view.dart';
 import 'package:novel_truck/ui/screens/auth/login_viewmodel.dart';
 import 'package:novel_truck/ui/screens/auth/signupform_view.dart';
+import 'package:novel_truck/ui/screens/novel/novel_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:novel_truck/ui/screens/auth/signupform_viewmodel.dart';
 import 'package:novel_truck/ui/screens/home/home_view.dart';
@@ -20,7 +21,9 @@ void main() async{
   await dotenv.load(fileName:"assets/config/.env");
   String? kakaoNativeAppKey = dotenv.env['KAKAO_API_KEY'];
   KakaoSdk.init(nativeAppKey: kakaoNativeAppKey);
-  runApp(MultiProvider(providers: [ChangeNotifierProvider(create: (_)=>AuthViewModel())
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_)=>AuthViewModel()),
+    ChangeNotifierProvider(create: (_)=>NovelViewModel())
   ],
     child:MyApp(),
   ));
@@ -35,7 +38,7 @@ class MyApp extends StatelessWidget {
     return  MaterialApp(
       theme: AppTheme.lightTheme,
       title: 'Flutter Demo',
-      home: Login(),
+      home: HomeNav(),
       //MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }

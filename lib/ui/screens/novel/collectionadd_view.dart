@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:novel_truck/ui/components/textfields/custom_textfield.dart';
+import 'package:novel_truck/ui/screens/novel/novel_viewmodel.dart';
+import 'package:provider/provider.dart';
 
-class CollectionAdd extends StatelessWidget {
+class CollectionAdd extends StatefulWidget {
+
    CollectionAdd({super.key});
 
-   final  TextEditingController title = TextEditingController();
+  @override
+  State<CollectionAdd> createState() => _CollectionAddState();
+}
+
+class _CollectionAddState extends State<CollectionAdd> {
+   TextEditingController title = TextEditingController();
+
+    String imagePath = 'assets/images/novel1.jpg';
+
   @override
   Widget build(BuildContext context) {
+    final novelViewModel = Provider.of<NovelViewModel>(context);
     return SingleChildScrollView(
         child: SizedBox(
           width: double.infinity,
@@ -47,7 +59,10 @@ class CollectionAdd extends StatelessWidget {
                         ),
                         child: Text('취소')
                     ),
-                    ElevatedButton(onPressed: (){}, child: Text('생성')),
+                    ElevatedButton(onPressed: (){
+                      novelViewModel.addCollection(title.text, imagePath);
+                      Navigator.pop(context);
+                    }, child: Text('생성')),
                   ],
                 ),
               ),

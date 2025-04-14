@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:novel_truck/core/theme/app_colors.dart';
 import 'package:novel_truck/ui/components/textfields/custom_textfield.dart';
+import 'package:novel_truck/ui/screens/record/addrecord_view.dart';
 import 'package:novel_truck/ui/screens/record/newrecord_view.dart';
 class Record extends StatelessWidget {
   const Record({super.key});
@@ -31,7 +33,18 @@ class Record extends StatelessWidget {
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: (){
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>NewRecord()));
+              showDialog(context: context,
+                barrierDismissible: true,
+                builder: (context) => AlertDialog(
+                  insetPadding: EdgeInsets.all(10),
+                  backgroundColor: AppColors.background,
+                  surfaceTintColor: Colors.transparent,
+                  content: SizedBox(
+
+                      child: AddRecord()),
+                ),
+              );
+              // Navigator.push(context, MaterialPageRoute(builder: (context)=>AddRecord()));
             },
             child: Icon(Icons.add),
           )

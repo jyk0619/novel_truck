@@ -48,7 +48,6 @@ class _RecordGridState extends State<NovelGrid> {
 
   @override
   Widget build(BuildContext context) {
-
     return  Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
