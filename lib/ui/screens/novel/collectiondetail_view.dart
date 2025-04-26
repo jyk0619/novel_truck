@@ -104,6 +104,7 @@ class CollectionDetail extends StatelessWidget {
                                 ),
                               ),
                               onTap: () {
+                                Navigator.pop(context);
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => CollectionAddItem(collectionIndex:collectionIndex)));
                               },
                             )

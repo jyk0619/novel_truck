@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:novel_truck/ui/components/textfields/custom_textfield.dart';
+import 'package:novel_truck/ui/screens/novel/novel_viewmodel.dart';
+import 'package:novel_truck/ui/screens/novel/noveldetail_view.dart';
+import 'package:provider/provider.dart';
 
 class Novel extends StatelessWidget {
   const Novel({super.key});
@@ -48,26 +52,48 @@ class _RecordGridState extends State<NovelGrid> {
 
   @override
   Widget build(BuildContext context) {
-    return  Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Container(
-          child:DropdownButton(items: [
-            DropdownMenuItem(child: Text('최신순'), value: '최신순',),
-            DropdownMenuItem(child: Text('가나다순'), value: '웹소설',),
-            DropdownMenuItem(child: Text('기본순'), value: '기본순',),
-            DropdownMenuItem(child: Text('소설'), value: '소설',),
-          ], onChanged: (value){},),
+
+final novelViewModel = Provider.of<NovelViewModel>(context);
+
+    return   Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          childAspectRatio: 0.7,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
         ),
-        Expanded(
-          child: GridView(gridDelegate:
-          SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-            children: [
-              Card(child: Text('소설')),
-             
-            ],),
-        ),
-      ],
+        itemBuilder: (context, index) {
+          return InkWell(
+            child: Container(
+              padding: EdgeInsets.all(5),
+              child: Column(
+
+                  children: [
+                    Container(
+                      height: 120.h,
+                      decoration: BoxDecoration(
+                        color: Colors.grey,
+                      ),
+                    ),
+                    Text('${novelViewModel.novelList[index].title}', style: TextStyle(fontSize: 12)),
+                  ]),
+            ),
+            onTap: ( ) {
+              //탭하면 noveldetail로 이동
+              Navigator.push(context,
+                MaterialPageRoute(
+                  builder: (context) => NovelDetail(
+                    novel: novelViewModel.novelList[index],
+                  ),
+                ),
+              );
+            },
+          );
+        },
+        itemCount: novelViewModel.novelList.length,
+      ),
     );
 
   }

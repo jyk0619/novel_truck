@@ -78,22 +78,27 @@ class NewRecord3 extends StatelessWidget {
               SizedBox(height: 20,),
               Text('내용',style: Theme.of(context).textTheme.displaySmall,),
               SizedBox(height: 10,),
-              CustomTextField(
-                label: '내용을 입력하세요',
-                controller: textcontroller,
-              ),
-              SizedBox(height: 20,),
-              Text('이미지',style: Theme.of(context).textTheme.displaySmall,),
-              SizedBox(height: 10,),
               Container(
                 width: double.infinity,
-                height: 200,
+                height: 500,
+                padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: AppColors.divider),
                 ),
-                child: Center(child: Text('이미지를 추가하세요'),),
+                child: TextField(
+                  controller: textcontroller,
+                  maxLines: null,
+                  decoration: InputDecoration(
+                    hintText: '자유롭게 작성해주세요!',
+                    hintStyle: TextStyle(color: Colors.grey,fontSize: 20),
+                    border: InputBorder.none,
+                  ),
+                ),
               ),
               SizedBox(height: 20,),
+
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

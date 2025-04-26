@@ -12,7 +12,7 @@ class AppTheme {
         backgroundColor: AppColors.surface,
         elevation: 0,
         iconTheme: IconThemeData(color: AppColors.textPrimary),
-        titleTextStyle: const TextStyle(color: AppColors.textPrimary, fontSize: 20, fontWeight: FontWeight.bold),
+        titleTextStyle:  TextStyle(color: AppColors.textPrimary, fontSize: 20, fontWeight: FontWeight.bold),
       ),
 
       tabBarTheme: const TabBarTheme(
@@ -21,7 +21,7 @@ class AppTheme {
         indicatorColor: AppColors.primary,
       ),
 
-      textTheme: const TextTheme(
+      textTheme:  TextTheme(
         titleLarge: AppTextStyles.headline0,
         titleMedium: AppTextStyles.headline1,
         displayLarge: AppTextStyles.headline2,
@@ -54,7 +54,7 @@ class AppTheme {
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.primary,
           foregroundColor: Colors.white,
-          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          textStyle: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
       ),
 
