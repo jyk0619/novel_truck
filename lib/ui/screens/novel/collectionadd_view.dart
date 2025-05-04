@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:novel_truck/ui/components/textfields/custom_textfield.dart';
 import 'package:novel_truck/ui/screens/novel/novel_viewmodel.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CollectionAdd extends StatefulWidget {
 
@@ -30,8 +31,8 @@ class _CollectionAddState extends State<CollectionAdd> {
               ),
 
               Container(
-                width: 200,
-                height: 200,
+                width: 200.w,
+                height: 200.h,
                 decoration: BoxDecoration(
                   color: Colors.grey,
                   borderRadius: BorderRadius.circular(10),

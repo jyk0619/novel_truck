@@ -39,12 +39,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  ScreenUtilInit(
+      designSize: Size(360, 690),
       child: Builder(
         builder: (context) {
           return MaterialApp(
             theme: AppTheme.lightTheme,
             title: 'Flutter Demo',
-            home: HomeNav(),
+            home: EzSignUp(),
             //MyHomePage(title: 'Flutter Demo Home Page'),
           );
         }

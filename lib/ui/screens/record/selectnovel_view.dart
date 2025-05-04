@@ -76,10 +76,11 @@ class _NovelGridState extends State<NovelGrid> {
                       child: Column(
 
                           children: [
-                            Container(
-                              height: 120.h,
-                              decoration: BoxDecoration(
-                                color: Colors.grey,
+                            Expanded(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.grey,
+                                ),
                               ),
                             ),
                             Text('${novelViewModel.novelList[index].title}', style: TextStyle(fontSize: 12)),

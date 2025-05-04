@@ -3,6 +3,7 @@ import 'package:novel_truck/core/theme/app_colors.dart';
 import 'package:novel_truck/ui/screens/novel/collectionitemadd_view.dart';
 import 'package:novel_truck/ui/screens/novel/novel_viewmodel.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CollectionDetail extends StatelessWidget {
   final collectionIndex;
@@ -31,8 +32,8 @@ class CollectionDetail extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
-                  width: 200,
-                  height: 200,
+                  width: 200.h,
+                  height: 200.w,
                   margin: EdgeInsets.symmetric(vertical: 10),
                   decoration: BoxDecoration(
                     color: AppColors.primary,
@@ -48,7 +49,7 @@ class CollectionDetail extends StatelessWidget {
                 InkWell(
                   child: Container(
                     width: double.infinity,
-                    height: 50,
+                    height: 50.h,
 
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -76,7 +77,7 @@ class CollectionDetail extends StatelessWidget {
                         context: context,
                         builder: (context)=>
                     Container(
-                      height: 300,
+                      height: 300.h,
                       padding: EdgeInsets.all(20),
 
                       child: Column(
@@ -124,13 +125,13 @@ class CollectionDetail extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Card(
                       child: Container(
-                        height: 120,
+                        height: 120.h,
                         padding: EdgeInsets.all(10),
                         child: Row(
                           children: [
                             Container(
-                              width: 80,
-                              height: 100,
+                              width: 80.w,
+                              height: 100.h,
                               decoration: BoxDecoration(
                                 color: Colors.grey,
 

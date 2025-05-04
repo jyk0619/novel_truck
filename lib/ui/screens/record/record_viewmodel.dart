@@ -11,7 +11,25 @@ class RecordViewModel extends ChangeNotifier {
     RecordData(id: '5', novelId: 'novel5', tag: ['tag9', 'tag10'], isBookmarked: false, content: '기록 내용 5'),
   ];
 
-  List<RecordData> get recordData => _recordData;
+  List<RecordData> _filteredRecordData = [];
+  // 검색 텍스트를 관리하는 controller
+  TextEditingController searchController = TextEditingController();
+
+  List<RecordData> get recordData => _filteredRecordData.isEmpty ? _recordData : _filteredRecordData;
+
+  void searchRecord(String query) {
+    if (query.isEmpty) {
+      _filteredRecordData = [];
+    } else {
+      _filteredRecordData = _recordData
+          .where((record) =>
+      record.content != null && record.content!.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+    }
+    notifyListeners(); // 검색 결과가 변경되었으므로 UI를 갱신
+  }
+
+  //기록 검색
 
   // 인덱스를 지정해서 수정
   void setRecordId(int index, String id) {

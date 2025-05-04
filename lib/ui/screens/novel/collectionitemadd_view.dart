@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../novel/novel_viewmodel.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 class CollectionAddItem extends StatelessWidget {
   final collectionIndex;
@@ -9,7 +11,6 @@ class CollectionAddItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final novelViewModel = Provider.of<NovelViewModel>(context);
-
 
     return Scaffold(
       appBar: AppBar(
@@ -39,10 +40,11 @@ class CollectionAddItem extends StatelessWidget {
                   child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          height: 140,
-                          decoration: BoxDecoration(
-                            color: Colors.grey,
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey,
+                            ),
                           ),
                         ),
                         Text('${novelViewModel.novelList[index].title}', style: TextStyle(fontSize: 12)),
@@ -61,7 +63,7 @@ class CollectionAddItem extends StatelessWidget {
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Text('${novelViewModel.novelList[index].title} 을 ${novelViewModel.collectionList[collectionIndex].title} 에 추가하시겠어요?', style: TextStyle(fontSize: 20)),
+                                    Text('${novelViewModel.novelList[index].title} 을 ${novelViewModel.collectionList[collectionIndex].title} 에 추가하시겠어요?', style: TextStyle(fontSize: 14)),
                                     SizedBox(height: 10),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,

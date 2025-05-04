@@ -4,13 +4,16 @@ import 'package:novel_truck/core/theme/app_colors.dart';
 import 'package:novel_truck/ui/screens/novel/collectiondetail_view.dart';
 import 'package:novel_truck/ui/screens/novel/novel_viewmodel.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Collection extends StatelessWidget {
   const Collection({super.key});
 
   @override
   Widget build(BuildContext context) {
+
     final novelViewModel = Provider.of<NovelViewModel>(context);
+
     return Scaffold(
       appBar: AppBar(
         surfaceTintColor: Colors.transparent,
@@ -21,6 +24,7 @@ class Collection extends StatelessWidget {
           },
         ),
       ),
+
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -38,7 +42,7 @@ class Collection extends StatelessWidget {
                   ],
                 ),
               ),
-        
+
               Container(
                 margin: EdgeInsets.symmetric(vertical: 10),
                   child: Text('플레이리스트 목록',style:Theme.of(context).textTheme.displayLarge)),
@@ -46,7 +50,7 @@ class Collection extends StatelessWidget {
               GridView.builder(gridDelegate:
                 SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    childAspectRatio: 1
+                    childAspectRatio: 0.9
                 ),
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -74,9 +78,9 @@ class Collection extends StatelessWidget {
                       child: Column(
                         children: [
                           Card(
-                            child: Container(
-                              width: double.infinity,
-                              height: 150,
+                            child: SizedBox(
+                              width: 120.w,
+                              height: 120.h,
                                 child: Icon(Icons.add, color: AppColors.primary, size: 50)),
                           ),
                           Text('컬렉션 추가', style: Theme.of(context).textTheme.displayMedium),
@@ -98,18 +102,16 @@ class Collection extends StatelessWidget {
                             );
                           },
                           child: Card(
-
                             child: Image.asset(
                                 collection.imagePath,
                                 width: double.infinity,
                                 fit: BoxFit.cover,
                                 errorBuilder: (context, error, stackTrace) {
                                   return Container(
-                                    width: double.infinity,
-                                    height: 150,
+                                    width: 120.w,
+                                    height: 120.h,
                                     padding: EdgeInsets.all(10),
                                     child: Icon(Icons.error, color: AppColors.primary, size: 50),
-
                                   );
                                 }
                             ),

@@ -12,13 +12,12 @@ class Novel extends StatelessWidget {
   Widget build(BuildContext context) {
     return
       DefaultTabController(
-        length: 3,
+        length: 2,
         child: Scaffold(
             appBar: AppBar(
                 bottom: TabBar(
                   tabs: [
                     Tab(text: '내 서재'),
-                    Tab(text: '컬렉션'),
                     Tab(text: '소설 검색'),
                   ],
                 )
@@ -28,7 +27,6 @@ class Novel extends StatelessWidget {
               child: TabBarView(
                 children: [
                   NovelGrid(),
-                  Text('컬렉션'),
                   NovelSearch(),
                 ],
               ),
@@ -67,14 +65,15 @@ final novelViewModel = Provider.of<NovelViewModel>(context);
         itemBuilder: (context, index) {
           return InkWell(
             child: Container(
+              height: 150.h,
               padding: EdgeInsets.all(5),
               child: Column(
-
                   children: [
-                    Container(
-                      height: 120.h,
-                      decoration: BoxDecoration(
-                        color: Colors.grey,
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey,
+                        ),
                       ),
                     ),
                     Text('${novelViewModel.novelList[index].title}', style: TextStyle(fontSize: 12)),

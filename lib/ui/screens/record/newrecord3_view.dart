@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:novel_truck/core/theme/app_colors.dart';
 import 'package:novel_truck/ui/components/textfields/custom_textfield.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class NewRecord3 extends StatelessWidget {
   NewRecord3({super.key});
@@ -29,8 +30,8 @@ class NewRecord3 extends StatelessWidget {
                       child:Row(
                         children:[
                           Container(
-                            width: 20,
-                            height: 20,
+                            width: 20.w,
+                            height: 20.h,
                             margin: const EdgeInsets.only(right: 3),
                             decoration: BoxDecoration(
                               color: Colors.grey,
@@ -38,8 +39,8 @@ class NewRecord3 extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            width: 20,
-                            height: 20,
+                            width: 20.w,
+                            height: 20.h,
                             margin: const EdgeInsets.only(right: 3),
                             decoration: BoxDecoration(
                               color: Colors.grey,
@@ -47,8 +48,8 @@ class NewRecord3 extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            width: 20,
-                            height: 20,
+                            width: 20.w,
+                            height: 20.h,
                             margin: const EdgeInsets.only(right: 10),
                             decoration: BoxDecoration(
                               color: AppColors.primary,
@@ -56,8 +57,8 @@ class NewRecord3 extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            width: 80,
-                            height: 30,
+                            width: 80.w,
+                            height: 30.h,
                             padding: EdgeInsets.all(5),
                             decoration: BoxDecoration(
                               color:AppColors.primary,
@@ -74,13 +75,12 @@ class NewRecord3 extends StatelessWidget {
               SizedBox(height: 20,),
               Text('태그',style: Theme.of(context).textTheme.displaySmall,),
               SizedBox(height: 10,),
-
               SizedBox(height: 20,),
               Text('내용',style: Theme.of(context).textTheme.displaySmall,),
               SizedBox(height: 10,),
               Container(
                 width: double.infinity,
-                height: 500,
+                height: 500.h,
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -108,7 +108,7 @@ class NewRecord3 extends StatelessWidget {
                       Navigator.pop(context);
                     },
                     style: ElevatedButton.styleFrom(
-                      minimumSize: Size(150,40),
+                      minimumSize: Size(150.w,40.h),
                       backgroundColor: Colors.white,
                       foregroundColor: Theme.of(context).colorScheme.primary,
                     ),
@@ -120,7 +120,7 @@ class NewRecord3 extends StatelessWidget {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => NewRecord3()));
                     },
                     style: ElevatedButton.styleFrom(
-                      minimumSize: Size(150,40),
+                      minimumSize: Size(150.w,40.h),
                     ),
                     child: Text('다음 단계로'),
                   ),

@@ -4,6 +4,7 @@ import 'package:novel_truck/core/theme/app_images.dart';
 import 'package:novel_truck/ui/screens/auth/ezsignup_view.dart';
 import 'package:novel_truck/ui/screens/auth/login_viewmodel.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Login extends StatelessWidget {
    Login({super.key});
@@ -35,8 +36,8 @@ class Login extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               Container(
-                width: 200 ,
-                height: 200,
+                width: 200.w,
+                height: 200.h,
                 color: Colors.white,
               ),
               const SizedBox(height: 20),
@@ -64,8 +65,8 @@ class Login extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             SizedBox(
-                                width: 30,
-                                height: 30,
+                                width: 30.w,
+                                height: 30.h,
                                 child: Image.asset(AppImages.klogo,)),
                             Text('카카오 계정으로 로그인', style: TextStyle(color: Colors.black),),
                           ],
@@ -95,8 +96,8 @@ class Login extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             SizedBox(
-                                width: 30,
-                                height: 30,
+                                width: 30.w,
+                                height: 30.h,
                                 child: Image.asset(AppImages.glogo,fit: BoxFit.fill)),
                             Text('Google 계정으로 로그인', style: TextStyle(color: Colors.black),),
                           ],
@@ -105,6 +106,7 @@ class Login extends StatelessWidget {
                       authViewModel.signInWithGoogle();
                     }
                   ),
+
                   Container(
                     width: MediaQuery.of(context).size.width * 0.7,
                     padding: const EdgeInsets.all(5),
@@ -125,8 +127,8 @@ class Login extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           SizedBox(
-                              width: 30,
-                              height: 30,
+                              width: 30.w,
+                              height: 30.h,
                               child: Image.asset(AppImages.alogo,fit: BoxFit.fill,)),
                           Text('Apple 계정으로 로그인', style: TextStyle(color: Colors.white),),
                         ],

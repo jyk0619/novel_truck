@@ -15,14 +15,13 @@ class Record extends StatelessWidget {
   Widget build(BuildContext context) {
     return
        DefaultTabController(
-         length: 3,
+         length: 2,
          child: Scaffold(
           appBar: AppBar(
             bottom: TabBar(
               tabs: [
                 Tab(text: '기록모음'),
                 Tab(text: '북마크'),
-                Tab(text: '기록검색'),
               ],
             )
           ),
@@ -32,7 +31,6 @@ class Record extends StatelessWidget {
               children: [
                RecordGrid(),
                 BookMarkGrid(),
-                RecordSearch(),
               ],
             ),
           ),
@@ -69,17 +67,21 @@ class _RecordGridState extends State<RecordGrid> {
   Widget build(BuildContext context) {
 
     final recordViewmodel = Provider.of<RecordViewModel>(context);
+    TextEditingController searchController = TextEditingController();
+
 
     return  Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Container(
-          child:DropdownButton(items: [
-            DropdownMenuItem(child: Text('최신순'), value: '전체',),
-            DropdownMenuItem(child: Text('가나다순'), value: '웹소설',),
-            DropdownMenuItem(child: Text('기본순'), value: '기본순',),
-            DropdownMenuItem(child: Text('소설'), value: '소설',),
-          ], onChanged: (value){},),
+          child:CustomTextField(
+            label: '검색',
+            controller: recordViewmodel.searchController,
+            prefixIcon: Icons.search,
+            onEditingComplete: () {
+              recordViewmodel.searchRecord(recordViewmodel.searchController.text);
+            },
+          )
         ),
         Expanded(
           child:
@@ -105,22 +107,26 @@ class _RecordGridState extends State<RecordGrid> {
                     child: Text('${recordViewmodel.recordData[index].content}', style: TextStyle(fontSize: 14)),
                   ),
               ),
-                IconButton(onPressed: (){
-                  // 북마크 추가/해제
-                  recordViewmodel.addBookmark(index);
+                Positioned(
+                  top: 4,
+                  right: 4,
+                  child: IconButton(onPressed: (){
+                    // 북마크 추가/해제
+                    recordViewmodel.addBookmark(index);
 
-                  // 북마크 추가/해제 시 스낵바 표시
-                  SnackBar snackBar = SnackBar(
-                    content: Text(recordViewmodel.recordData[index].isBookmarked ? '북마크 추가됨' : '북마크 해제됨'),
-                    duration: Duration(seconds: 1),
-                    backgroundColor: recordViewmodel.recordData[index].isBookmarked ? AppColors.primary : Colors.grey,
-                  );
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                },
-                  icon: recordViewmodel.recordData[index].isBookmarked
-                      ? Icon(Icons.bookmark, color: AppColors.primary,)
-                      : Icon(Icons.bookmark_border, color: Colors.grey,),
-          ),
+                    // 북마크 추가/해제 시 스낵바 표시
+                    SnackBar snackBar = SnackBar(
+                      content: Text(recordViewmodel.recordData[index].isBookmarked ? '북마크 추가됨' : '북마크 해제됨'),
+                      duration: Duration(seconds: 1),
+                      backgroundColor: recordViewmodel.recordData[index].isBookmarked ? AppColors.primary : Colors.grey,
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  },
+                    icon: recordViewmodel.recordData[index].isBookmarked
+                        ? Icon(Icons.bookmark, color: AppColors.primary,)
+                        : Icon(Icons.bookmark_border, color: Colors.grey,),
+                            ),
+                ),
               ]
             ),
                 onTap: ( ) {
@@ -143,29 +149,86 @@ class BookMarkGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView(gridDelegate:
-    SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-      children: [
-        Card(child: Text('북마크1')),
-        Card(child: Text('북마크2')),
-        Card(child: Text('북마크3')),
-        Card(child: Text('북마크4')),
-        Card(child: Text('북마크5')),
-      ],
+    final recordViewModel = Provider.of<RecordViewModel>(context);
+
+    // 북마크된 데이터만 필터링
+    final bookmarkedData = recordViewModel.recordData.where((record) => record.isBookmarked).toList();
+
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: GridView.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 10,
+          mainAxisSpacing: 10,
+        ),
+        itemCount: bookmarkedData.length,
+        itemBuilder: (context, index) {
+          return InkWell(
+            onTap: () {
+              // 탭하면 NovelDetail로 이동할 로직 작성하면 됨
+            },
+            child: Stack(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(5),
+                  height: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 4,
+                        offset: Offset(2, 2),
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Text(
+                      bookmarkedData[index].content ?? '',
+                      style: const TextStyle(fontSize: 14),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 4,
+                  right: 4,
+                  child: IconButton(
+                    icon: Icon(
+                      bookmarkedData[index].isBookmarked
+                          ? Icons.bookmark
+                          : Icons.bookmark_border,
+                      color: bookmarkedData[index].isBookmarked
+                          ? AppColors.primary
+                          : Colors.grey,
+                    ),
+                    onPressed: () {
+                      final realIndex = recordViewModel.recordData.indexOf(bookmarkedData[index]);
+                      recordViewModel.addBookmark(realIndex);
+
+                      final isNowBookmarked = recordViewModel.recordData[realIndex].isBookmarked;
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(isNowBookmarked ? '북마크 추가됨' : '북마크 해제됨'),
+                          duration: const Duration(seconds: 1),
+                          backgroundColor: isNowBookmarked ? AppColors.primary : Colors.grey,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }
 
-class RecordSearch extends StatelessWidget {
-  const RecordSearch({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomTextField(label: '검색',
-      controller: TextEditingController(),
-      prefixIcon: Icons.search,);
-  }
-}
 
 class AddRecord extends StatelessWidget {
   const AddRecord({super.key});
