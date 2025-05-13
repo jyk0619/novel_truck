@@ -2,6 +2,7 @@
 
 import 'package:flutter/foundation.dart';
 import 'package:novel_truck/data/model/novel_model.dart';
+import 'package:image_picker/image_picker.dart';
 
 class NovelViewModel extends ChangeNotifier {
   final List<NovelData> _novelList = [
@@ -55,5 +56,7 @@ class NovelViewModel extends ChangeNotifier {
     _collectionList.removeAt(novelIndex);
     notifyListeners();
   }
+
+
 
 }

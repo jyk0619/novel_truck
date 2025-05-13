@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import  'package:flutter/material.dart';
 import 'package:novel_truck/ui/screens/novel/collectionadd_view.dart';
 import 'package:novel_truck/core/theme/app_colors.dart';
@@ -102,10 +104,11 @@ class Collection extends StatelessWidget {
                             );
                           },
                           child: Card(
-                            child: Image.asset(
-                                collection.imagePath,
-                                width: double.infinity,
+                            child: Image.file(
+                                File(collection.imagePath),
                                 fit: BoxFit.cover,
+                                width: 120.w,
+                                height: 120.h,
                                 errorBuilder: (context, error, stackTrace) {
                                   return Container(
                                     width: 120.w,

@@ -1,8 +1,12 @@
+
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:novel_truck/ui/components/textfields/custom_textfield.dart';
 import 'package:novel_truck/ui/screens/novel/novel_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CollectionAdd extends StatefulWidget {
 
@@ -15,7 +19,7 @@ class CollectionAdd extends StatefulWidget {
 class _CollectionAddState extends State<CollectionAdd> {
    TextEditingController title = TextEditingController();
 
-    String imagePath = 'assets/images/novel1.jpg';
+    String imagePath = '';
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +42,17 @@ class _CollectionAddState extends State<CollectionAdd> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 margin: EdgeInsets.symmetric(vertical: 10),
-                child: IconButton(icon: Icon(Icons.add), onPressed: (){}),
+                child:
+                  imagePath!=''
+                      ? Image.file( File(imagePath), fit: BoxFit.cover)
+                  :IconButton(icon: Icon(Icons.add), onPressed: (){
+                  imagePicker().then((value) {
+                    setState(() {
+                      imagePath = value;
+                      print('imagePath: $imagePath');
+                    });
+                  });
+                }),
               ),
 
               Container(
@@ -71,5 +85,21 @@ class _CollectionAddState extends State<CollectionAdd> {
           ),
         ),
     );
+  }
+}
+
+
+Future<String> imagePicker() async{
+  final ImagePicker _picker = ImagePicker();
+  final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+  if (image != null) {
+    // Use the selected image
+    String _imagePath = image.path;
+    print('Selected image path: $_imagePath');
+    return _imagePath;
+    // You can also display the image in your UI using Image.file(File(imagePath))
+  } else {
+    print('No image selected.');
+    return '';
   }
 }

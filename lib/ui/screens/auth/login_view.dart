@@ -5,6 +5,7 @@ import 'package:novel_truck/ui/screens/auth/ezsignup_view.dart';
 import 'package:novel_truck/ui/screens/auth/login_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class Login extends StatelessWidget {
    Login({super.key});
@@ -36,9 +37,9 @@ class Login extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               Container(
-                width: 200.w,
-                height: 200.h,
-                color: Colors.white,
+                width: 150.w,
+                height: 150.h,
+                child: SvgPicture.asset('assets/images/home.svg',fit: BoxFit.contain),
               ),
               const SizedBox(height: 20),
               Column(

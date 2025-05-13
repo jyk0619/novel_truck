@@ -1,3 +1,4 @@
+import 'dart:io';
 import  'package:flutter/material.dart';
 import 'package:novel_truck/core/theme/app_colors.dart';
 import 'package:novel_truck/ui/screens/novel/collectionitemadd_view.dart';
@@ -39,6 +40,13 @@ class CollectionDetail extends StatelessWidget {
                     color: AppColors.primary,
                     borderRadius: BorderRadius.circular(8),
                   ),
+                  child:Image.file(
+                     File(collection.imagePath),
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Icon(Icons.error, size: 50);
+                    },
+                  )
                 ),
                 Container(
                   width: double.infinity,

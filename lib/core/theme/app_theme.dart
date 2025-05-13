@@ -24,6 +24,7 @@ class AppTheme {
       textTheme:  TextTheme(
         titleLarge: AppTextStyles.headline0,
         titleMedium: AppTextStyles.headline1,
+        titleSmall: AppTextStyles.headline3,
         displayLarge: AppTextStyles.headline2,
         displayMedium: AppTextStyles.body,
         displaySmall: AppTextStyles.caption,

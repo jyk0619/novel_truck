@@ -5,6 +5,8 @@ import 'package:novel_truck/ui/screens/novel/novel_viewmodel.dart';
 import 'package:novel_truck/ui/screens/novel/noveldetail_view.dart';
 import 'package:provider/provider.dart';
 
+import 'addnovel_view.dart';
+
 class Novel extends StatelessWidget {
   const Novel({super.key});
 
@@ -32,7 +34,10 @@ class Novel extends StatelessWidget {
               ),
             ),
             floatingActionButton: FloatingActionButton(
-              onPressed: (){},
+              onPressed: (){
+                Navigator.push(context,
+                MaterialPageRoute(builder: (context)=>AddNovel()));//소설 추가 페이지로 이동
+              },
               child: Icon(Icons.add),
             )
         ),

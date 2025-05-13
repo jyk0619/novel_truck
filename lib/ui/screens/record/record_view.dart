@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:novel_truck/core/theme/app_colors.dart';
 import 'package:novel_truck/ui/components/textfields/custom_textfield.dart';
 import 'package:novel_truck/ui/screens/record/record_viewmodel.dart';
+import 'package:novel_truck/ui/screens/record/recorddetail_view.dart';
 import 'package:novel_truck/ui/screens/record/selectnovel_view.dart';
 import 'package:provider/provider.dart';
 
@@ -14,43 +15,48 @@ class Record extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return
-       DefaultTabController(
-         length: 2,
-         child: Scaffold(
-          appBar: AppBar(
-            bottom: TabBar(
-              tabs: [
-                Tab(text: '기록모음'),
-                Tab(text: '북마크'),
-              ],
-            )
-          ),
-          body: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: TabBarView(
-              children: [
-               RecordGrid(),
-                BookMarkGrid(),
-              ],
+       GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+         child: DefaultTabController(
+           length: 2,
+           child: Scaffold(
+            appBar: AppBar(
+              bottom: TabBar(
+                tabs: [
+                  Tab(text: '기록모음'),
+                  Tab(text: '북마크'),
+                ],
+              )
             ),
-          ),
+            body: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: TabBarView(
+                children: [
+                 RecordGrid(),
+                  BookMarkGrid(),
+                ],
+              ),
+            ),
 
-          floatingActionButton: FloatingActionButton(
-            onPressed: (){
-              showDialog(context: context,
-                barrierDismissible: true,
-                builder: (context) => AlertDialog(
-                  insetPadding: EdgeInsets.all(10),
-                  backgroundColor: AppColors.background,
-                  surfaceTintColor: Colors.transparent,
-                  content: SizedBox(
-                      child: AddRecord()),
-                ),
-              );// Navigator.push(context, MaterialPageRoute(builder: (context)=>AddRecord()));
-            },
-            child: Icon(Icons.add),
-          )
-             ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: (){
+                showDialog(context: context,
+                  barrierDismissible: true,
+                  builder: (context) => AlertDialog(
+                    insetPadding: EdgeInsets.all(10),
+                    backgroundColor: AppColors.background,
+                    surfaceTintColor: Colors.transparent,
+                    content: SizedBox(
+                        child: AddRecord()),
+                  ),
+                );// Navigator.push(context, MaterialPageRoute(builder: (context)=>AddRecord()));
+              },
+              child: Icon(Icons.add),
+            )
+               ),
+         ),
        );
   }
 }
@@ -68,6 +74,7 @@ class _RecordGridState extends State<RecordGrid> {
 
     final recordViewmodel = Provider.of<RecordViewModel>(context);
     TextEditingController searchController = TextEditingController();
+    recordViewmodel.searchController = searchController;
 
 
     return  Column(
@@ -102,6 +109,14 @@ class _RecordGridState extends State<RecordGrid> {
                   height: double.infinity,
                   decoration: BoxDecoration(
                   color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 4,
+                      offset: Offset(2, 2),
+                    ),
+                  ],
                   ),
                   child: Center(
                     child: Text('${recordViewmodel.recordData[index].content}', style: TextStyle(fontSize: 14)),
@@ -130,7 +145,10 @@ class _RecordGridState extends State<RecordGrid> {
               ]
             ),
                 onTap: ( ) {
-
+              Navigator.push(context,
+                MaterialPageRoute(
+                  builder: (context) => RecordDetail(recordIndex:index),
+                )); //NovelDetail( novelIndex: index,novel: recordViewmodel.recordData[index],
                 //탭하면 noveldetail로 이동
                 },
               );
@@ -166,7 +184,13 @@ class BookMarkGrid extends StatelessWidget {
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
-              // 탭하면 NovelDetail로 이동할 로직 작성하면 됨
+Navigator.push(
+                context,
+                MaterialPageRoute(
+                  //북마크 필터링된 인덱스 넘김
+                  builder: (context) => RecordDetail(recordIndex: recordViewModel.recordData.indexOf(bookmarkedData[index])),
+                ),
+              ); // NovelDetail( novelIndex: index,novel: recordViewModel.recordData[index],
             },
             child: Stack(
               children: [
