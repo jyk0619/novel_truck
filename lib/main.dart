@@ -18,8 +18,17 @@ import 'package:novel_truck/ui/screens/novel/collectionadd_view.dart';
 import 'package:novel_truck/ui/screens/auth/agree_view.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import  'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:novel_truck/core/services/shared_url_handler.dart';
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+late SharedUrlHandler sharedUrlHandler;
 
 void main() async{
+  // 외부 공유받기
+  WidgetsFlutterBinding.ensureInitialized();
+  sharedUrlHandler = SharedUrlHandler(navigatorKey);
+  sharedUrlHandler.init();// 초기화 시 공유 인텐트 감지 시작
+
   await dotenv.load(fileName:"assets/config/.env");
   String? kakaoNativeAppKey = dotenv.env['KAKAO_API_KEY'];
   KakaoSdk.init(nativeAppKey: kakaoNativeAppKey);
@@ -39,10 +48,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  ScreenUtilInit(
-      designSize: Size(360, 690),
+      designSize: Size(412, 732),
       child: Builder(
         builder: (context) {
           return MaterialApp(
+            navigatorKey: navigatorKey,
             theme: AppTheme.lightTheme,
             title: 'Flutter Demo',
             home: EzSignUp(),

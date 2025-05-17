@@ -44,6 +44,8 @@ dependencies:
   flutter_screenutil: ^5.9.3
   image_picker: ^1.0.8
   flutter_svg: ^2.0.10+1
+  flutter_sharing_intent: ^1.1.1
+  receive_sharing_intent: ^1.8.1
 
 dev_dependencies:
   flutter_test:

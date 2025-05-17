@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:novel_truck/core/theme/app_colors.dart';
+import 'package:novel_truck/ui/screens/profile/badgelist_view.dart';
+import 'package:novel_truck/core/services/animation_utils.dart';
+
+import '../novel/collection_view.dart';
+
 
 class Profile extends StatelessWidget {
   Profile({super.key});
@@ -9,6 +16,8 @@ class Profile extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         surfaceTintColor: Colors.transparent,
+        backgroundColor: Colors.transparent,
+        title: Text('마이페이지', style: Theme.of(context).textTheme.displayMedium),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -19,16 +28,18 @@ class Profile extends StatelessWidget {
                 width: double.infinity,
                 margin: EdgeInsets.only(bottom: 10),
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text('닉네임', style: Theme.of(context).textTheme.displayLarge),
+                    Text('닉네임', style: Theme.of(context).textTheme.titleLarge),
+                    SizedBox(width: 5),
                     Text(' 님', style: Theme.of(context).textTheme.displaySmall),
                   ],
                 ),
               ),
+              SizedBox(height: 10,),
               Container(
                 width: double.infinity,
-                height: 120,
+                height: 130.h,
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -43,7 +54,9 @@ class Profile extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+
                    SizedBox(
                      width: double.infinity,
                      child:Text('오늘까지',style: Theme.of(context).textTheme.displaySmall),
@@ -53,11 +66,20 @@ class Profile extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Icon(Icons.book, size: 50, color: AppColors.primary),
+                          Container(
+                            child: SvgPicture.asset(
+                              'assets/images/books_icon.svg',
+                              height: 50.h,
+                            ),
+                          ),
                           SizedBox(
                             child:Row(
                               children: [
-                                Text('12', style: TextStyle(fontSize: 55,fontWeight: FontWeight.bold,color: AppColors.primary)),
+                                NumberCounter(
+                                  start: 0,
+                                  end: 12,
+                                  textStyle: TextStyle(fontSize: 55,fontWeight: FontWeight.bold,color: AppColors.primary),
+                                ),
                                 Text('\n 권의 책을 기록했어요.', style: Theme.of(context).textTheme.displaySmall),
                               ],
                             )
@@ -69,49 +91,19 @@ class Profile extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20,),
-              Container(
-                padding: EdgeInsets.all(10),
-                width: double.infinity,
-                height: 100,
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 1,
-                      blurRadius: 5,
-                      offset: const Offset(0, 2), // changes position of shadow
+              InkWell(
+                onTap: () {
+                  Navigator.push(context,
+                    MaterialPageRoute(
+                      builder: (context) => BadgeList(), //Replace with your badge detail page
                     ),
-                  ],
-                  color: AppColors.primary,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child:Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      child:Row(
-                        children:[
-                          Text('4', style: TextStyle(fontSize: 55,fontWeight: FontWeight.bold,color: Colors.white)),
-                          Text('\n 개의 뱃지를 모았어요.', style: TextStyle(fontSize: 14, color: Colors.white)),
-                        ],
-                      )
-                    ),
-                    SizedBox(
-                      child:Row(
-                        children:[
-                          Icon(Icons.local_police_outlined, color: Colors.blueAccent, size: 50),
-                          Icon(Icons.arrow_forward_ios, color: Colors.white),
-                        ],
-                      )
-                    )
-                  ],
-                )
-              ),
-              SizedBox(height:10),
-              Container(
+                  );
+                  // Navigate to badge detail page
+                },
+                child: Container(
                   padding: EdgeInsets.all(10),
                   width: double.infinity,
-                  height: 100,
+                  height: 100.h,
                   decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
@@ -121,30 +113,88 @@ class Profile extends StatelessWidget {
                         offset: const Offset(0, 2), // changes position of shadow
                       ),
                     ],
-                    color: AppColors.primary.withOpacity(0.7),
+                    color: AppColors.primary,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child:Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SizedBox(
-                          child:Row(
-                            children:[
-                              Text('1', style: TextStyle(fontSize: 55,fontWeight: FontWeight.bold,color: Colors.white)),
-                              Text('\n 개의 플레이리스트를 만들었어요.', style: TextStyle(fontSize: 14, color: Colors.white)),
-                            ],
-                          )
+                        child:Row(
+                          children:[
+                            NumberCounter(start: 0, end: 4,
+                                textStyle: TextStyle(fontSize: 55,fontWeight: FontWeight.bold,color: Colors.white)),
+                            Text('\n 개의 뱃지를 모았어요.', style: TextStyle(fontSize: 14, color: Colors.white)),
+                          ],
+                        )
                       ),
                       SizedBox(
-                          child:Row(
-                            children:[
-                              Icon(Icons.play_circle_fill_outlined, color: Colors.white, size: 50),
-                              Icon(Icons.arrow_forward_ios, color: Colors.white),
-                            ],
-                          )
+                        child:Row(
+                          children:[
+                            SvgPicture.asset(
+                              'assets/images/badge_icon.svg',
+                              height: 50.h,
+                            ),
+                            Icon(Icons.arrow_forward_ios, color: Colors.white),
+                          ],
+                        )
                       )
                     ],
                   )
+                ),
+              ),
+              SizedBox(height:10),
+              InkWell(
+                onTap: () {
+                 Navigator.push(context,
+                    MaterialPageRoute(
+                      builder: (context) => Collection(), //Replace with your playlist detail page
+                    ),
+                 );
+                  // Navigate to playlist detail page
+                },
+                child: Container(
+                    padding: EdgeInsets.all(10),
+                    width: double.infinity,
+                    height: 100.h,
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1,
+                          blurRadius: 5,
+                          offset: const Offset(0, 2), // changes position of shadow
+                        ),
+                      ],
+                      color: AppColors.primary.withOpacity(0.7),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child:Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                            child:Row(
+                              children:[
+                                NumberCounter(start: 0, end: 1,
+                                    textStyle: TextStyle(fontSize: 55,fontWeight: FontWeight.bold,color: Colors.white)),
+                                Text('\n 개의 플레이리스트를 만들었어요.', style: TextStyle(fontSize: 14, color: Colors.white)),
+                              ],
+                            )
+                        ),
+                        SizedBox(
+                            child:Row(
+                              children:[
+                                SvgPicture.asset(
+                                  'assets/images/playlist_icon2.svg',
+                                  height: 50.h,
+                                ),
+                                Icon(Icons.arrow_forward_ios, color: Colors.white),
+                              ],
+                            )
+                        )
+                      ],
+                    )
+                ),
               ),
               Container(
 
@@ -182,3 +232,4 @@ class Profile extends StatelessWidget {
     );
   }
 }
+
