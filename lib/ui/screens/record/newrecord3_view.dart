@@ -16,6 +16,7 @@ class NewRecord3 extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
+        automaticallyImplyLeading: false, // 뒤로가기 버튼 숨기기
           title: Text('새로운 기록'),
         ),
         body: SingleChildScrollView(
@@ -66,9 +67,9 @@ class NewRecord3 extends StatelessWidget {
                               padding: EdgeInsets.all(5),
                               decoration: BoxDecoration(
                                 color:AppColors.primary,
-                                borderRadius: BorderRadius.circular(5),
+                                borderRadius: BorderRadius.circular(10),
                               ),
-                              child: Center(child: Text('3단계',style: TextStyle(color: Colors.white),)),
+                              child: Center(child: Text('step 3',style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.bold),)),
                             ),
                           ],
                         ),

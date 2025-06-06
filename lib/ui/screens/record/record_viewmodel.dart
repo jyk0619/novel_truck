@@ -3,6 +3,20 @@ import 'package:novel_truck/data/model/record_model.dart';
 
 
 class RecordViewModel extends ChangeNotifier {
+
+  bool _isLoading = true;
+  bool get isLoading => _isLoading;
+
+  RecordViewModel() {
+    _initialize();
+  }
+
+  Future<void> _initialize() async {
+    await Future.delayed(Duration(seconds: 1)); // 로딩 시간
+    _isLoading = false;
+    notifyListeners();
+  }
+
   final List<RecordData> _recordData = [
     RecordData(id: '1', novelId: 'novel1', tag: ['tag1', 'tag2'], isBookmarked: false, content: '기록 내용 aaaaaa\na\naaaaaa\naaa\naaa\naaa\naaaaa\naaaaaas\ndfasdfas\ndfasdfasdfasdfa\nadafsdfdfa\naaaa1'),
     RecordData(id: '2', novelId: 'novel2', tag: ['tag3', 'tag4'], isBookmarked: false, content: '기록 내용 2'),

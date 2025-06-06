@@ -4,6 +4,7 @@ import 'package:novel_truck/ui/screens/auth/ezsignup_view.dart';
 import 'package:novel_truck/ui/screens/auth/login_viewmodel.dart';
 import 'package:novel_truck/ui/screens/auth/signupform_view.dart';
 import 'package:novel_truck/ui/screens/novel/novel_viewmodel.dart';
+import 'package:novel_truck/ui/screens/onboarding/onboarding_view.dart';
 import 'package:novel_truck/ui/screens/record/record_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:novel_truck/ui/screens/auth/signupform_viewmodel.dart';
@@ -55,7 +56,7 @@ class MyApp extends StatelessWidget {
             navigatorKey: navigatorKey,
             theme: AppTheme.lightTheme,
             title: 'Flutter Demo',
-            home: EzSignUp(),
+            home: Onboarding(),
             //MyHomePage(title: 'Flutter Demo Home Page'),
           );
         }

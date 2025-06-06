@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:novel_truck/ui/screens/record/newrecord2_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../core/theme/app_colors.dart';
@@ -10,6 +11,7 @@ class NewRecord extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false, // 뒤로가기 버튼 숨기기
         title: Text('새로운 기록'),
       ),
       body: Padding(
@@ -75,10 +77,17 @@ class NewRecord extends StatelessWidget {
                   children: [
                     Text('지금 이 소설을'
                         '\n기록할까요?',style: Theme.of(context).textTheme.titleLarge),
-                    Icon(Icons.book,size: 100.h,color: AppColors.primary,),
+                    Container(
+                      margin: EdgeInsets.only(right: 20.w),
+                      child: SvgPicture.asset(
+                        'assets/images/bookicon.svg',
+                        height: 100.h,
+                      ),
+                    ),
                   ],
                 )
             ),
+            SizedBox(height: 30),
             Container(
               width:200.w,
               height: 300.h,
@@ -102,7 +111,28 @@ class NewRecord extends StatelessWidget {
                 SizedBox(width: 10),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => NewRecord2()));
+                    Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) => NewRecord2(),
+                        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                          const begin = Offset(1.0, 0.0);
+                          const end = Offset.zero;
+                          const curve = Curves.ease;
+
+                          final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                          final offsetAnimation = animation.drive(tween);
+
+                          return SlideTransition(
+                            position: offsetAnimation,
+                            child: child,
+                          );
+                        },
+                        transitionDuration: Duration(milliseconds: 300),
+                      ),
+                    );
+
+
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(150.w,40.h),

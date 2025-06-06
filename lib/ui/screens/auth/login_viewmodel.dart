@@ -51,6 +51,7 @@ class AuthViewModel extends ChangeNotifier {
 
       final profileInfo = json.decode(response.body);
       print('카카오 로그인 성공: $profileInfo');
+      print('Bearer ${token.accessToken}');
 
       _loginPlatform = LoginPlatform.kakao;
       notifyListeners(); // UI 업데이트

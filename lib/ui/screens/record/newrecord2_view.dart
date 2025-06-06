@@ -13,6 +13,7 @@ class NewRecord2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false, // 뒤로가기 버튼 숨기기
         title: Text('새로운 기록'),
       ),
       body: SingleChildScrollView(
@@ -140,6 +141,7 @@ class NewRecord2 extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 20,),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -152,12 +154,31 @@ class NewRecord2 extends StatelessWidget {
                       backgroundColor: Colors.white,
                       foregroundColor: Theme.of(context).colorScheme.primary,
                     ),
-                    child: Text('나가기'),
+                    child: Text('뒤로가기'),
                   ),
                   SizedBox(width: 10),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => NewRecord3()));
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (context, animation, secondaryAnimation) => NewRecord3(),
+                          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                            const begin = Offset(1.0, 0.0);
+                            const end = Offset.zero;
+                            const curve = Curves.ease;
+
+                            final tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                            final offsetAnimation = animation.drive(tween);
+
+                            return SlideTransition(
+                              position: offsetAnimation,
+                              child: child,
+                            );
+                          },
+                          transitionDuration: Duration(milliseconds: 300),
+                        ),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(150.w,40.h),

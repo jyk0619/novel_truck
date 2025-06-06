@@ -15,6 +15,7 @@ class Profile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         surfaceTintColor: Colors.transparent,
         backgroundColor: Colors.transparent,
         title: Text('마이페이지', style: Theme.of(context).textTheme.displayMedium),

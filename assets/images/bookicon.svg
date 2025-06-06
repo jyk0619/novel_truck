@@ -1,0 +1,22 @@
+<svg width="65" height="104" viewBox="0 0 65 104" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M23 1L65 14V77L23 64V1Z" fill="#3179FF"/>
+<path d="M17 6L61 19V82L17 69V6Z" fill="white"/>
+<path d="M19.3862 1.77905L63.2523 15.2242L62.6139 78.221L18.7479 64.7758L19.3862 1.77905Z" fill="white"/>
+<path d="M23.5 2C20.5 2.16667 17 5 17 10.5" stroke="#3179FF" stroke-width="2"/>
+<path d="M22.5 1C19.5 1.16667 16 4 16 9.5" stroke="black"/>
+<path d="M16 10L58 23V86L16 73V10Z" fill="#3179FF"/>
+<path d="M16 9.5V70.5" stroke="black"/>
+<path d="M31.5 15L57.5 23C57.1667 36.6667 56.7 64 57.5 64" stroke="black"/>
+<path d="M25 1.5L64.5 14" stroke="black"/>
+<path d="M25 75L64.5 87.5" stroke="black"/>
+<path d="M8 18L50 31V94L8 81V18Z" fill="#FF592F"/>
+<path d="M2 23L46 36V99L2 86V23Z" fill="white"/>
+<path d="M4.38623 18.7791L48.2523 32.2242L47.6139 95.221L3.74791 81.7758L4.38623 18.7791Z" fill="white"/>
+<path d="M8.5 19C5.5 19.1667 2 22 2 27.5" stroke="#FF592F" stroke-width="2"/>
+<path d="M7.5 18C4.5 18.1667 1 21 1 26.5" stroke="black"/>
+<path d="M1 27L43 40V103L1 90V27Z" fill="#FF592F"/>
+<path d="M16.5 32L42.5 40C42.1667 53.6667 41.7 81 42.5 81" stroke="black"/>
+<path d="M10 18.5L49.5 31" stroke="black"/>
+<path d="M1 26.5V87.5" stroke="black"/>
+<path d="M5 91L44.5 103.5" stroke="black"/>
+</svg>

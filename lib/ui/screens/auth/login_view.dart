@@ -16,14 +16,12 @@ class Login extends StatelessWidget {
     final authViewModel = Provider.of<AuthViewModel>(context);
 
     return Scaffold(
-      appBar: AppBar(
-        surfaceTintColor: Colors.transparent,
-      ),
       body:  Center(
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Column(
             children: [
+              SizedBox(height: 10,),
               SizedBox(
                 width: double.infinity,
                 child: Column(

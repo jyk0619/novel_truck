@@ -21,6 +21,26 @@ class NovelViewModel extends ChangeNotifier {
   String? errorMessage;
   String? novelId;
 
+  NovelViewModel() {
+    initialize();
+  }
+
+  Future<void> initialize() async {
+    isLoading = true;
+    errorMessage = null;
+    notifyListeners();
+
+    try {
+      // 초기화 작업 (예: API 호출 등)
+      await Future.delayed(Duration(seconds: 1)); // 예시로 1초 대기
+    } catch (e) {
+      errorMessage = '초기화 실패: $e';
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
   // 소설 등록
   Future<void> submitNovelUrl(String url) async {
     isLoading = true;

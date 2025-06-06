@@ -4,7 +4,9 @@ import 'package:novel_truck/ui/screens/novel/collection_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:novel_truck/ui/screens/record/selectnovel_view.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../../core/theme/app_colors.dart';
+import 'recordguide_view.dart';
 
 class Home extends StatelessWidget {
    Home({super.key});
@@ -12,19 +14,36 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    var isrecord=true; /**최근 기록 유무**/
+    var isrecord=false; /**최근 기록 유무**/
 
     return Scaffold(
-      appBar: AppBar(
-        surfaceTintColor: Colors.transparent,
-        backgroundColor: AppColors.background,
-      ),
+
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.all(16.0),
           child: SizedBox(
             child: Column(
               children: [
+                SizedBox(
+                  height: 20,
+                ),
+                   Container(
+                     child:Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                       children: [
+                         SvgPicture.asset(
+                            'assets/images/bookicon2.svg',
+                          ),
+                          SizedBox(width: 10,),
+                         Text('사용자',
+                              style: Theme.of(context).textTheme.titleSmall
+                            ),
+                         Text(' 님, 오늘은 어떤 세계를 기록해볼까요?',
+                              style: Theme.of(context).textTheme.displaySmall)
+                       ],
+                     )
+                   ),
+                SizedBox(height: 10,),
                    Container(
                      height: 200.h,
                      margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
@@ -35,12 +54,10 @@ class Home extends StatelessWidget {
                               onTap: () {
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => SelectNovel()));
                               },
-                              child: Container(
-                                child: SvgPicture.asset(
-                                  'assets/images/RecordButton.svg',
-                                  width: double.infinity,
-                                  fit: BoxFit.contain,
-                                ),
+                              child: SvgPicture.asset(
+                                'assets/images/RecordButton.svg',
+                                width: double.infinity,
+                                fit: BoxFit.contain,
                               ),
                             ),
                           ),
@@ -216,7 +233,7 @@ class Home extends StatelessWidget {
                 :Container(
                   padding: const EdgeInsets.all(10),
                     height: 150,
-                width: double.infinity,
+                    width: double.infinity,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10),
@@ -241,9 +258,17 @@ class Home extends StatelessWidget {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Icon(Icons.add, color: Colors.black, size: 30),
-                                  ElevatedButton(onPressed: (){}, child:
-                                    Text('소설 기록하기')
+                                  SvgPicture.asset('assets/images/record_icon.svg',
+                                    width: 60.w,
+                                    height: 60.h,
+                                  ),
+                                  SizedBox(height: 10,),
+                                  ElevatedButton(onPressed: (){
+                                    Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) => RecordGuide())//소설 추가 페이지로 이동
+                                    );
+                                  }, child:
+                                    Text('소설 기록하는 방법', style: TextStyle(fontSize: 14),),
                                   ),
                                 ],
                               ),
@@ -277,11 +302,15 @@ class Home extends StatelessWidget {
                             child: Container(
                                 child:Column(
                                   children: [
-                                    Container(
-                                      height: 100.h,
-                                      decoration: BoxDecoration(
-                                        color: Colors.grey,
-                                        borderRadius: BorderRadius.circular(10.0),
+                                    Shimmer.fromColors(
+                                      baseColor: Colors.grey[300]!,
+                                      highlightColor: Colors.grey[100]!,
+                                      child: Container(
+                                        height: 100.h,
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey,
+                                          borderRadius: BorderRadius.circular(10.0),
+                                        ),
                                       ),
                                     ),
                                     SizedBox(height: 5,),

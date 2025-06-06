@@ -4,6 +4,7 @@ import 'package:novel_truck/ui/components/textfields/custom_textfield.dart';
 import 'package:novel_truck/ui/screens/novel/novel_viewmodel.dart';
 import 'package:novel_truck/ui/screens/novel/noveldetail_view.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 import 'addnovel_view.dart';
 
@@ -17,6 +18,7 @@ class Novel extends StatelessWidget {
         length: 2,
         child: Scaffold(
             appBar: AppBar(
+              automaticallyImplyLeading: false,
                 bottom: TabBar(
                   tabs: [
                     Tab(text: '내 서재'),
@@ -60,7 +62,9 @@ final novelViewModel = Provider.of<NovelViewModel>(context);
 
     return   Padding(
       padding: const EdgeInsets.all(10.0),
-      child: GridView.builder(
+      child: novelViewModel.isLoading
+      ? _buildShimmeringGrid()
+          :GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
           childAspectRatio: 0.7,
@@ -110,4 +114,30 @@ class NovelSearch extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomTextField(label: '검색', controller: TextEditingController(),prefixIcon: Icons.search,);
   }
+}
+
+Widget _buildShimmeringGrid() {
+  return GridView.builder(
+    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: 3,
+      childAspectRatio: 0.7,
+      crossAxisSpacing: 10,
+      mainAxisSpacing: 10,
+    ),
+    itemBuilder: (context, index) {
+      return Shimmer.fromColors(
+        baseColor: Colors.grey.shade300,
+        highlightColor: Colors.white,
+        child: Container(
+          height: 150.h,
+          padding: EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            color: Colors.grey.shade300,
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+      );
+    },
+    itemCount: 6, // 예시로 6개의 아이템
+  );
 }

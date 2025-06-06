@@ -7,6 +7,7 @@ import 'package:novel_truck/ui/screens/record/record_viewmodel.dart';
 import 'package:novel_truck/ui/screens/record/recorddetail_view.dart';
 import 'package:novel_truck/ui/screens/record/selectnovel_view.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 
 class Record extends StatelessWidget {
@@ -23,6 +24,7 @@ class Record extends StatelessWidget {
            length: 2,
            child: Scaffold(
             appBar: AppBar(
+              automaticallyImplyLeading: false,
               bottom: TabBar(
                 tabs: [
                   Tab(text: '기록모음'),
@@ -94,7 +96,9 @@ class _RecordGridState extends State<RecordGrid> {
           child:
       Padding(
         padding: const EdgeInsets.all(10.0),
-        child: GridView.builder(
+        child: recordViewmodel.isLoading
+    ?_buildShimmerGrid()
+        :GridView.builder(
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               crossAxisSpacing: 10,
@@ -184,7 +188,7 @@ class BookMarkGrid extends StatelessWidget {
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
-Navigator.push(
+              Navigator.push(
                 context,
                 MaterialPageRoute(
                   //북마크 필터링된 인덱스 넘김
@@ -287,4 +291,28 @@ class AddRecord extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget _buildShimmerGrid() {
+  return GridView.builder(
+    itemCount: 6, // 로딩용 아이템 수
+    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: 2,
+      crossAxisSpacing: 10,
+      mainAxisSpacing: 10,
+    ),
+    itemBuilder: (context, index) {
+      return Shimmer.fromColors(
+        baseColor: Colors.grey.shade300,
+        highlightColor: Colors.grey.shade100,
+        child: Container(
+          padding: const EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+      );
+    },
+  );
 }
