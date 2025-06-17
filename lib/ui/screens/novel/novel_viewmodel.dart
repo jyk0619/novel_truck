@@ -104,6 +104,4 @@ class NovelViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-
-
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:novel_truck/data/model/novel_model.dart';
+import 'package:novel_truck/ui/screens/record/newrecord_view.dart';
 
 class NovelDetail extends StatelessWidget {
   final NovelData novel;
@@ -8,28 +10,122 @@ class NovelDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
+    return  Scaffold(
       appBar: AppBar(
-        title: Text('소설 제목'),
+        elevation: 0.0,
+        shadowColor: Colors.transparent,
+        scrolledUnderElevation: 0.0,
+        title: Text('기록 상세'),
+        centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          children: [
-            Image.asset('assets/images/novel1.jpg'),
-            SizedBox(height: 10),
-            Text(
-              '${novel.title}',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10),
-            Text(
-              '${novel.author}',
-              style: TextStyle(fontSize: 18, color: Colors.grey),
-            ),
-          ],
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+
+                    Container(
+                      width: 200,
+                      height: 200,
+                      margin: EdgeInsets.symmetric(vertical: 10),
+                      decoration: BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Image.asset(
+                        'assets/images/record_image.png',
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Icon(Icons.error, size: 50);
+                        },
+                      ),
+                    ),
+                    Text(novel.title, style: Theme.of(context).textTheme.displayLarge),
+                    SizedBox(height: 10),
+                    Text(novel.author, style: Theme.of(context).textTheme.displaySmall),
+                    SizedBox(height: 10),
+                    ElevatedButton(onPressed: (){
+                      // 기록 수정 / 이어쓰기
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) => NewRecord(),
+                      ));
+                    }, child: Text('기록하기 / 이어쓰기')),
+                  ],
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    children: [
+                      SizedBox(height: 20),
+                      SizedBox(
+                        width: double.infinity,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 20),
+                            Text('이 소설의 기록', style: Theme.of(context).textTheme.displayLarge),
+                            SizedBox(height: 10),
+                            GridView.builder(
+                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 10,
+                                mainAxisSpacing: 10,
+                              ),
+                              padding: EdgeInsets.all(10),
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount:3 ,
+                              itemBuilder: (context, index) {
+                                return InkWell(
+                                  onTap: () {
+                                    // 다른 기록 보기
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.all(5),
+                                    height: 100,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(8),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black12,
+                                          blurRadius: 4,
+                                          offset: Offset(2, 2),
+                                        ),
+                                      ],
+                                    ),
+                                    child: Center(
+                                      child: Text('d', style: TextStyle(fontSize: 14)),
+                                    ),
+                                  ),
+                                );
+                              },)
+                          ],
+                        ),
+                      ),
+                    ],
+                  )
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
+

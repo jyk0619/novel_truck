@@ -61,4 +61,61 @@ class AppTheme {
 
     );
   }
+  static ThemeData get darkTheme {
+    return ThemeData(
+      brightness: Brightness.dark,
+      primaryColor: AppColors.primaryDark,
+      scaffoldBackgroundColor: AppColors.backgroundDark,
+
+      appBarTheme: const AppBarTheme(
+        backgroundColor: AppColors.surfaceDark,
+        elevation: 0,
+        iconTheme: IconThemeData(color: AppColors.textWhite),
+        titleTextStyle: TextStyle(color: AppColors.textWhite, fontSize: 20, fontWeight: FontWeight.bold),
+      ),
+
+      tabBarTheme: const TabBarTheme(
+        labelColor: AppColors.primaryDark,
+        unselectedLabelColor: AppColors.textSecondaryDark,
+        indicatorColor: AppColors.primaryDark,
+      ),
+
+      textTheme: TextTheme(
+        titleLarge: AppTextStyles.headline0Dark,
+        titleMedium: AppTextStyles.headline1Dark,
+        titleSmall: AppTextStyles.headline3Dark,
+        displayLarge: AppTextStyles.headline2Dark,
+        displayMedium: AppTextStyles.bodyDark,
+        displaySmall: AppTextStyles.captionDark,
+      ),
+
+      colorScheme: ColorScheme.dark(
+        primary: AppColors.primaryDark,
+        secondary: AppColors.secondaryDark,
+        error: AppColors.error,
+        background: AppColors.backgroundDark,
+        surface: AppColors.surfaceDark,
+        surfaceVariant: AppColors.surfaceDark.withOpacity(0.95),
+
+        onPrimary: AppColors.textWhite,
+        onSecondary: AppColors.textWhite,
+        onBackground: AppColors.textWhite,
+        onSurface: AppColors.textWhite,
+        onSurfaceVariant: AppColors.textSecondaryDark,
+        onError: AppColors.textWhite,
+
+        outline: AppColors.dividerDark,
+        outlineVariant: AppColors.dividerDark.withOpacity(0.5),
+      ),
+
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.primaryDark,
+          foregroundColor: Colors.white,
+          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
+
 }

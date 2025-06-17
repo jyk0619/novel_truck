@@ -10,4 +10,13 @@ class AppTextStyles {
   static TextStyle large = TextStyle(fontSize: 20, color: AppColors.textPrimary);
   static  TextStyle body = TextStyle(fontSize: 16, color: AppColors.textPrimary);
   static  TextStyle caption = TextStyle(fontSize: 14, color: AppColors.textSecondary);
+
+  static const TextStyle headline0Dark = TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white);
+  static const TextStyle headline1Dark = TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: Colors.white);
+  static const TextStyle headline2Dark = TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.white);
+  static const TextStyle headline3Dark = TextStyle(fontSize: 16, color: Colors.white);
+  static const TextStyle bodyDark = TextStyle(fontSize: 14, color: Colors.white70);
+  static const TextStyle captionDark = TextStyle(fontSize: 12, color: Colors.white60);
+
+
 }

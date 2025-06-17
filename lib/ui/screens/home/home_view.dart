@@ -69,7 +69,7 @@ class Home extends StatelessWidget {
                                   child: Container(
                                     margin: const EdgeInsets.all(5),
                                     decoration: BoxDecoration(
-                                      color: Colors.white,
+                                      color: Theme.of(context).colorScheme.surfaceVariant,
                                       borderRadius: BorderRadius.circular(10),
                                       boxShadow: [
                                         BoxShadow(
@@ -102,7 +102,7 @@ class Home extends StatelessWidget {
                                     child: Container(
                                     margin: EdgeInsets.all(5),
                                       decoration: BoxDecoration(
-                                        color: Colors.white,
+                                        color: Theme.of(context).colorScheme.surfaceVariant,
                                         borderRadius: BorderRadius.circular(10),
                                         boxShadow: [
                                           BoxShadow(
@@ -168,7 +168,7 @@ class Home extends StatelessWidget {
                               margin: const EdgeInsets.symmetric(horizontal: 5.0),
                               padding: const EdgeInsets.all(10.0),
                               decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: Theme.of(context).colorScheme.surfaceVariant,
                                 borderRadius: BorderRadius.circular(10.0),
                                 boxShadow: [
                                   BoxShadow(
@@ -235,7 +235,7 @@ class Home extends StatelessWidget {
                     height: 150,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Theme.of(context).colorScheme.surfaceVariant,
                       borderRadius: BorderRadius.circular(10),
                       boxShadow: [
                         BoxShadow(

@@ -21,6 +21,8 @@ import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import  'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:novel_truck/core/services/shared_url_handler.dart';
 
+import 'core/theme/theme_provider.dart';
+
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 late SharedUrlHandler sharedUrlHandler;
 
@@ -37,6 +39,7 @@ void main() async{
     ChangeNotifierProvider(create: (_)=>AuthViewModel()),
     ChangeNotifierProvider(create: (_)=>NovelViewModel()),
     ChangeNotifierProvider(create: (_)=>RecordViewModel()),
+    ChangeNotifierProvider(create: (_)=>ThemeProvider()),
   ],
     child:MyApp(),
   ));
@@ -52,9 +55,14 @@ class MyApp extends StatelessWidget {
       designSize: Size(412, 732),
       child: Builder(
         builder: (context) {
+
+          final themeProvider = Provider.of<ThemeProvider>(context);
+
           return MaterialApp(
             navigatorKey: navigatorKey,
             theme: AppTheme.lightTheme,
+            darkTheme: AppTheme.darkTheme,
+            themeMode: themeProvider.themeMode,
             title: 'Flutter Demo',
             home: Onboarding(),
             //MyHomePage(title: 'Flutter Demo Home Page'),

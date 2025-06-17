@@ -4,7 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:novel_truck/core/theme/app_colors.dart';
 import 'package:novel_truck/ui/screens/profile/badgelist_view.dart';
 import 'package:novel_truck/core/services/animation_utils.dart';
-
+import 'package:provider/provider.dart';
+import 'package:novel_truck/core/theme/theme_provider.dart';
 import '../novel/collection_view.dart';
 
 
@@ -43,7 +44,7 @@ class Profile extends StatelessWidget {
                 height: 130.h,
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.surface.withOpacity(0.8),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.5),
@@ -198,15 +199,13 @@ class Profile extends StatelessWidget {
                 ),
               ),
               Container(
-
                 margin: EdgeInsets.symmetric(vertical: 10),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Column(
                   children: [
-
                     ListTile(
                       title: Text('내 정보'),
                       trailing: Icon(Icons.arrow_forward_ios),
@@ -218,6 +217,13 @@ class Profile extends StatelessWidget {
                     ListTile(
                       title: Text('설정'),
                       trailing: Icon(Icons.arrow_forward_ios),
+                    ),
+                    ListTile(
+                      title: Text('테마변경'),
+                      trailing: SizedBox(
+                        width: 150,
+                          child: ThemeSwitcher()),
+
                     ),
                     ListTile(
                       title: Text('로그아웃', style: TextStyle(color: Colors.red)),
@@ -234,3 +240,26 @@ class Profile extends StatelessWidget {
   }
 }
 
+
+class ThemeSwitcher extends StatelessWidget {
+  const ThemeSwitcher({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Icon(Icons.light_mode),
+        Switch(
+          value: themeProvider.isDarkMode,
+          onChanged: (value) {
+            themeProvider.toggleTheme(value);
+          },
+        ),
+        const Icon(Icons.dark_mode),
+      ],
+    );
+  }
+}
