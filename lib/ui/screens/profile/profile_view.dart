@@ -253,7 +253,7 @@ class ThemeSwitcher extends StatelessWidget {
       children: [
         const Icon(Icons.light_mode),
         Switch(
-          value: themeProvider.isDarkMode,
+          value: themeProvider.isDarkMode(context),
           onChanged: (value) {
             themeProvider.toggleTheme(value);
           },

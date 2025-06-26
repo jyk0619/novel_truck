@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class NovelApiService {
-  final _baseUrl = 'https://api.novel-truck.r-e.kr/v1';
+  final _baseUrl = 'https://dev.novel-truck.r-e.kr/v1';
 
   Future<Map<String, dynamic>> postNovelUrl(String novelUrl) async {
     final uri = Uri.parse('$_baseUrl/novels');

@@ -64,7 +64,7 @@ class MyApp extends StatelessWidget {
             darkTheme: AppTheme.darkTheme,
             themeMode: themeProvider.themeMode,
             title: 'Flutter Demo',
-            home: Onboarding(),
+            home: HomeNav(),
             //MyHomePage(title: 'Flutter Demo Home Page'),
           );
         }

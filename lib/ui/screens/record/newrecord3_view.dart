@@ -18,6 +18,7 @@ class NewRecord3 extends StatelessWidget {
         appBar: AppBar(
         automaticallyImplyLeading: false, // 뒤로가기 버튼 숨기기
           title: Text('새로운 기록'),
+          scrolledUnderElevation: 0,
         ),
         body: SingleChildScrollView(
           child: Padding(
@@ -88,7 +89,7 @@ class NewRecord3 extends StatelessWidget {
                   height: 500.h,
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.surface,
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(color: AppColors.divider),
                   ),
@@ -118,7 +119,7 @@ class NewRecord3 extends StatelessWidget {
                         backgroundColor: Colors.white,
                         foregroundColor: Theme.of(context).colorScheme.primary,
                       ),
-                      child: Text('나가기'),
+                      child: Text('뒤로가기'),
                     ),
                     SizedBox(width: 10),
                     ElevatedButton(

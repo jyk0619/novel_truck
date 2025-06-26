@@ -45,7 +45,7 @@ class Home extends StatelessWidget {
                    ),
                 SizedBox(height: 10,),
                    Container(
-                     height: 200.h,
+                    height: 200.h,
                      margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
                      child: Row(
                         children: [
@@ -54,10 +54,14 @@ class Home extends StatelessWidget {
                               onTap: () {
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => SelectNovel()));
                               },
-                              child: SvgPicture.asset(
-                                'assets/images/RecordButton.svg',
-                                width: double.infinity,
-                                fit: BoxFit.contain,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: SvgPicture.asset(
+                                  'assets/images/RecordButton.svg',
+                                  fit: BoxFit.contain,
+                                ),
                               ),
                             ),
                           ),

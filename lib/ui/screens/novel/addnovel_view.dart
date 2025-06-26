@@ -61,6 +61,8 @@ class AddNovel extends StatelessWidget {
                 'Error: ${novelViewModel.errorMessage}',
                 style: TextStyle(color: Colors.red),
               ),
+            if(novelViewModel.novelImage!=null)
+              Text(novelViewModel.novelImage??'이미지가 없습니다'),
           ],
         ),
       ),

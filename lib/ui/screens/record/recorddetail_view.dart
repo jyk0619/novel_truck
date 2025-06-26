@@ -16,6 +16,7 @@ class RecordDetail extends StatelessWidget {
       appBar: AppBar(
         title: Text('기록 상세'),
         centerTitle: true,
+        scrolledUnderElevation: 0.0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
@@ -31,7 +32,7 @@ class RecordDetail extends StatelessWidget {
                 width: double.infinity,
                 padding: EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.surface,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -112,7 +113,7 @@ class RecordDetail extends StatelessWidget {
                                    padding: EdgeInsets.all(5),
                                    height: 100,
                                    decoration: BoxDecoration(
-                                     color: Colors.white,
+                                     color: Theme.of(context).colorScheme.surface,
                                      borderRadius: BorderRadius.circular(8),
                                       boxShadow: [
                                         BoxShadow(

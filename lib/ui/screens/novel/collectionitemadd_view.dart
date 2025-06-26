@@ -55,7 +55,7 @@ class CollectionAddItem extends StatelessWidget {
                       context: context,
                       barrierDismissible: true,
                       builder: (context) => AlertDialog(
-                        backgroundColor: Colors.white,
+                        backgroundColor: Theme.of(context).colorScheme.surface,
                         surfaceTintColor: Colors.transparent,
                         content: SizedBox(
                             child: Container(

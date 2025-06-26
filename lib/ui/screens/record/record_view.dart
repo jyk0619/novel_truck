@@ -48,7 +48,7 @@ class Record extends StatelessWidget {
                   barrierDismissible: true,
                   builder: (context) => AlertDialog(
                     insetPadding: EdgeInsets.all(10),
-                    backgroundColor: AppColors.background,
+                    backgroundColor: Theme.of(context).colorScheme.surface,
                     surfaceTintColor: Colors.transparent,
                     content: SizedBox(
                         child: AddRecord()),
@@ -112,7 +112,7 @@ class _RecordGridState extends State<RecordGrid> {
                 padding: EdgeInsets.all(5),
                   height: double.infinity,
                   decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.surface,
                   borderRadius: BorderRadius.circular(8),
                   boxShadow: [
                     BoxShadow(
@@ -202,7 +202,7 @@ class BookMarkGrid extends StatelessWidget {
                   padding: const EdgeInsets.all(5),
                   height: double.infinity,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.surface,
                     borderRadius: BorderRadius.circular(8),
                     boxShadow: [
                       BoxShadow(

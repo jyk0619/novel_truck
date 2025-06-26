@@ -60,8 +60,8 @@ class CollectionDetail extends StatelessWidget {
                     height: 50.h,
 
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(color: AppColors.divider),
+                      color: Theme.of(context).colorScheme.surface,
+                      border: Border.all(color: Theme.of(context).colorScheme.surface),
                       borderRadius: BorderRadius.circular(8),
                       boxShadow: [
                         BoxShadow(
@@ -96,7 +96,7 @@ class CollectionDetail extends StatelessWidget {
                           Container(
                             padding: EdgeInsets.all(10),
                               decoration: BoxDecoration(
-                                color: AppColors.background,
+                                color: Theme.of(context).colorScheme.background,
                                 borderRadius: BorderRadius.circular(10),
                                 border: Border.all(color: AppColors.divider),
                               ),

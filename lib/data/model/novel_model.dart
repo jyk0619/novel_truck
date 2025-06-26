@@ -27,12 +27,17 @@ class Collection {
 
 class NovelResponseModel {
   final String id;
+  final String title;
+  final String imgpath;
 
-  NovelResponseModel({required this.id});
+  NovelResponseModel({required this.id, required this.title, required this.imgpath});
 
   factory NovelResponseModel.fromJson(Map<String, dynamic> json) {
     return NovelResponseModel(
       id: json['data']['id']?.toString() ?? '', // <- 여기 중요!
+      title: json['data']['title']?.toString()??'',
+      imgpath: json['data']['coverImageUrl']?.toString()??'',
+
     );
   }
 }

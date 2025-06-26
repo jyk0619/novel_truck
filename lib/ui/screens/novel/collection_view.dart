@@ -68,7 +68,7 @@ class Collection extends StatelessWidget {
                           barrierDismissible: true,
                           builder: (context) => AlertDialog(
                             insetPadding: EdgeInsets.all(10),
-                            backgroundColor: AppColors.background,
+                            backgroundColor: Theme.of(context).colorScheme.surface,
                             surfaceTintColor: Colors.transparent,
                             content: SizedBox(
                               width: MediaQuery.of(context).size.width,

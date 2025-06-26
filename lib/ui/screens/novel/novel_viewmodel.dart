@@ -20,6 +20,8 @@ class NovelViewModel extends ChangeNotifier {
   bool isLoading = false;
   String? errorMessage;
   String? novelId;
+  String? novelTitle;
+  String? novelImage;
 
   NovelViewModel() {
     initialize();
@@ -58,6 +60,8 @@ class NovelViewModel extends ChangeNotifier {
         response.id,
       );
       novelId = response.id; // 소설 ID 저장
+      novelTitle = response.title;
+      novelImage = response.imgpath;
       _novelList.add(newNovel); // 리스트에 추가
     } catch (e) {
       errorMessage = '소설 등록 실패: $e';
