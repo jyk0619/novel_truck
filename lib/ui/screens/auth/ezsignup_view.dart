@@ -1,14 +1,36 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:novel_truck/ui/components/textfields/custom_textfield.dart';
 import 'package:novel_truck/core/theme/app_colors.dart';
 import  'dart:math';
+import 'package:go_router/go_router.dart';
 
 import 'package:novel_truck/ui/screens/auth/signupcom_view.dart';
 
-class EzSignUp extends StatelessWidget {
+class EzSignUp extends StatefulWidget {
    EzSignUp({super.key});
+
+  @override
+  State<EzSignUp> createState() => _EzSignUpState();
+}
+
+class _EzSignUpState extends State<EzSignUp> {
    final TextEditingController nameController = TextEditingController();
 
+   Future<void> fetchRandomName() async {
+     try {
+       final generator = RandomNameGenerator();
+       final result = await generator.randomNickName(); // API 요청
+       final nickname = result['data']['nickname'].toString(); // 응답에서 닉네임 추출
+       setState(() {
+         nameController.text = nickname;
+       });
+     } catch (e) {
+       print('랜덤 닉네임 가져오기 실패: $e');
+       // 에러 UI나 스낵바도 가능
+     }
+   }
    randname() {
      Random random = new Random();
      int randomNumber = random.nextInt(100);
@@ -19,7 +41,7 @@ class EzSignUp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('간편회원가입'),
+
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -81,7 +103,7 @@ class EzSignUp extends StatelessWidget {
               CustomTextField(label:'닉네임', controller: nameController, prefixIcon: Icons.person,
                 suffixIcon: Icons.question_mark,
               onSuffixTap: (){
-                randname();
+               fetchRandomName();
                 },
               ),
               const SizedBox(height: 10),
@@ -91,10 +113,8 @@ class EzSignUp extends StatelessWidget {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SignUpCom()),
-                    );
+                    context.push(
+                      '/auth/signupcom');
                   },
                   child: const Text('다음으로'),
                 ),
@@ -103,5 +123,27 @@ class EzSignUp extends StatelessWidget {
           ),
         ),
       ));
+  }
+}
+
+class RandomNameGenerator {
+  final _baseUrl = 'https://dev.novel-truck.r-e.kr/v1';
+
+  Future<Map<String, dynamic>> randomNickName() async {
+    final uri = Uri.parse('$_baseUrl/users/nickname/random');
+    final headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    final response = await http.get(uri, headers: headers);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+
+      print('Response: ${response.body}');
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Failed to get nickname: ${response.body}');
+    }
   }
 }

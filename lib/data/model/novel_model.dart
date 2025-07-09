@@ -34,9 +34,9 @@ class NovelResponseModel {
 
   factory NovelResponseModel.fromJson(Map<String, dynamic> json) {
     return NovelResponseModel(
-      id: json['data']['id']?.toString() ?? '', // <- 여기 중요!
+      id: json['data']['id']?.toString() ?? '',
       title: json['data']['title']?.toString()??'',
-      imgpath: json['data']['coverImageUrl']?.toString()??'',
+      imgpath: json['data']['coverImage']?.toString()??'',
 
     );
   }

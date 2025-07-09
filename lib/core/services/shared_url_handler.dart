@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 import 'package:novel_truck/ui/screens/novel/addnovel_view.dart';
+import 'package:flutter/foundation.dart'; // kIsWeb 플래그
 
 class SharedUrlHandler {
   final GlobalKey<NavigatorState> navigatorKey;
@@ -12,6 +13,7 @@ class SharedUrlHandler {
   StreamSubscription? _streamSub;
 
   void init() {
+    if(kIsWeb) return;
     // 앱이 켜져 있을 때 공유 받는 경우
     _streamSub = ReceiveSharingIntent.instance.getMediaStream().listen(
           (List<SharedMediaFile> value) {

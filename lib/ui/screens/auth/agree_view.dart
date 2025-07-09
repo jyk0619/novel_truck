@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:novel_truck/core/theme/app_colors.dart';
 import 'package:novel_truck/ui/screens/auth/ezsignup_view.dart';
+import 'package:go_router/go_router.dart';
 
 class Agree extends StatefulWidget {
    Agree({super.key});
@@ -89,8 +90,8 @@ class _AgreeState extends State<Agree> {
             const SizedBox(height: 20),
             Container(
               decoration: BoxDecoration(
-                border: Border.all(color: AppColors.surface),
-                color: AppColors.surface,
+                border: Border.all(color: Theme.of(context).colorScheme.onSurface.withOpacity(0.2)),
+                color: Theme.of(context).colorScheme.surface,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Row(
@@ -175,7 +176,9 @@ class _AgreeState extends State<Agree> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => EzSignUp()));
+                  context.push(
+                    '/auth/signup',
+                  );
                 },
                 child: Text('다음으로'),
               ),

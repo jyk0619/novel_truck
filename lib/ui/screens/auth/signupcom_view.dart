@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:novel_truck/core/theme/app_colors.dart';
 import '../home/homenav_view.dart';
 
@@ -63,7 +65,11 @@ class SignUpCom extends StatelessWidget {
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const SizedBox(height: 20),
-
+            SvgPicture.asset(
+              'assets/images/signupcom.svg',
+              width: 250.w,
+              fit: BoxFit.contain,
+            ),
             const SizedBox(height: 20),
             SizedBox(
               width: double.infinity,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'novel_viewmodel.dart';
 
@@ -31,7 +32,7 @@ class AddNovel extends StatelessWidget {
         padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
-            Text('$urlLine', style: Theme.of(context).textTheme.headline6),
+            Text('$urlLine', style: Theme.of(context).textTheme.titleSmall),
             SizedBox(height: 10),
             Text('소설 제목을 입력하세요', style: TextStyle(fontSize: 16)),
             SizedBox(height: 10),
@@ -45,24 +46,68 @@ class AddNovel extends StatelessWidget {
                   return;
                 }
 
+                if (novelViewModel.isLoading) {
+                  showDialog(
+                    context: context,
+                    builder: (context) => Center(child: CircularProgressIndicator()),
+                  );
+                  return;
+                }
+
                 novelViewModel.submitNovelUrl(urlLine.trim());
+
+
+               showDialog(context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        content: Container(
+                          padding: EdgeInsets.all(10),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Image.network(novelViewModel.novelImage ?? '',
+                                height: 200.h,
+                                fit: BoxFit.cover,
+                              ),
+                              SizedBox(height: 10),
+                              Text('소설 제목: ${novelViewModel.novelTitle ?? '제목 없음'}'),
+                              SizedBox(height: 10),
+                              Text('등록하시겠습니까?',
+                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                        actions: [
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.grey,
+                            ),
+                              onPressed: (){
+                            Navigator.of(context).pop();
+                          }, child: Text('취소')
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('소설이 등록되었습니다')),
+                              );
+                            },
+                            child: Text('등록'),
+                          ),
+                        ],
+                      );
+                    }
+                );
               },
               child: Text('요청'),
             ),
-            SizedBox(height: 10),
-            Text('요청결과'),
+
             SizedBox(height: 10),
             if (novelViewModel.isLoading)
               CircularProgressIndicator(),
-            if (novelViewModel.novelId != null)
-              Text('소설 ID: ${novelViewModel.novelId}'),
-            if (novelViewModel.errorMessage != null)
-              Text(
-                'Error: ${novelViewModel.errorMessage}',
-                style: TextStyle(color: Colors.red),
-              ),
-            if(novelViewModel.novelImage!=null)
-              Text(novelViewModel.novelImage??'이미지가 없습니다'),
+
           ],
         ),
       ),

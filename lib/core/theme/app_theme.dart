@@ -18,7 +18,7 @@ class AppTheme {
         titleTextStyle:  TextStyle(color: AppColors.textPrimary, fontSize: 20, fontWeight: FontWeight.bold),
       ),
 
-      tabBarTheme: const TabBarTheme(
+      tabBarTheme: const TabBarThemeData(
         labelColor: AppColors.primary,
         unselectedLabelColor: AppColors.textSecondary,
         indicatorColor: AppColors.primary,
@@ -80,7 +80,7 @@ class AppTheme {
         titleTextStyle: TextStyle(color: AppColors.textWhite, fontSize: 20, fontWeight: FontWeight.bold),
       ),
 
-      tabBarTheme: const TabBarTheme(
+      tabBarTheme: const TabBarThemeData(
         labelColor: AppColors.primaryDark,
         unselectedLabelColor: AppColors.textSecondaryDark,
         indicatorColor: AppColors.primaryDark,
