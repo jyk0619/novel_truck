@@ -37,27 +37,31 @@ class AddNovel extends StatelessWidget {
             Text('소설 제목을 입력하세요', style: TextStyle(fontSize: 16)),
             SizedBox(height: 10),
             ElevatedButton(
-              onPressed: () {
-                print(urlLine);
-                if (urlLine.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('소설 URL을 찾을 수 없습니다')),
-                  );
-                  return;
-                }
+                onPressed: () async {
+                  print(urlLine);
+                  if (urlLine.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('소설 URL을 찾을 수 없습니다')),
+                    );
+                    return;
+                  }
 
-                if (novelViewModel.isLoading) {
+                  // 로딩 다이얼로그 먼저 띄움
                   showDialog(
                     context: context,
-                    builder: (context) => Center(child: CircularProgressIndicator()),
+                    barrierDismissible: false,
+                    builder: (_) => Center(child: CircularProgressIndicator()),
                   );
-                  return;
-                }
 
-                novelViewModel.submitNovelUrl(urlLine.trim());
+                  // 비동기 처리
+                  await novelViewModel.submitNovelUrl(urlLine.trim());
 
+                  // 로딩 다이얼로그 닫기
+                  Navigator.of(context).pop();
 
-               showDialog(context: context,
+                  // 결과 다이얼로그 띄우기
+                  showDialog(
+                    context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
                         content: Container(
@@ -65,14 +69,23 @@ class AddNovel extends StatelessWidget {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Image.network(novelViewModel.novelImage ?? '',
-                                height: 200.h,
+                              Image.network(
+                                novelViewModel.novelImage ?? '',
+                                height: 200,
                                 fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Container(
+                                    height: 200,
+                                    color: Colors.grey[300],
+                                    child: Center(child: Text('이미지를 불러올 수 없습니다')),
+                                  );
+                                },
                               ),
                               SizedBox(height: 10),
                               Text('소설 제목: ${novelViewModel.novelTitle ?? '제목 없음'}'),
                               SizedBox(height: 10),
-                              Text('등록하시겠습니까?',
+                              Text(
+                                '등록하시겠습니까?',
                                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                               ),
                             ],
@@ -80,12 +93,9 @@ class AddNovel extends StatelessWidget {
                         ),
                         actions: [
                           ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.grey,
-                            ),
-                              onPressed: (){
-                            Navigator.of(context).pop();
-                          }, child: Text('취소')
+                            style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: Text('취소'),
                           ),
                           ElevatedButton(
                             onPressed: () {
@@ -98,16 +108,24 @@ class AddNovel extends StatelessWidget {
                           ),
                         ],
                       );
-                    }
-                );
-              },
-              child: Text('요청'),
+                    },
+                  );
+                },
+              child: Text('소설 등록', style: TextStyle(fontSize: 16)),
             ),
 
-            SizedBox(height: 10),
-            if (novelViewModel.isLoading)
-              CircularProgressIndicator(),
-
+            Image.network(
+              novelViewModel.novelImage ?? '',
+              height: 200,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                return Container(
+                  height: 200,
+                  color: Colors.grey[300],
+                  child: Center(child: Text('이미지를 불러올 수 없습니다')),
+                );
+              },
+            ),
           ],
         ),
       ),

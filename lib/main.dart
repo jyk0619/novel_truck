@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:novel_truck/ui/screens/auth/ezsignup_view.dart';
 import 'package:novel_truck/ui/screens/auth/login_viewmodel.dart';
+import 'package:novel_truck/ui/screens/novel/addnovel_view.dart';
 import 'package:novel_truck/ui/screens/novel/novel_viewmodel.dart';
 import 'package:novel_truck/ui/screens/onboarding/onboarding_view.dart';
 import 'package:novel_truck/ui/screens/record/record_viewmodel.dart';
@@ -79,7 +80,7 @@ final GoRouter router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => Agree(),
+      builder: (context, state) => HomeNav(),
     ),
     GoRoute(
       path: '/login',
@@ -95,6 +96,11 @@ final GoRouter router = GoRouter(
     GoRoute(
         path: '/auth/signupcom',
         builder: (context, state) => SignUpCom()),
+
+    GoRoute(
+      path: '/addnovel',
+      builder: (context, state) => AddNovel(sharedurl: '',),
+    )
     // 추가 라우트들...
   ],
 );
