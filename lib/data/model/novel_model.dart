@@ -4,8 +4,11 @@ class NovelData{
   final String author;
   final String imagePath;
   final String id;
+  final String genreId;
+  final String genreName;
 
-  NovelData(this.title, this.author, this.imagePath,this.id);
+
+  NovelData(this.title, this.author, this.imagePath,this.id,this.genreId, this.genreName);
 }
 
 class CollectionData{
@@ -13,7 +16,7 @@ class CollectionData{
   final String author;
   final String imagePath;
 
-  CollectionData(this.title, this.author,this.imagePath);
+  CollectionData(this.title, this.author,this.imagePath );
 }
 
 class Collection {
@@ -29,14 +32,19 @@ class NovelResponseModel {
   final String id;
   final String title;
   final String imgpath;
+  final String genreId;
+  final String genreName;
 
-  NovelResponseModel({required this.id, required this.title, required this.imgpath});
+  NovelResponseModel({required this.id, required this.title, required this.imgpath, required this.genreId, required this.genreName});
 
   factory NovelResponseModel.fromJson(Map<String, dynamic> json) {
     return NovelResponseModel(
       id: json['data']['id']?.toString() ?? '',
       title: json['data']['title']?.toString()??'',
       imgpath: json['data']['coverImage']?.toString()??'',
+      genreId: json['data']['genres'][0]['id']?.toString() ?? '',
+      genreName: json['data']['genres'][0]['name']?.toString() ?? '',
+
 
     );
   }

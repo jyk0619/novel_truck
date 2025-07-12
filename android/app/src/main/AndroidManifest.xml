@@ -1,4 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--앱링크 설정-->
+    <queries>
+        <package android:name="com.nhn.android.nbooks" />
+        <package android:name="com.joara.mobile"/>
+        <package android:name="kr.munpia.forandroid" />
+    </queries>
+
     <application
         android:label="novel_truck"
 
@@ -23,6 +31,8 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
+
 
             <!-- 공유하기를 위한 인텐트 필터 설정 -->
             <intent-filter>
@@ -56,4 +66,5 @@
             android:value="${YOUR_NATIVE_APP_KEY}" />
 
     </application>
+
 </manifest>

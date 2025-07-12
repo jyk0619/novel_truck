@@ -8,11 +8,11 @@ class NovelViewModel extends ChangeNotifier {
   final NovelRepository _repository = NovelRepository();
 
   final List<NovelData> _novelList = [
-    NovelData('소설 제목1', '작가1', 'assets/images/novel1.jpg','1'),
-    NovelData('소설 제목2', '작가2', 'assets/images/novel2.jpg','2'),
-    NovelData('소설 제목3', '작가3', 'assets/images/novel3.jpg','3'),
-    NovelData('소설 제목4', '작가4', 'assets/images/novel4.jpg','4'),
-    NovelData('소설 제목5', '작가5', 'assets/images/novel5.jpg','5'),
+    NovelData('소설 제목1', '작가1', 'assets/images/novel1.jpg','1','1', '장르1'),
+    NovelData('소설 제목2', '작가2', 'assets/images/novel2.jpg','2','2', '장르2'),
+    NovelData('소설 제목3', '작가3', 'assets/images/novel3.jpg','3','3', '장르3'),
+    NovelData('소설 제목4', '작가4', 'assets/images/novel4.jpg','4','4', '장르4'),
+    NovelData('소설 제목5', '작가5', 'assets/images/novel5.jpg','5', '5', '장르5'),
   ];
 
   List<NovelData> get novelList => _novelList;
@@ -22,6 +22,8 @@ class NovelViewModel extends ChangeNotifier {
   String? novelId;
   String? novelTitle;
   String? novelImage;
+  String? novelGenreId;
+  String? novelGenreName;
 
   NovelViewModel() {
     initialize();
@@ -58,10 +60,16 @@ class NovelViewModel extends ChangeNotifier {
         '작가 미정',
         'assets/images/default.jpg',
         response.id,
+        response.genreId,
+        response.genreName,
       );
+
       novelId = response.id; // 소설 ID 저장
       novelTitle = response.title;
       novelImage = response.imgpath;
+      novelGenreId = response.genreId;
+      novelGenreName = response.genreName;
+
       _novelList.add(newNovel); // 리스트에 추가
     } catch (e) {
       errorMessage = '소설 등록 실패: $e';
@@ -79,8 +87,8 @@ class NovelViewModel extends ChangeNotifier {
   final List<Collection> _collectionList = [
     Collection('컬렉션 제목1', 'assets/images/collection1.jpg',
         [
-          NovelData('소설 제목1', '작가1', 'assets/images/novel1.jpg,','1'),
-          NovelData('소설 제목2', '작가2', 'assets/images/novel2.jpg,','2'),
+          NovelData('소설 제목1', '작가1', 'assets/images/novel1.jpg,','1', '1', '장르1'),
+          NovelData('소설 제목2', '작가2', 'assets/images/novel2.jpg,','2', '2', '장르2'),
         ]),
     Collection('컬렉션 제목2', 'assets/images/collection2.jpg'),
     Collection('컬렉션 제목3', 'assets/images/collection2.jpg'),
