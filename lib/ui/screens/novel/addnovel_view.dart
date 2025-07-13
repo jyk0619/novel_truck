@@ -2,6 +2,8 @@ import 'package:android_intent_plus/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:novel_truck/ui/components/textfields/custom_textfield.dart';
+import 'package:novel_truck/ui/screens/novel/addnovel_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'novel_viewmodel.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -15,7 +17,7 @@ class AddNovel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final novelViewModel = Provider.of<NovelViewModel>(context);
+    final novelViewModel = Provider.of<AddNovelViewModel>(context);
 
     // URL 추출
     final urlLine = sharedurl.split('\n').firstWhere(
@@ -102,7 +104,7 @@ class AddNovel extends StatelessWidget {
               ),
               Text('$urlLine', style: Theme.of(context).textTheme.titleSmall),
               SizedBox(height: 10),
-              Text('소설 제목을 입력하세요', style: TextStyle(fontSize: 16)),
+              CustomTextField(label: '소설 URL을 입력하세요', controller: novelViewModel.novelUrlController),
               SizedBox(height: 10),
               ElevatedButton(
                   onPressed: () async {

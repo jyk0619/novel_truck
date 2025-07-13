@@ -75,8 +75,6 @@ class _RecordGridState extends State<RecordGrid> {
   Widget build(BuildContext context) {
 
     final recordViewmodel = Provider.of<RecordViewModel>(context);
-    TextEditingController searchController = TextEditingController();
-    recordViewmodel.searchController = searchController;
 
 
     return  Column(

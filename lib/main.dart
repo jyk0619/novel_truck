@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:novel_truck/ui/screens/auth/ezsignup_view.dart';
 import 'package:novel_truck/ui/screens/auth/login_viewmodel.dart';
 import 'package:novel_truck/ui/screens/novel/addnovel_view.dart';
+import 'package:novel_truck/ui/screens/novel/addnovel_viewmodel.dart';
 import 'package:novel_truck/ui/screens/novel/novel_viewmodel.dart';
 import 'package:novel_truck/ui/screens/onboarding/onboarding_view.dart';
 import 'package:novel_truck/ui/screens/record/record_viewmodel.dart';
@@ -40,6 +41,7 @@ void main() async{
     ChangeNotifierProvider(create: (_)=>NovelViewModel()),
     ChangeNotifierProvider(create: (_)=>RecordViewModel()),
     ChangeNotifierProvider(create: (_)=>ThemeProvider()),
+    ChangeNotifierProvider(create: (_)=>AddNovelViewModel()),
   ],
     child:MyApp(),
   ));
