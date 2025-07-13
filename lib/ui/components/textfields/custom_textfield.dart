@@ -8,6 +8,7 @@ class CustomTextField extends StatelessWidget {
    final IconData? prefixIcon;
    final VoidCallback? onEditingComplete;
    final IconData? suffixIcon;
+   final VoidCallback? onChanged;
    final VoidCallback? onSuffixTap;
 
 
@@ -20,6 +21,7 @@ class CustomTextField extends StatelessWidget {
     this.onEditingComplete,
     this.suffixIcon,
     this.onSuffixTap,
+    this.onChanged,
   }) : super(key: key);
 
   @override
@@ -28,6 +30,11 @@ class CustomTextField extends StatelessWidget {
       controller: controller,
       obscureText: obscureText,
       onEditingComplete: onEditingComplete,
+      onChanged: (value) {
+        if (onChanged != null) {
+          onChanged!();
+        }
+      },
       decoration: InputDecoration(
         prefixIcon: Icon(prefixIcon),
         suffixIcon: Icon(suffixIcon)!=null

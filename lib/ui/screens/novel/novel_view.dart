@@ -38,7 +38,7 @@ class Novel extends StatelessWidget {
             floatingActionButton: FloatingActionButton(
               onPressed: (){
                 Navigator.push(context,
-                MaterialPageRoute(builder: (context)=>AddNovel(sharedurl: 'http://naver.me/FMc3GAvf',)));//소설 추가 페이지로 이동
+                MaterialPageRoute(builder: (context)=>AddNovel(sharedurl: '',)));//소설 추가 페이지로 이동
               },
               child: Icon(Icons.add),
             )

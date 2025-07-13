@@ -20,7 +20,7 @@ class AddNovel extends StatelessWidget {
     final novelViewModel = Provider.of<AddNovelViewModel>(context);
 
     // URL 추출
-    final urlLine = sharedurl.split('\n').firstWhere(
+    var urlLine = sharedurl.split('\n').firstWhere(
           (line) => line.trim().startsWith('http'),
       orElse: () => '',
     );
@@ -37,12 +37,14 @@ class AddNovel extends StatelessWidget {
       ),
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text('플랫폼에서 등록할 소설 찾기'),
+              Text('플랫폼에서 등록할 소설 찾기',
+                  style: Theme.of(context).textTheme.titleSmall),
+              SizedBox(height: 20),
               Container(
                 child:Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -102,9 +104,22 @@ class AddNovel extends StatelessWidget {
                   ]
                 ),
               ),
+              SizedBox(height: 20),
+              Text('소설 URL을 입력하거나 공유된 링크를 사용하세요',
+                  style: Theme.of(context).textTheme.displaySmall),
               Text('$urlLine', style: Theme.of(context).textTheme.titleSmall),
               SizedBox(height: 10),
-              CustomTextField(label: '소설 URL을 입력하세요', controller: novelViewModel.novelUrlController),
+              CustomTextField(label: '소설 URL을 입력하세요',
+                  controller: novelViewModel.novelUrlController
+                  ..text = urlLine, // 공유된 URL을 초기값으로 설정
+                  prefixIcon: Icons.link,
+                  onChanged: () {
+                    urlLine = novelViewModel.novelUrlController.text;
+                  },
+                  onEditingComplete: () {
+                    urlLine=novelViewModel.novelUrlController.text;
+                  },
+              ),
               SizedBox(height: 10),
               ElevatedButton(
                   onPressed: () async {
@@ -129,11 +144,16 @@ class AddNovel extends StatelessWidget {
                     // 로딩 다이얼로그 닫기
                     Navigator.of(context).pop();
 
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('소설이 등록되었습니다 !')),
+                    );
+
                     // 결과 다이얼로그 띄우기
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
+                          title: Text('등록 소설 정보', style: Theme.of(context).textTheme.titleMedium),
                           content: Container(
                             padding: EdgeInsets.all(10),
                             child: Column(
@@ -156,10 +176,6 @@ class AddNovel extends StatelessWidget {
                                 Text('소설 장르 : ${novelViewModel.novelGenreName ?? '장르 없음'}'),
                                 Text('소설 ID: ${novelViewModel.novelId ?? 'ID 없음'}'),
                                 SizedBox(height: 10),
-                                Text(
-                                  '등록하시겠습니까?',
-                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                                ),
                               ],
                             ),
                           ),
@@ -167,16 +183,7 @@ class AddNovel extends StatelessWidget {
                             ElevatedButton(
                               style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
                               onPressed: () => Navigator.of(context).pop(),
-                              child: Text('취소'),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('소설이 등록되었습니다')),
-                                );
-                              },
-                              child: Text('등록'),
+                              child: Text('닫기'),
                             ),
                           ],
                         );
@@ -184,19 +191,6 @@ class AddNovel extends StatelessWidget {
                     );
                   },
                 child: Text('소설 등록', style: TextStyle(fontSize: 16)),
-              ),
-
-              Image.network(
-                novelViewModel.novelImage ?? '',
-                height: 200,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Container(
-                    height: 200,
-                    color: Colors.grey[300],
-                    child: Center(child: Text('이미지를 불러올 수 없습니다')),
-                  );
-                },
               ),
             ],
           ),
@@ -211,12 +205,10 @@ class AddNovel extends StatelessWidget {
 
 class PlatformInfo {
   final String packageName;
-  final String componentName; // 시작 액티비티 전체 경로
   final String iosFallbackUrl;
 
   const PlatformInfo({
     required this.packageName,
-    required this.componentName,
     required this.iosFallbackUrl,
   });
 }
@@ -225,57 +217,17 @@ class PlatformInfo {
 const Map<String, PlatformInfo> platforms = {
   'series': PlatformInfo(
     packageName: 'com.nhn.android.nbooks',
-    componentName: 'com.nhn.android.nbooks/com.naver.series.feature.main.MainActivity',
     iosFallbackUrl: 'https://series.naver.com',
   ),
   'joara': PlatformInfo(
     packageName: 'com.joara.mobile',
-    componentName: 'com.joara.mobile/.hybrid.HybridActivity',
     iosFallbackUrl: 'https://www.joara.com',
   ),
   'munpia': PlatformInfo(
     packageName: 'kr.munpia.forandroid',
-    componentName: ' kr.munpia.forandroid/com.munpia.presentation.presentation.MainActivity',
     iosFallbackUrl: 'https://m.munpia.com',
   ),
 };
-
-
-Future<void> launchPlatform(String key) async {
-  final info = platforms[key];
-  if (info == null) {
-    print('플랫폼 정보가 없습니다: $key');
-    return;
-  }
-
-  if (Platform.isAndroid) {
-    final intent = AndroidIntent(
-      action: 'android.intent.action.MAIN',
-      category: 'android.intent.category.LAUNCHER',
-      componentName: info.componentName,
-      flags: <int>[Flag.FLAG_ACTIVITY_NEW_TASK],
-    );
-    print('안드로이드 Launching Android intent: ${info.componentName}');
-
-    try {
-      await intent.launch();
-    } catch (e) {
-      // 앱이 없으면 Play Store로 이동
-      print('앱 실행 실패: $e');
-      print('앱이 설치되어 있지 않습니다. Play Store로 이동합니다: ${info.packageName}');
-      final url = Uri.parse('https://play.google.com/store/apps/details?id=${info.packageName}');
-      if (await canLaunchUrl(url)) {
-        await launchUrl(url, mode: LaunchMode.externalApplication);
-      }
-    }
-  } else {
-    // iOS는 웹 fallback
-    final url = Uri.parse(info.iosFallbackUrl);
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url, mode: LaunchMode.externalApplication);
-    }
-  }
-}
 
 
 void PlatformLauncher(String key) async {
