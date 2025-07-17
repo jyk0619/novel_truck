@@ -8,7 +8,7 @@ class NovelViewModel extends ChangeNotifier {
   final NovelRepository _repository = NovelRepository();
 
   final List<NovelData> _novelList = [
-    NovelData('소설 제목1', '작가1', 'assets/images/novel1.jpg','1','1', '장르1'),
+    NovelData('소설 제목1', '작가1', 'assets/images/novel1.jpg','1','1', '장르1',['태그1', '태그2', '태그3', '태그4' ,'태그5', '태그6', '태그7', '태그8']),
     NovelData('소설 제목2', '작가2', 'assets/images/novel2.jpg','2','2', '장르2'),
     NovelData('소설 제목3', '작가3', 'assets/images/novel3.jpg','3','3', '장르3'),
     NovelData('소설 제목4', '작가4', 'assets/images/novel4.jpg','4','4', '장르4'),
@@ -19,11 +19,6 @@ class NovelViewModel extends ChangeNotifier {
 
   bool isLoading = false;
   String? errorMessage;
-  String? novelId;
-  String? novelTitle;
-  String? novelImage;
-  String? novelGenreId;
-  String? novelGenreName;
 
   NovelViewModel() {
     initialize();
@@ -45,39 +40,6 @@ class NovelViewModel extends ChangeNotifier {
     }
   }
 
-  // 소설 등록
-  Future<void> submitNovelUrl(String url) async {
-    isLoading = true;
-    errorMessage = null;
-    notifyListeners();
-
-    try {
-      final response = await _repository.submitNovel(url); // API 호출 → ID 받음
-
-      // 💡 예시로 더미 제목과 작가명, 이미지 경로를 사용
-      final newNovel = NovelData(
-        '새 소설 제목',
-        '작가 미정',
-        'assets/images/default.jpg',
-        response.id,
-        response.genreId,
-        response.genreName,
-      );
-
-      novelId = response.id; // 소설 ID 저장
-      novelTitle = response.title;
-      novelImage = response.imgpath;
-      novelGenreId = response.genreId;
-      novelGenreName = response.genreName;
-
-      _novelList.add(newNovel); // 리스트에 추가
-    } catch (e) {
-      errorMessage = '소설 등록 실패: $e';
-    } finally {
-      isLoading = false;
-      notifyListeners();
-    }
-  }
 
   void removeNovel(int index) {
     _novelList.removeAt(index);

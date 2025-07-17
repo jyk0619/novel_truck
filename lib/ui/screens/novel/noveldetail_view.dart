@@ -15,7 +15,7 @@ class NovelDetail extends StatelessWidget {
         elevation: 0.0,
         shadowColor: Colors.transparent,
         scrolledUnderElevation: 0.0,
-        title: Text('기록 상세'),
+        title: Text('소설 정보'),
         centerTitle: true,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
@@ -58,6 +58,29 @@ class NovelDetail extends StatelessWidget {
                     SizedBox(height: 10),
                     Text(novel.author, style: Theme.of(context).textTheme.displaySmall),
                     SizedBox(height: 10),
+                    Text('${novel.genreName}', style: Theme.of(context).textTheme.displayMedium),
+                    SizedBox(height: 10),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 4,
+                      children:[
+                        ...novel.tags.map((tag) {
+                        return Chip(
+                          label: Text('# ${tag}', style: Theme.of(context).textTheme.displaySmall),
+
+                        );
+                      }).toList(),
+                        ActionChip(
+                          label: Text('+', style: Theme.of(context).textTheme.displaySmall),
+                          backgroundColor: Theme.of(context).colorScheme.background,
+                          onPressed: () {
+                            // 태그 추가 기능 구현
+
+                          },
+                        ),
+                      ]
+                    ),
+                    SizedBox(height: 20),
                     ElevatedButton(onPressed: (){
                       // 기록 수정 / 이어쓰기
                       Navigator.push(context, MaterialPageRoute(

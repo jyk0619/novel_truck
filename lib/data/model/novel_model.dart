@@ -6,9 +6,11 @@ class NovelData{
   final String id;
   final String genreId;
   final String genreName;
+  final List<String> tags;
 
 
-  NovelData(this.title, this.author, this.imagePath,this.id,this.genreId, this.genreName);
+  NovelData(this.title, this.author, this.imagePath,this.id,this.genreId, this.genreName, [List<String>? tags])
+      : tags = tags ?? [];
 }
 
 class CollectionData{
