@@ -2,6 +2,7 @@ import 'package:android_intent_plus/flag.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:novel_truck/ui/components/textfields/custom_textfield.dart';
 import 'package:novel_truck/ui/screens/novel/addnovel_viewmodel.dart';
 import 'package:provider/provider.dart';
@@ -53,16 +54,14 @@ class AddNovel extends StatelessWidget {
                       onTap: () {
                         // 네이버 시리즈 링크로 이동
                         PlatformLauncher('series');
-                        //launchPlatform('series');
                       },
                       child: Container(
                         child:Column(
                           children:[
-                            Icon(Icons.link, size: 30, color: Colors.green),
+                           SvgPicture.asset('assets/images/series.svg', width: 30, height: 30),
                             SizedBox(height: 5),
                             Text('네이버 시리즈', style: TextStyle(fontSize: 16)),
                           ]
-
                         )
                       ),
                     ),
@@ -75,7 +74,7 @@ class AddNovel extends StatelessWidget {
                       child: Container(
                         child:Column(
                           children:[
-                            Icon(Icons.link, size: 30, color: Colors.lightBlue),
+                            SvgPicture.asset('assets/images/munpia.svg', width: 30, height: 30),
                             SizedBox(height: 5),
                             Text('문피아', style: TextStyle(fontSize: 16)),
                           ]
@@ -92,7 +91,7 @@ class AddNovel extends StatelessWidget {
                       child: Container(
                         child:Column(
                           children:[
-                            Icon(Icons.link, size: 30, color: Colors.blue),
+                            SvgPicture.asset('assets/images/joara.svg', width: 30, height: 30),
                             SizedBox(height: 5),
                             Text('조아라', style: TextStyle(fontSize: 16)),
                           ]
@@ -100,7 +99,6 @@ class AddNovel extends StatelessWidget {
                         )
                       ),
                     ),
-
                   ]
                 ),
               ),
@@ -120,7 +118,9 @@ class AddNovel extends StatelessWidget {
                     urlLine=novelViewModel.novelUrlController.text;
                   },
               ),
+
               SizedBox(height: 10),
+
               ElevatedButton(
                   onPressed: () async {
                     print(urlLine);
