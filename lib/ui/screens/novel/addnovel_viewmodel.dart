@@ -16,8 +16,6 @@ class AddNovelViewModel extends ChangeNotifier {
   String? novelGenreId;
   String? novelGenreName;
 
-
-
   // 소설 등록
   Future<void> submitNovelUrl(String url) async {
     isLoading = true;

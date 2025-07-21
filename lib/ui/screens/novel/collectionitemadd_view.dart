@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../novel/novel_viewmodel.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'collection_viewmodel.dart';
 
 
 class CollectionAddItem extends StatelessWidget {
@@ -11,6 +12,7 @@ class CollectionAddItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final novelViewModel = Provider.of<NovelViewModel>(context);
+    final collectionViewModel = Provider.of<CollectionViewModel>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -63,14 +65,14 @@ class CollectionAddItem extends StatelessWidget {
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Text('${novelViewModel.novelList[index].title} 을 ${novelViewModel.collectionList[collectionIndex].title} 에 추가하시겠어요?', style: TextStyle(fontSize: 14)),
+                                    Text('${novelViewModel.novelList[index].title} 을 ${collectionViewModel.collectionList[collectionIndex].title} 에 추가하시겠어요?', style: TextStyle(fontSize: 14)),
                                     SizedBox(height: 10),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                       children: [
                                         ElevatedButton(
                                           onPressed: () {
-                                            novelViewModel.addNovelToCollection(collectionIndex,novelViewModel.novelList[index]);
+                                            collectionViewModel.addNovelToCollection(collectionIndex,novelViewModel.novelList[index]);
                                             Navigator.pop(context);
                                             ScaffoldMessenger.of(context).showSnackBar(
                                               SnackBar(

@@ -55,6 +55,7 @@ class NovelGrid extends StatefulWidget {
 }
 class _RecordGridState extends State<NovelGrid> {
 
+
   @override
   Widget build(BuildContext context) {
 

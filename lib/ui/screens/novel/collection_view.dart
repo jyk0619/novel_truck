@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import  'package:flutter/material.dart';
+import 'package:novel_truck/ui/screens/novel/collection_viewmodel.dart';
 import 'package:novel_truck/ui/screens/novel/collectionadd_view.dart';
 import 'package:novel_truck/core/theme/app_colors.dart';
 import 'package:novel_truck/ui/screens/novel/collectiondetail_view.dart';
@@ -14,7 +15,7 @@ class Collection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final novelViewModel = Provider.of<NovelViewModel>(context);
+    final viewmodel = Provider.of<CollectionViewModel>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -57,7 +58,7 @@ class Collection extends StatelessWidget {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
 
-                itemCount: novelViewModel.collectionList.length + 1, // +1 for "추가" 카드
+                itemCount: viewmodel.collectionList.length + 1, // +1 for "추가" 카드
                 itemBuilder: (context, index) {
                   if (index == 0) {
                     // 첫 번째 카드: 컬렉션 추가 버튼
@@ -90,7 +91,7 @@ class Collection extends StatelessWidget {
                       ),
                     );
                   } else {
-                    final collection = novelViewModel.collectionList[index - 1];
+                    final collection = viewmodel.collectionList[index - 1];
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -104,8 +105,8 @@ class Collection extends StatelessWidget {
                             );
                           },
                           child: Card(
-                            child: Image.file(
-                                File(collection.imagePath),
+                            child: Image.network(
+                                (collection.imagePath),
                                 fit: BoxFit.cover,
                                 width: 120.w,
                                 height: 120.h,

@@ -1,6 +1,7 @@
 import 'dart:io';
 import  'package:flutter/material.dart';
 import 'package:novel_truck/core/theme/app_colors.dart';
+import 'package:novel_truck/ui/screens/novel/collection_viewmodel.dart';
 import 'package:novel_truck/ui/screens/novel/collectionitemadd_view.dart';
 import 'package:novel_truck/ui/screens/novel/novel_viewmodel.dart';
 import 'package:provider/provider.dart';
@@ -12,8 +13,8 @@ class CollectionDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  final novelViewModel = Provider.of<NovelViewModel>(context);
-    final collection = novelViewModel.collectionList[collectionIndex];
+  final viewmodel = Provider.of<CollectionViewModel>(context);
+    final collection = viewmodel.collectionList[collectionIndex];
 
 
     return Scaffold(
@@ -40,8 +41,8 @@ class CollectionDetail extends StatelessWidget {
                     color: AppColors.primary,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child:Image.file(
-                     File(collection.imagePath),
+                  child:Image.network(
+                     (collection.imagePath),
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
                       return Icon(Icons.error, size: 50);

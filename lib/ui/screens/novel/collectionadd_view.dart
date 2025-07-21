@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:novel_truck/ui/components/textfields/custom_textfield.dart';
+import 'package:novel_truck/ui/screens/novel/collection_viewmodel.dart';
 import 'package:novel_truck/ui/screens/novel/novel_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,7 +24,7 @@ class _CollectionAddState extends State<CollectionAdd> {
 
   @override
   Widget build(BuildContext context) {
-    final novelViewModel = Provider.of<NovelViewModel>(context);
+    final viewmodel = Provider.of<CollectionViewModel>(context);
     return SingleChildScrollView(
         child: SizedBox(
           width: double.infinity,
@@ -75,7 +76,7 @@ class _CollectionAddState extends State<CollectionAdd> {
                         child: Text('취소')
                     ),
                     ElevatedButton(onPressed: (){
-                      novelViewModel.addCollection(title.text, imagePath);
+                      viewmodel.addCollection(title.text, imagePath);
                       Navigator.pop(context);
                     }, child: Text('생성')),
                   ],

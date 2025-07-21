@@ -9,4 +9,12 @@ class NovelRepository {
     final json = await _apiService.postNovelUrl(url);
     return NovelResponseModel.fromJson(json);
   }
+
+  Future<List<NovelData>> fetchNovelList() async {
+    final jsonList = await _apiService.getNovelList();
+    print('Fetched novel list: $jsonList');
+    return jsonList
+        .map((json) => NovelResponseModel.fromJson(json).toDomain())
+        .toList();
+  }
 }
