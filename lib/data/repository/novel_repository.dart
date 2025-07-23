@@ -10,11 +10,9 @@ class NovelRepository {
     return NovelResponseModel.fromJson(json);
   }
 
-  Future<List<NovelData>> fetchNovelList() async {
+  Future<NovelListResponseModel> fetchNovelList() async {
     final jsonList = await _apiService.getNovelList();
-    print('Fetched novel list: $jsonList');
-    return jsonList
-        .map((json) => NovelResponseModel.fromJson(json).toDomain())
-        .toList();
+    print('레포지토리 에서 소설 목록을 가져왔습니다');
+    return NovelListResponseModel.fromJson(jsonList);
   }
 }

@@ -46,8 +46,8 @@ class NovelDetail extends StatelessWidget {
                         color: Colors.grey,
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      child: Image.asset(
-                        'assets/images/record_image.png',
+                      child: Image.network(
+                        novel.imagePath,
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) {
                           return Icon(Icons.error, size: 50);

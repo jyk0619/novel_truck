@@ -39,12 +39,11 @@ dependencies:
   flutter_carousel_widget: ^3.1.0
   carousel_slider: ^5.0.0
   google_sign_in: ^6.2.1
-  kakao_flutter_sdk: ^1.9.2
+  kakao_flutter_sdk: ^1.9.7+3
   flutter_dotenv: ^5.2.1
   flutter_screenutil: ^5.9.3
   image_picker: ^1.1.2
   flutter_svg: ^2.0.10+1
-  flutter_sharing_intent: ^1.1.1
   receive_sharing_intent: ^1.8.1
   introduction_screen: ^3.1.17
   shimmer_animation: ^2.1.0+1

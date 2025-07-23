@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '1.9.10'
+    ext.kotlin_version = '2.0.20'
     repositories {
         google()
         mavenCentral()
@@ -15,6 +15,24 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+    }
+    afterEvaluate { project ->
+        if (project.plugins.hasPlugin('com.android.library') || project.plugins.hasPlugin('com.android.application')) {
+            project.android {
+                compileOptions {
+                    sourceCompatibility JavaVersion.VERSION_11
+                    targetCompatibility JavaVersion.VERSION_11
+                }
+            }
+        }
+
+        if (project.plugins.hasPlugin('kotlin-android') || project.plugins.hasPlugin('org.jetbrains.kotlin.android') || project.plugins.hasPlugin('kotlin')) {
+            project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+                kotlinOptions {
+                    jvmTarget = "11"
+                }
+            }
+        }
     }
 }
 

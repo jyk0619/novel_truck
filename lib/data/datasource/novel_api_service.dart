@@ -25,12 +25,12 @@ class NovelApiService {
   }
 
   //Get Novel List
-  Future<List<Map<String, dynamic>>> getNovelList() async {
+  Future<Map<String, dynamic>> getNovelList() async {
     final uri = Uri.parse('$_baseUrl/novels');
     final response = await http.get(uri);
 
     if (response.statusCode == 200) {
-      return List<Map<String, dynamic>>.from(jsonDecode(response.body));
+      return jsonDecode(response.body) as Map<String, dynamic>;
     } else {
       throw Exception('Failed to fetch novel list: ${response.body}');
     }

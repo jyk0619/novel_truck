@@ -43,8 +43,9 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = '11'
+        jvmTarget = "11"
     }
+
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -75,6 +76,11 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+}
+
+
+kotlin {
+    jvmToolchain(11)
 }
 
 flutter {
