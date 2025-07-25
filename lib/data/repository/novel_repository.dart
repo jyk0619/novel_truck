@@ -6,13 +6,20 @@ class NovelRepository {
   final _apiService = NovelApiService();
 
   Future<NovelResponseModel> submitNovel(String url) async {
-    final json = await _apiService.postNovelUrl(url);
-    return NovelResponseModel.fromJson(json);
+    try{
+      final json = await _apiService.postNovelUrl(url);
+
+      return NovelResponseModel.fromJson(json['data']);
+    }
+    catch(e){
+      print('레포지토리 - 에러: $e');
+      rethrow;
+    }
+
   }
 
   Future<NovelListResponseModel> fetchNovelList() async {
     final jsonList = await _apiService.getNovelList();
-    print('레포지토리 에서 소설 목록을 가져왔습니다');
     return NovelListResponseModel.fromJson(jsonList);
   }
 }

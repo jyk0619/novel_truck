@@ -10,44 +10,44 @@ class AddNovelViewModel extends ChangeNotifier {
 
   bool isLoading = false;
   String? errorMessage;
-  String? novelId;
-  String? novelTitle;
-  String? novelImage;
-  String? novelGenreId;
-  String? novelGenreName;
+  NovelData? novel; // 소설 데이터
+
 
   // 소설 등록
   Future<void> submitNovelUrl(String url) async {
-    isLoading = true;
-    errorMessage = null;
-    notifyListeners();
+    errorMessage=null;
+    _setLoading(true);
 
     try {
       final response = await _repository.submitNovel(url); // API 호출 → ID 받음
-
-      // 💡 예시로 더미 제목과 작가명, 이미지 경로를 사용
-      final newNovel = NovelData(
-        '새 소설 제목',
-        '작가 미정',
-        'assets/images/default.jpg',
-        response.id,
-        response.genreId,
-        response.genreName,
-      );
-
-      novelId = response.id; // 소설 ID 저장
-      novelTitle = response.title;
-      novelImage = response.imgpath;
-      novelGenreId = response.genreId;
-      novelGenreName = response.genreName;
-
+      novel = NovelData.fromResponse(response);
+      print('소설 등록 성공: ${novel?.imgPath}'); // 디버깅용 로그
+      notifyListeners(); // 소설 데이터 업데이트
     } catch (e) {
-      errorMessage = '소설 등록 실패: $e';
+      errorMessage = '소설 등록 실패 : $e';
     } finally {
-      isLoading = false;
-      notifyListeners();
+      _setLoading(false);
     }
   }
 
+  // 상태 초기화
+  void reset() {
+    novelUrlController.clear();
+    novel = null;
+    errorMessage = null;
+    notifyListeners();
+  }
+
+  // 로딩 상태 변경
+  void _setLoading(bool value) {
+    isLoading = value;
+    notifyListeners();
+  }
+  
+  @override
+  void dispose() {
+    novelUrlController.dispose();
+    super.dispose();
+  }
   // Additional methods for saving the novel, validation, etc. can be added here.
 }

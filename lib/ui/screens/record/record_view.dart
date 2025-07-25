@@ -23,23 +23,28 @@ class Record extends StatelessWidget {
          child: DefaultTabController(
            length: 2,
            child: Scaffold(
-            appBar: AppBar(
-              automaticallyImplyLeading: false,
-              bottom: TabBar(
-                tabs: [
-                  Tab(text: '기록모음'),
-                  Tab(text: '북마크'),
-                ],
-              )
-            ),
-            body: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: TabBarView(
-                children: [
-                 RecordGrid(),
-                  BookMarkGrid(),
-                ],
-              ),
+
+            body: Column(
+              children: [
+                SizedBox(height: 20,),
+                TabBar(
+                  tabs: [
+                    Tab(text: '기록모음'),
+                    Tab(text: '북마크'),
+                  ],
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: TabBarView(
+                      children: [
+                       RecordGrid(),
+                        BookMarkGrid(),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
 
             floatingActionButton: FloatingActionButton(
@@ -77,89 +82,94 @@ class _RecordGridState extends State<RecordGrid> {
     final recordViewmodel = Provider.of<RecordViewModel>(context);
 
 
-    return  Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Container(
-          child:CustomTextField(
-            label: '검색',
-            controller: recordViewmodel.searchController,
-            prefixIcon: Icons.search,
-            onEditingComplete: () {
-              recordViewmodel.searchRecord(recordViewmodel.searchController.text);
-            },
-          )
-        ),
-        Expanded(
-          child:
-      Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: recordViewmodel.isLoading
-    ?_buildShimmerGrid()
-        :GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-            ),
-           itemBuilder: (context, index) {
-            return InkWell(
-            child: Stack(
-              children:[
-              Container(
-                padding: EdgeInsets.all(5),
-                  height: double.infinity,
-                  decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surface,
-                  borderRadius: BorderRadius.circular(8),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 4,
-                      offset: Offset(2, 2),
-                    ),
-                  ],
-                  ),
-                  child: Center(
-                    child: Text('${recordViewmodel.recordData[index].content}', style: TextStyle(fontSize: 14)),
-                  ),
+    return  RefreshIndicator(
+      onRefresh: () async {
+        // 새로고침 시 데이터 로드
+      },
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Container(
+            child:CustomTextField(
+              label: '검색',
+              controller: recordViewmodel.searchController,
+              prefixIcon: Icons.search,
+              onEditingComplete: () {
+                recordViewmodel.searchRecord(recordViewmodel.searchController.text);
+              },
+            )
+          ),
+          Expanded(
+            child:
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: recordViewmodel.isLoading
+      ?_buildShimmerGrid()
+          :GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
               ),
-                Positioned(
-                  top: 4,
-                  right: 4,
-                  child: IconButton(onPressed: (){
-                    // 북마크 추가/해제
-                    recordViewmodel.addBookmark(index);
-
-                    // 북마크 추가/해제 시 스낵바 표시
-                    SnackBar snackBar = SnackBar(
-                      content: Text(recordViewmodel.recordData[index].isBookmarked ? '북마크 추가됨' : '북마크 해제됨'),
-                      duration: Duration(seconds: 1),
-                      backgroundColor: recordViewmodel.recordData[index].isBookmarked ? AppColors.primary : Colors.grey,
-                    );
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  },
-                    icon: recordViewmodel.recordData[index].isBookmarked
-                        ? Icon(Icons.bookmark, color: AppColors.primary,)
-                        : Icon(Icons.bookmark_border, color: Colors.grey,),
-                            ),
+             itemBuilder: (context, index) {
+              return InkWell(
+              child: Stack(
+                children:[
+                Container(
+                  padding: EdgeInsets.all(5),
+                    height: double.infinity,
+                    decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surface,
+                    borderRadius: BorderRadius.circular(8),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 4,
+                        offset: Offset(2, 2),
+                      ),
+                    ],
+                    ),
+                    child: Center(
+                      child: Text('${recordViewmodel.recordData[index].content}', style: TextStyle(fontSize: 14)),
+                    ),
                 ),
-              ]
-            ),
-                onTap: ( ) {
-              Navigator.push(context,
-                MaterialPageRoute(
-                  builder: (context) => RecordDetail(recordIndex:index),
-                )); //NovelDetail( novelIndex: index,novel: recordViewmodel.recordData[index],
-                //탭하면 noveldetail로 이동
-                },
-              );
-        },
-        itemCount: recordViewmodel.recordData.length,
-      ),
-      ),
+                  Positioned(
+                    top: 4,
+                    right: 4,
+                    child: IconButton(onPressed: (){
+                      // 북마크 추가/해제
+                      recordViewmodel.addBookmark(index);
+
+                      // 북마크 추가/해제 시 스낵바 표시
+                      SnackBar snackBar = SnackBar(
+                        content: Text(recordViewmodel.recordData[index].isBookmarked ? '북마크 추가됨' : '북마크 해제됨'),
+                        duration: Duration(seconds: 1),
+                        backgroundColor: recordViewmodel.recordData[index].isBookmarked ? AppColors.primary : Colors.grey,
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    },
+                      icon: recordViewmodel.recordData[index].isBookmarked
+                          ? Icon(Icons.bookmark, color: AppColors.primary,)
+                          : Icon(Icons.bookmark_border, color: Colors.grey,),
+                              ),
+                  ),
+                ]
+              ),
+                  onTap: ( ) {
+                Navigator.push(context,
+                  MaterialPageRoute(
+                    builder: (context) => RecordDetail(recordIndex:index),
+                  )); //NovelDetail( novelIndex: index,novel: recordViewmodel.recordData[index],
+                  //탭하면 noveldetail로 이동
+                  },
+                );
+          },
+          itemCount: recordViewmodel.recordData.length,
         ),
-      ],
+        ),
+          ),
+        ],
+      ),
     );
   }
 }

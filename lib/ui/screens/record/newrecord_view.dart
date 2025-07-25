@@ -91,7 +91,14 @@ class NewRecord extends StatelessWidget {
             Container(
               width:200.w,
               height: 300.h,
-              color: Colors.grey,
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: BorderRadius.circular(10),
+                image: DecorationImage(
+                  image: NetworkImage(''),
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
             SizedBox(height: 30),
             Row(

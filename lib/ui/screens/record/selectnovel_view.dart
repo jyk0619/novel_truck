@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:novel_truck/ui/components/textfields/custom_textfield.dart';
 import 'package:novel_truck/ui/screens/novel/novel_viewmodel.dart';
 import 'package:novel_truck/ui/screens/record/newrecord_view.dart';
 import 'package:provider/provider.dart';
@@ -11,28 +12,15 @@ class SelectNovel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
+    return Scaffold(
         appBar:AppBar(
-          bottom: TabBar(
-            indicatorColor: Colors.white,
-            tabs: [
-              Tab(text: '소설 선택'),
-              Tab(text: '소설 검색'),
-            ],
-          ),
+         title: Text('소설 선택'),
+          centerTitle: true,
         ),
         body: Padding(
           padding: const EdgeInsets.all(10.0),
-          child: TabBarView(
-            children: [
-              NovelGrid(),
-             Text('소설 검색'),
-            ],
+          child:NovelGrid(),
           ),
-        ),
-      ),
     );
   }
 }
@@ -45,6 +33,14 @@ class NovelGrid extends StatefulWidget {
 }
 
 class _NovelGridState extends State<NovelGrid> {
+
+  @override
+  void dispose() {
+    final novelViewModel = Provider.of<NovelViewModel>(context);
+    novelViewModel.clearSearch();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final novelViewModel = Provider.of<NovelViewModel>(context);
@@ -54,15 +50,21 @@ class _NovelGridState extends State<NovelGrid> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              margin: EdgeInsets.only(bottom: 10),
-              child: Text('소설 선택',style:Theme.of(context).textTheme.displayLarge),
+            SizedBox(height: 10,),
+            CustomTextField(
+              label: '검색',
+              controller: novelViewModel.searchController,
+              onChanged: (value) {
+                novelViewModel.searchNovel(value);
+              },
+              prefixIcon: Icons.search,
             ),
-            SizedBox(height: 20,),
+
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: GridView.builder(
                 shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                   childAspectRatio: 0.7,
@@ -74,16 +76,22 @@ class _NovelGridState extends State<NovelGrid> {
                     child: Container(
                       padding: EdgeInsets.all(5),
                       child: Column(
-
                           children: [
                             Expanded(
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: Colors.grey,
+                                  color: Colors.grey[200],
+                                  borderRadius: BorderRadius.circular(10),
+                                  image: DecorationImage(
+                                    image: NetworkImage(novelViewModel.searchData[index].imgPath),
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                             ),
-                            Text('${novelViewModel.novelList[index].title}', style: TextStyle(fontSize: 12)),
+                            Text('${novelViewModel.searchData[index].title}',
+                                style: TextStyle(fontSize: 12),
+                            overflow: TextOverflow.ellipsis),
                           ]),
                     ),
                     onTap: ( ) {
@@ -103,7 +111,7 @@ class _NovelGridState extends State<NovelGrid> {
                                 // 소설 선택 로직
                                 Navigator.pop(context);
                                 Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => NewRecord(),
+                                MaterialPageRoute(builder: (context) => NewRecord()
                                 ),
                                 );
                               },
@@ -115,7 +123,7 @@ class _NovelGridState extends State<NovelGrid> {
                     },
                   );
                 },
-                itemCount: novelViewModel.novelList.length,
+                itemCount: novelViewModel.searchData.length,
               ),
             )
           ],

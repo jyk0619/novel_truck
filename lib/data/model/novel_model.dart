@@ -2,15 +2,31 @@
 class NovelData{
   final String title;
   final String author;
-  final String imagePath;
+  final String imgPath;
   final String id;
   final String genreId;
   final String genreName;
+  final String description;
   final List<String> tags;
 
 
-  NovelData(this.title, this.author, this.imagePath,this.id,this.genreId, this.genreName, [List<String>? tags])
+
+  NovelData(this.title, this.author, this.imgPath,this.id,this.genreId, this.genreName, this.description, [List<String>? tags])
       : tags = tags ?? [];
+
+  factory NovelData.fromResponse(NovelResponseModel response) {
+    return NovelData(
+      response.title,
+      response.author,
+      response.imgpath,
+      response.id,
+      response.genreId,
+      response.genreName,
+      response.description,
+      response.tags,
+    );
+  }
+
 }
 
 
@@ -65,17 +81,23 @@ class NovelResponseModel {
   });
 
   factory NovelResponseModel.fromJson(Map<String, dynamic> json) {
+
+    final genres = json['genres'];
+    final isGenresValid = genres is List && genres.isNotEmpty;
+    //장르 null 체크 및 유효성 검사
+
     return NovelResponseModel(
       id: json['id']?.toString() ?? '',
       title: json['title']?.toString() ?? '',
       imgpath: json['coverImageUrl']?.toString() ?? '',
-      genreId: json['genres'].isNotEmpty ? json['genres'][0]['id'].toString() : '',
-      genreName: json['genres'].isNotEmpty ? json['genres'][0]['name'].toString() : '',
+      genreId: isGenresValid ? genres[0]['id'].toString() : '',
+      genreName: isGenresValid ? genres[0]['name'].toString() : '',
       description: json['description']?.toString() ?? '',
       tags: List<String>.from(json['tags']?.map((tag) => tag['name'].toString()) ?? []),
       author: json['author']?['name']?.toString() ?? '',
     );
   }
+
 
   NovelData toDomain() {
     return NovelData(
@@ -85,6 +107,7 @@ class NovelResponseModel {
       id,
       genreId,
       genreName,
+      description,
       tags,
     );
   }

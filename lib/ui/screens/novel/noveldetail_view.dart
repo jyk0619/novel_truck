@@ -1,3 +1,4 @@
+import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:novel_truck/data/model/novel_model.dart';
@@ -43,12 +44,11 @@ class NovelDetail extends StatelessWidget {
                       height: 200,
                       margin: EdgeInsets.symmetric(vertical: 10),
                       decoration: BoxDecoration(
-                        color: Colors.grey,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Image.network(
-                        novel.imagePath,
-                        fit: BoxFit.cover,
+                        novel.imgPath,
+                        fit: BoxFit.contain,
                         errorBuilder: (context, error, stackTrace) {
                           return Icon(Icons.error, size: 50);
                         },
@@ -56,9 +56,21 @@ class NovelDetail extends StatelessWidget {
                     ),
                     Text(novel.title, style: Theme.of(context).textTheme.displayLarge),
                     SizedBox(height: 10),
-                    Text(novel.author, style: Theme.of(context).textTheme.displaySmall),
-                    SizedBox(height: 10),
-                    Text('${novel.genreName}', style: Theme.of(context).textTheme.displayMedium),
+                    Wrap(
+                      children: [
+                       Text('${novel.genreName} ', style: Theme.of(context).textTheme.displayMedium),
+                        Text(novel.author, style: Theme.of(context).textTheme.displaySmall),
+                      ],
+                    ),
+                    SizedBox(height:10),
+                    ExpandableText(
+                      novel.description,
+                      expandText: '더보기',
+                      collapseText: '접기',
+                      maxLines: 3,
+                      style: Theme.of(context).textTheme.displaySmall,
+                      linkColor: Theme.of(context).colorScheme.primary,
+                    ),
                     SizedBox(height: 10),
                     Wrap(
                       spacing: 8,

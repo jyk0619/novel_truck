@@ -27,6 +27,7 @@ class AddNovel extends StatelessWidget {
     );
 
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         surfaceTintColor: Colors.transparent,
         leading: IconButton(
@@ -36,163 +37,176 @@ class AddNovel extends StatelessWidget {
           },
         ),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text('플랫폼에서 등록할 소설 찾기',
-                  style: Theme.of(context).textTheme.titleSmall),
-              SizedBox(height: 20),
-              Container(
-                child:Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        // 네이버 시리즈 링크로 이동
-                        PlatformLauncher('series');
-                      },
-                      child: Container(
-                        child:Column(
-                          children:[
-                           SvgPicture.asset('assets/images/series.svg', width: 30, height: 30),
-                            SizedBox(height: 5),
-                            Text('네이버 시리즈', style: TextStyle(fontSize: 16)),
-                          ]
-                        )
+      body: SingleChildScrollView(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text('플랫폼에서 등록할 소설 찾기',
+                    style: Theme.of(context).textTheme.titleSmall),
+                SizedBox(height: 20),
+                Container(
+                  child:Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          // 네이버 시리즈 링크로 이동
+                          PlatformLauncher('series');
+                        },
+                        child: Container(
+                          child:Column(
+                            children:[
+                             SvgPicture.asset('assets/images/series.svg', width: 30, height: 30),
+                              SizedBox(height: 5),
+                              Text('네이버 시리즈', style: TextStyle(fontSize: 16)),
+                            ]
+                          )
+                        ),
                       ),
-                    ),
-
-                    InkWell(
-                      onTap: () {
-                        // 문피아로 이동
-                        PlatformLauncher('munpia');
-                      },
-                      child: Container(
-                        child:Column(
-                          children:[
-                            SvgPicture.asset('assets/images/munpia.svg', width: 30, height: 30),
-                            SizedBox(height: 5),
-                            Text('문피아', style: TextStyle(fontSize: 16)),
-                          ]
-
-                        )
+        
+                      InkWell(
+                        onTap: () {
+                          // 문피아로 이동
+                          PlatformLauncher('munpia');
+                        },
+                        child: Container(
+                          child:Column(
+                            children:[
+                              SvgPicture.asset('assets/images/munpia.svg', width: 30, height: 30),
+                              SizedBox(height: 5),
+                              Text('문피아', style: TextStyle(fontSize: 16)),
+                            ]
+        
+                          )
+                        ),
                       ),
-                    ),
-                    
-                    InkWell(
-                      onTap: () {
-                        // 조아라 링크로 이동
-                        PlatformLauncher('joara');
-                      },
-                      child: Container(
-                        child:Column(
-                          children:[
-                            SvgPicture.asset('assets/images/joara.svg', width: 30, height: 30),
-                            SizedBox(height: 5),
-                            Text('조아라', style: TextStyle(fontSize: 16)),
-                          ]
-
-                        )
+                      
+                      InkWell(
+                        onTap: () {
+                          // 조아라 링크로 이동
+                          PlatformLauncher('joara');
+                        },
+                        child: Container(
+                          child:Column(
+                            children:[
+                              SvgPicture.asset('assets/images/joara.svg', width: 30, height: 30),
+                              SizedBox(height: 5),
+                              Text('조아라', style: TextStyle(fontSize: 16)),
+                            ]
+        
+                          )
+                        ),
                       ),
-                    ),
-                  ]
+                    ]
+                  ),
                 ),
-              ),
-              SizedBox(height: 20),
-              Text('소설 URL을 입력하거나 공유된 링크를 사용하세요',
-                  style: Theme.of(context).textTheme.displaySmall),
-              Text('$urlLine', style: Theme.of(context).textTheme.titleSmall),
-              SizedBox(height: 10),
-              CustomTextField(label: '소설 URL을 입력하세요',
-                  controller: novelViewModel.novelUrlController
-                  ..text = urlLine, // 공유된 URL을 초기값으로 설정
-                  prefixIcon: Icons.link,
-                  onChanged: () {
-                    urlLine = novelViewModel.novelUrlController.text;
-                  },
-                  onEditingComplete: () {
-                    urlLine=novelViewModel.novelUrlController.text;
-                  },
-              ),
-
-              SizedBox(height: 10),
-
-              ElevatedButton(
-                  onPressed: () async {
-                    print(urlLine);
-                    if (urlLine.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('소설 URL을 찾을 수 없습니다')),
-                      );
-                      return;
-                    }
-
-                    // 로딩 다이얼로그 먼저 띄움
-                    showDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      builder: (_) => Center(child: CircularProgressIndicator()),
-                    );
-
-                    // 비동기 처리
-                    await novelViewModel.submitNovelUrl(urlLine.trim());
-
-                    // 로딩 다이얼로그 닫기
-                    Navigator.of(context).pop();
-
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('소설이 등록되었습니다 !')),
-                    );
-
-                    // 결과 다이얼로그 띄우기
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text('등록 소설 정보', style: Theme.of(context).textTheme.titleMedium),
-                          content: Container(
-                            padding: EdgeInsets.all(10),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Image.network(
-                                  novelViewModel.novelImage ?? '',
-                                  height: 200,
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (context, error, stackTrace) {
-                                    return Container(
-                                      height: 200,
-                                      color: Colors.grey[300],
-                                      child: Center(child: Text('이미지를 불러올 수 없습니다')),
-                                    );
-                                  },
-                                ),
-                                SizedBox(height: 10),
-                                Text('소설 제목: ${novelViewModel.novelTitle ?? '제목 없음'}'),
-                                Text('소설 장르 : ${novelViewModel.novelGenreName ?? '장르 없음'}'),
-                                Text('소설 ID: ${novelViewModel.novelId ?? 'ID 없음'}'),
-                                SizedBox(height: 10),
-                              ],
-                            ),
-                          ),
-                          actions: [
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
-                              onPressed: () => Navigator.of(context).pop(),
-                              child: Text('닫기'),
-                            ),
-                          ],
+                SizedBox(height: 20),
+                Text('소설 URL을 입력하거나 공유된 링크를 사용하세요',
+                    style: Theme.of(context).textTheme.displaySmall),
+                Text('$urlLine', style: Theme.of(context).textTheme.titleSmall),
+                SizedBox(height: 10),
+                CustomTextField(label: '소설 URL을 입력하세요',
+                    controller: novelViewModel.novelUrlController
+                    ..text = urlLine, // 공유된 URL을 초기값으로 설정
+                    prefixIcon: Icons.link,
+                    onChanged: (value) {
+                      urlLine = novelViewModel.novelUrlController.text;
+                    },
+                    onEditingComplete: () {
+                      urlLine=novelViewModel.novelUrlController.text;
+                    },
+                ),
+        
+                SizedBox(height: 10),
+        
+                ElevatedButton(
+                    onPressed: () async {
+                      print(urlLine);
+                      if (urlLine.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('소설 URL을 입력해주세요')),
                         );
-                      },
-                    );
-                  },
-                child: Text('소설 등록', style: TextStyle(fontSize: 16)),
-              ),
-            ],
+                        return;
+                      }
+        
+                      // 로딩 다이얼로그 먼저 띄움
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (_) => Center(child: CircularProgressIndicator()),
+                      );
+        
+                      // 비동기 처리
+                      await novelViewModel.submitNovelUrl(urlLine.trim());
+        
+                      // 로딩 다이얼로그 닫기
+                      Navigator.of(context).pop();
+
+                      if (novelViewModel.errorMessage != null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('${novelViewModel.errorMessage}')),
+                        );
+                        return;
+                      }
+        
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('소설이 등록되었습니다 !')),
+                      );
+        
+                      // 결과 다이얼로그 띄우기
+                      if(novelViewModel.novel != null){
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('등록 소설 정보', style: Theme.of(context).textTheme.titleMedium),
+                            content: SingleChildScrollView(
+                              child: Container(
+                                padding: EdgeInsets.all(10),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Image.network(
+                                      novelViewModel.novel?.imgPath ?? '',
+                                      height: 200,
+                                      fit: BoxFit.cover,
+                                      errorBuilder: (context, error, stackTrace) {
+                                        return Container(
+                                          height: 200,
+                                          color: Colors.grey[300],
+                                          child: Center(child: Text('이미지를 불러올 수 없습니다')),
+                                        );
+                                      },
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text('소설 제목: ${novelViewModel.novel?.title ?? '제목 없음'}'),
+                                    Text('소설 장르 : ${novelViewModel.novel?.genreName ?? '장르 없음'}'),
+                                    Text('소설 ID: ${novelViewModel.novel?.id ?? 'ID 없음'}'),
+                                    SizedBox(height: 10),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            actions: [
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
+                                onPressed: () => Navigator.of(context).pop(),
+                                child: Text('닫기'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                      }
+                    },
+                  child: Text('소설 등록', style: TextStyle(fontSize: 16)),
+                ),
+              ],
+            ),
           ),
         ),
       ),

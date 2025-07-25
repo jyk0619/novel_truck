@@ -15,18 +15,16 @@ class NovelApiService {
     final response = await http.post(uri, headers: headers, body: body);
 
     if (response.statusCode == 200 || response.statusCode == 201) {
-
-      print('Novel URL: $novelUrl');
-      print('Response: ${response.body}');
       return jsonDecode(response.body);
     } else {
-      throw Exception('Failed to post novel: ${response.body}');
+      print('서비스 - 에러탐지: ${response.statusCode}');
+      throw Exception('Failed to post novel: ${response.statusCode}');
     }
   }
 
   //Get Novel List
   Future<Map<String, dynamic>> getNovelList() async {
-    final uri = Uri.parse('$_baseUrl/novels');
+    final uri = Uri.parse('$_baseUrl/novels?page=1&limit=100');
     final response = await http.get(uri);
 
     if (response.statusCode == 200) {

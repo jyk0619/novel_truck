@@ -22,8 +22,8 @@ class CollectionViewModel extends ChangeNotifier {
   final List<Collection> _collectionList = [
     Collection('컬렉션 제목1', 'assets/images/collection1.jpg',
         [
-          NovelData('소설 제목1', '작가1', 'assets/images/novel1.jpg,','1', '1', '장르1'),
-          NovelData('소설 제목2', '작가2', 'assets/images/novel2.jpg,','2', '2', '장르2'),
+          NovelData('소설 제목1', '작가1', 'assets/images/novel1.jpg,','1', '1', '장르1',''),
+          NovelData('소설 제목2', '작가2', 'assets/images/novel2.jpg,','2', '2', '장르2',''),
         ]),
     Collection('컬렉션 제목2', 'assets/images/collection2.jpg'),
     Collection('컬렉션 제목3', 'assets/images/collection2.jpg'),
