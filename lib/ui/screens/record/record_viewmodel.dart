@@ -1,29 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:novel_truck/data/model/record_model.dart';
+import 'package:novel_truck/data/repository/record_repository.dart';
 
 
 class RecordViewModel extends ChangeNotifier {
 
+  final RecordRepository _recordRepository = RecordRepository();
+
+
   bool _isLoading = true;
   bool get isLoading => _isLoading;
+  String? errorMessage;
+
 
   RecordViewModel() {
     _initialize();
   }
 
   Future<void> _initialize() async {
-    await Future.delayed(Duration(seconds: 1)); // 로딩 시간
-    _isLoading = false;
-    notifyListeners();
+    _isLoading = true;
+
+    try{
+      await fetchRecordList();
+    } catch (e) {
+      print('초기화 실패: $e');
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
   }
 
-  final List<RecordData> _recordData = [
-    RecordData(id: '1', novelId: 'novel1', tag: ['tag1', 'tag2'], isBookmarked: false, content: '기록 내용 aaaaaa\na\naaaaaa\naaa\naaa\naaa\naaaaa\naaaaaas\ndfasdfas\ndfasdfasdfasdfa\nadafsdfdfa\naaaa1'),
-    RecordData(id: '2', novelId: 'novel2', tag: ['tag3', 'tag4'], isBookmarked: false, content: '기록 내용 2'),
-    RecordData(id: '3', novelId: 'novel3', tag: ['tag5', 'tag6'], isBookmarked: false, content: '기록 내용 3'),
-    RecordData(id: '4', novelId: 'novel4', tag: ['tag7', 'tag8'], isBookmarked: false, content: '기록 내용 4'),
-    RecordData(id: '5', novelId: 'novel5', tag: ['tag9', 'tag10'], isBookmarked: false, content: '기록 내용 5'),
-  ];
+  Future<void> fetchRecordList() async {
+    _isLoading = true;
+    errorMessage = null;
+
+    _recordData.clear(); // 데이터를 먼저 초기화
+    notifyListeners();
+
+    try {
+      var record = await _recordRepository.fetchRecordList();
+      _recordData.addAll(record.items.map((item) => RecordData.fromResponse(item)).toList());
+    } catch (e) {
+      errorMessage = '기록을 불러오는 데 실패했습니다.';
+      print('기록 목록을 불러오는 데 실패했습니다: $e');
+    } finally {
+
+      // 데이터가 변경되었으므로 UI를 갱신
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+
+  final List<RecordData> _recordData = [];
 
   List<RecordData> _filteredRecordData = [];
 
@@ -42,33 +71,27 @@ class RecordViewModel extends ChangeNotifier {
           .toList();
     }
     notifyListeners(); // 검색 결과가 변경되었으므로 UI를 갱신
-  }
-
-  //기록 검색
+  }//기록 검색
 
   // 인덱스를 지정해서 수정
-  void setRecordId(int index, String id) {
+  void setRecordId(int index, int id) {
     _recordData[index].id = id;
     notifyListeners();
   }
 
-  void setNovelId(int index, String novelId) {
+  void setNovelId(int index, int novelId) {
     _recordData[index].novelId = novelId;
     notifyListeners();
   }
 
-  void setTag(int index, List<String> tag) {
-    _recordData[index].tag = tag;
-    notifyListeners();
-  }
 
   void setContent(int index, String content) {
     _recordData[index].content = content;
     notifyListeners();
   }
 
-  void addBookmark(int index) {
-    _recordData[index].isBookmarked = !_recordData[index].isBookmarked;
-    notifyListeners();
-  }
+  // void addBookmark(int index) {
+  //   _recordData[index].isBookmarked = !_recordData[index].isBookmarked;
+  //   notifyListeners();
+  // }
 }

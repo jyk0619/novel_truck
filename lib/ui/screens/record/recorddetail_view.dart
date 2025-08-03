@@ -72,15 +72,15 @@ class RecordDetail extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          IconButton(
-                            icon: recordViewmodel.recordData[recordIndex].isBookmarked
-                                ? Icon(Icons.bookmark, color: AppColors.primary,size: 50,)
-                                : Icon(Icons.bookmark_border, color: Colors.grey, size: 50),
-                            onPressed: () {
-                              recordViewmodel.addBookmark(recordIndex);
-                              // 북마크 추가/해제 로직
-                            },
-                          ),
+                          // IconButton(
+                          //   icon: recordViewmodel.recordData[recordIndex].isBookmarked
+                          //       ? Icon(Icons.bookmark, color: AppColors.primary,size: 50,)
+                          //       : Icon(Icons.bookmark_border, color: Colors.grey, size: 50),
+                          //   onPressed: () {
+                          //     recordViewmodel.addBookmark(recordIndex);
+                          //     // 북마크 추가/해제 로직
+                          //   },
+                          // ),
                         ],
                       ),
                     ),

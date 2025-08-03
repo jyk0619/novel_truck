@@ -6,7 +6,7 @@ class RecordApiService {
 
   /// 기록 Post 요청
   Future<Map<String, dynamic>> postRecord(String novelId,String content) async {
-    final uri = Uri.parse('$_baseUrl/${novelId}/Notes');
+    final uri = Uri.parse('$_baseUrl/notes');
     final headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
@@ -17,7 +17,6 @@ class RecordApiService {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
 
-      print('Novel Id: $novelId');
       print('Response: ${response.body}');
       return jsonDecode(response.body);
     } else {
@@ -27,7 +26,7 @@ class RecordApiService {
 
   // 기록 목록 Get 요청
   Future<Map<String, dynamic>> getRecordList() async {
-    final uri = Uri.parse('$_baseUrl');
+    final uri = Uri.parse('$_baseUrl/notes');
     final response = await http.get(uri);
 
     if (response.statusCode == 200) {
@@ -36,5 +35,4 @@ class RecordApiService {
       throw Exception('Failed to fetch Record list: ${response.body}');
     }
   }
-
 }

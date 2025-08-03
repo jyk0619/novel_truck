@@ -11,7 +11,13 @@ class NovelData{
 
 
 
-  NovelData(this.title, this.author, this.imgPath,this.id,this.genreId, this.genreName, this.description, [List<String>? tags])
+  NovelData(this.title,
+      this.author,
+      this.imgPath,
+      this.id,
+      this.genreId,
+      this.genreName,
+      this.description, [List<String>? tags])
       : tags = tags ?? [];
 
   factory NovelData.fromResponse(NovelResponseModel response) {

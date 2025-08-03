@@ -21,7 +21,7 @@ class Record extends StatelessWidget {
             FocusScope.of(context).unfocus();
           },
          child: DefaultTabController(
-           length: 2,
+           length: 1,
            child: Scaffold(
 
             body: Column(
@@ -30,7 +30,7 @@ class Record extends StatelessWidget {
                 TabBar(
                   tabs: [
                     Tab(text: '기록모음'),
-                    Tab(text: '북마크'),
+                    // Tab(text: '북마크'),
                   ],
                 ),
                 Expanded(
@@ -39,7 +39,7 @@ class Record extends StatelessWidget {
                     child: TabBarView(
                       children: [
                        RecordGrid(),
-                        BookMarkGrid(),
+                        //BookMarkGrid(),
                       ],
                     ),
                   ),
@@ -133,26 +133,26 @@ class _RecordGridState extends State<RecordGrid> {
                       child: Text('${recordViewmodel.recordData[index].content}', style: TextStyle(fontSize: 14)),
                     ),
                 ),
-                  Positioned(
-                    top: 4,
-                    right: 4,
-                    child: IconButton(onPressed: (){
-                      // 북마크 추가/해제
-                      recordViewmodel.addBookmark(index);
-
-                      // 북마크 추가/해제 시 스낵바 표시
-                      SnackBar snackBar = SnackBar(
-                        content: Text(recordViewmodel.recordData[index].isBookmarked ? '북마크 추가됨' : '북마크 해제됨'),
-                        duration: Duration(seconds: 1),
-                        backgroundColor: recordViewmodel.recordData[index].isBookmarked ? AppColors.primary : Colors.grey,
-                      );
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    },
-                      icon: recordViewmodel.recordData[index].isBookmarked
-                          ? Icon(Icons.bookmark, color: AppColors.primary,)
-                          : Icon(Icons.bookmark_border, color: Colors.grey,),
-                              ),
-                  ),
+                  // Positioned(
+                  //   top: 4,
+                  //   right: 4,
+                  //   child: IconButton(onPressed: (){
+                  //     // 북마크 추가/해제
+                  //     recordViewmodel.addBookmark(index);
+                  //
+                  //     // 북마크 추가/해제 시 스낵바 표시
+                  //     SnackBar snackBar = SnackBar(
+                  //       content: Text(recordViewmodel.recordData[index].isBookmarked ? '북마크 추가됨' : '북마크 해제됨'),
+                  //       duration: Duration(seconds: 1),
+                  //       backgroundColor: recordViewmodel.recordData[index].isBookmarked ? AppColors.primary : Colors.grey,
+                  //     );
+                  //     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  //   },
+                  //     icon: recordViewmodel.recordData[index].isBookmarked
+                  //         ? Icon(Icons.bookmark, color: AppColors.primary,)
+                  //         : Icon(Icons.bookmark_border, color: Colors.grey,),
+                  //             ),
+                  // ),
                 ]
               ),
                   onTap: ( ) {
@@ -174,96 +174,96 @@ class _RecordGridState extends State<RecordGrid> {
   }
 }
 
-class BookMarkGrid extends StatelessWidget {
-  const BookMarkGrid({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final recordViewModel = Provider.of<RecordViewModel>(context);
-
-    // 북마크된 데이터만 필터링
-    final bookmarkedData = recordViewModel.recordData.where((record) => record.isBookmarked).toList();
-
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-        ),
-        itemCount: bookmarkedData.length,
-        itemBuilder: (context, index) {
-          return InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  //북마크 필터링된 인덱스 넘김
-                  builder: (context) => RecordDetail(recordIndex: recordViewModel.recordData.indexOf(bookmarkedData[index])),
-                ),
-              ); // NovelDetail( novelIndex: index,novel: recordViewModel.recordData[index],
-            },
-            child: Stack(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(5),
-                  height: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
-                    borderRadius: BorderRadius.circular(8),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black12,
-                        blurRadius: 4,
-                        offset: Offset(2, 2),
-                      ),
-                    ],
-                  ),
-                  child: Center(
-                    child: Text(
-                      bookmarkedData[index].content ?? '',
-                      style: const TextStyle(fontSize: 14),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  top: 4,
-                  right: 4,
-                  child: IconButton(
-                    icon: Icon(
-                      bookmarkedData[index].isBookmarked
-                          ? Icons.bookmark
-                          : Icons.bookmark_border,
-                      color: bookmarkedData[index].isBookmarked
-                          ? AppColors.primary
-                          : Colors.grey,
-                    ),
-                    onPressed: () {
-                      final realIndex = recordViewModel.recordData.indexOf(bookmarkedData[index]);
-                      recordViewModel.addBookmark(realIndex);
-
-                      final isNowBookmarked = recordViewModel.recordData[realIndex].isBookmarked;
-
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(isNowBookmarked ? '북마크 추가됨' : '북마크 해제됨'),
-                          duration: const Duration(seconds: 1),
-                          backgroundColor: isNowBookmarked ? AppColors.primary : Colors.grey,
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
+// class BookMarkGrid extends StatelessWidget {
+//   const BookMarkGrid({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final recordViewModel = Provider.of<RecordViewModel>(context);
+//
+//     // 북마크된 데이터만 필터링
+//     final bookmarkedData = recordViewModel.recordData.where((record) => record.isBookmarked).toList();
+//
+//     return Padding(
+//       padding: const EdgeInsets.all(10.0),
+//       child: GridView.builder(
+//         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+//           crossAxisCount: 2,
+//           crossAxisSpacing: 10,
+//           mainAxisSpacing: 10,
+//         ),
+//         itemCount: bookmarkedData.length,
+//         itemBuilder: (context, index) {
+//           return InkWell(
+//             onTap: () {
+//               Navigator.push(
+//                 context,
+//                 MaterialPageRoute(
+//                   //북마크 필터링된 인덱스 넘김
+//                   builder: (context) => RecordDetail(recordIndex: recordViewModel.recordData.indexOf(bookmarkedData[index])),
+//                 ),
+//               ); // NovelDetail( novelIndex: index,novel: recordViewModel.recordData[index],
+//             },
+//             child: Stack(
+//               children: [
+//                 Container(
+//                   padding: const EdgeInsets.all(5),
+//                   height: double.infinity,
+//                   decoration: BoxDecoration(
+//                     color: Theme.of(context).colorScheme.surface,
+//                     borderRadius: BorderRadius.circular(8),
+//                     boxShadow: [
+//                       BoxShadow(
+//                         color: Colors.black12,
+//                         blurRadius: 4,
+//                         offset: Offset(2, 2),
+//                       ),
+//                     ],
+//                   ),
+//                   child: Center(
+//                     child: Text(
+//                       bookmarkedData[index].content ?? '',
+//                       style: const TextStyle(fontSize: 14),
+//                       textAlign: TextAlign.center,
+//                     ),
+//                   ),
+//                 ),
+//                 Positioned(
+//                   top: 4,
+//                   right: 4,
+//                   child: IconButton(
+//                     icon: Icon(
+//                       bookmarkedData[index].isBookmarked
+//                           ? Icons.bookmark
+//                           : Icons.bookmark_border,
+//                       color: bookmarkedData[index].isBookmarked
+//                           ? AppColors.primary
+//                           : Colors.grey,
+//                     ),
+//                     onPressed: () {
+//                       final realIndex = recordViewModel.recordData.indexOf(bookmarkedData[index]);
+//                       recordViewModel.addBookmark(realIndex);
+//
+//                       final isNowBookmarked = recordViewModel.recordData[realIndex].isBookmarked;
+//
+//                       ScaffoldMessenger.of(context).showSnackBar(
+//                         SnackBar(
+//                           content: Text(isNowBookmarked ? '북마크 추가됨' : '북마크 해제됨'),
+//                           duration: const Duration(seconds: 1),
+//                           backgroundColor: isNowBookmarked ? AppColors.primary : Colors.grey,
+//                         ),
+//                       );
+//                     },
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           );
+//         },
+//       ),
+//     );
+//   }
+// }
 
 
 class AddRecord extends StatelessWidget {
