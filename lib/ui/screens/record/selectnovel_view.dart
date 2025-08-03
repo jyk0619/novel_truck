@@ -111,7 +111,9 @@ class _NovelGridState extends State<NovelGrid> {
                                 // 소설 선택 로직
                                 Navigator.pop(context);
                                 Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => NewRecord()
+                                MaterialPageRoute(builder: (context) => NewRecord(
+                                  novel: novelViewModel.searchData[index],
+                                )
                                 ),
                                 );
                               },

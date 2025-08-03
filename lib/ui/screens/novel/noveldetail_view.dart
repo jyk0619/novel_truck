@@ -96,7 +96,9 @@ class NovelDetail extends StatelessWidget {
                     ElevatedButton(onPressed: (){
                       // 기록 수정 / 이어쓰기
                       Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => NewRecord(),
+                        builder: (context) => NewRecord(
+                          novel: novel,
+                        ),
                       ));
                     }, child: Text('기록하기 / 이어쓰기')),
                   ],

@@ -1,14 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:novel_truck/data/model/novel_model.dart';
 import 'package:novel_truck/ui/screens/record/newrecord2_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 import '../../../core/theme/app_colors.dart';
+import 'newrecord_viewmodel.dart';
 
 class NewRecord extends StatelessWidget {
-  const NewRecord({super.key});
+  final NovelData novel;
+
+  const NewRecord({
+    super.key,
+    required this.novel
+  });
 
   @override
   Widget build(BuildContext context) {
+    final viewmodel = Provider.of<NewRecordViewModel>(context, listen: false);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      viewmodel.selectNovel(novel);
+    });
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false, // 뒤로가기 버튼 숨기기
@@ -95,7 +109,9 @@ class NewRecord extends StatelessWidget {
                 color: Colors.grey[200],
                 borderRadius: BorderRadius.circular(10),
                 image: DecorationImage(
-                  image: NetworkImage(''),
+                  image: NetworkImage(
+                    novel.imgPath
+                  ),
                   fit: BoxFit.cover,
                 ),
               ),

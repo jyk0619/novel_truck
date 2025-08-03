@@ -7,6 +7,7 @@ import 'package:novel_truck/ui/screens/novel/addnovel_viewmodel.dart';
 import 'package:novel_truck/ui/screens/novel/collection_viewmodel.dart';
 import 'package:novel_truck/ui/screens/novel/novel_viewmodel.dart';
 import 'package:novel_truck/ui/screens/onboarding/onboarding_view.dart';
+import 'package:novel_truck/ui/screens/record/newrecord_viewmodel.dart';
 import 'package:novel_truck/ui/screens/record/record_viewmodel.dart';
 import 'package:provider/provider.dart';
 
@@ -44,6 +45,7 @@ void main() async{
     ChangeNotifierProvider(create: (_)=>ThemeProvider()),
     ChangeNotifierProvider(create: (_)=>AddNovelViewModel()),
     ChangeNotifierProvider(create: (_)=>CollectionViewModel()),
+    ChangeNotifierProvider(create: (_)=>NewRecordViewModel()),
   ],
     child:MyApp(),
   ));

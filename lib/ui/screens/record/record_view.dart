@@ -81,7 +81,6 @@ class _RecordGridState extends State<RecordGrid> {
 
     final recordViewmodel = Provider.of<RecordViewModel>(context);
 
-
     return  RefreshIndicator(
       onRefresh: () async {
         // 새로고침 시 데이터 로드

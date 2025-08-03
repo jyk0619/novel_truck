@@ -71,7 +71,7 @@ class RecordListResponseModel {
       items: itemsJson.map((item) => RecordResponseModel.fromJson(item)).toList(),
       total: data['total'] ?? 0,
       totalPages: data['totalPages'] ?? 0,
-      hasNext: data['hasNextPage'] ?? false, // 🔧 여기 중요
+      hasNext: data['hasNextPage'] ?? false,
     );
   }
 }

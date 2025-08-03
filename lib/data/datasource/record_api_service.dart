@@ -5,13 +5,17 @@ class RecordApiService {
   final _baseUrl = 'https://dev.novel-truck.r-e.kr/v1';
 
   /// 기록 Post 요청
-  Future<Map<String, dynamic>> postRecord(String novelId,String content) async {
+  Future<Map<String, dynamic>> postRecord(int novelId,String content) async {
     final uri = Uri.parse('$_baseUrl/notes');
     final headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
     };
-    final body = jsonEncode({'content': content});
+    final body = jsonEncode(
+        {
+          'novelId': novelId, // 실제 novelId를 넣어야 합니다.
+          'content': content
+        });
 
     final response = await http.post(uri, headers: headers, body: body);
 

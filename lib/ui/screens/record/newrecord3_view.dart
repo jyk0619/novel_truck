@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:novel_truck/core/theme/app_colors.dart';
 import 'package:novel_truck/ui/components/textfields/custom_textfield.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+
+import 'newrecord_viewmodel.dart';
 
 class NewRecord3 extends StatelessWidget {
   NewRecord3({super.key});
 
-  final TextEditingController textcontroller = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
+    final viewmodel = Provider.of<NewRecordViewModel>(context);
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -94,7 +97,7 @@ class NewRecord3 extends StatelessWidget {
                     border: Border.all(color: AppColors.divider),
                   ),
                   child: TextField(
-                    controller: textcontroller,
+                    controller: viewmodel.contentController,
                     maxLines: null,
 
                     decoration: InputDecoration(
@@ -124,7 +127,10 @@ class NewRecord3 extends StatelessWidget {
                     SizedBox(width: 10),
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => NewRecord3()));
+                        // 작성 완료 버튼 클릭 시 처리 로직
+                        // 예: 입력된 내용 저장, 다음 화면으로 이동 등
+                        viewmodel.postRecord(int.parse(viewmodel.selectedNovel!.id),viewmodel.contentController.text);
+                        Navigator.pop(context);
                       },
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size(150.w,40.h),
