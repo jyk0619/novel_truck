@@ -15,11 +15,21 @@ class NovelRepository {
       print('레포지토리 - 에러: $e');
       rethrow;
     }
-
   }
 
   Future<NovelListResponseModel> fetchNovelList() async {
     final jsonList = await _apiService.getNovelList();
     return NovelListResponseModel.fromJson(jsonList);
+  }
+
+  Future<NovelResponseModel> postTag(String tagName, int novelId) async {
+    try{
+      final json = await _apiService.postTag(tagName, novelId);
+      return NovelResponseModel.fromJson(json['data']);
+    }
+    catch(e){
+      print('레포지토리 - 에러: $e');
+      rethrow;
+    }
   }
 }

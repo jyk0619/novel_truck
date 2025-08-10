@@ -39,4 +39,17 @@ class RecordApiService {
       throw Exception('Failed to fetch Record list: ${response.body}');
     }
   }
+
+  // 기록 북마크 목록 Get 요청
+  Future<Map<String, dynamic>> getBookMarkList() async {
+    final uri = Uri.parse('$_baseUrl/notes/bookmarks');
+    final response = await http.get(uri);
+
+    if (response.statusCode == 200) {
+      print('Response: ${response.body}');
+      return jsonDecode(response.body) as Map<String, dynamic>;
+    } else {
+      throw Exception('Failed to fetch BookMark list: ${response.body}');
+    }
+  }
 }

@@ -21,11 +21,15 @@ class RecordRepository {
       print('레포지토리 - 에러: $e');
       rethrow;
     }
-
   }
 
   Future<RecordListResponseModel> fetchRecordList() async {
     final jsonList = await _apiService.getRecordList();
+    return RecordListResponseModel.fromJson(jsonList);
+  }
+
+  Future<RecordListResponseModel> fetchBookMarkList() async {
+    final jsonList = await _apiService.getBookMarkList();
     return RecordListResponseModel.fromJson(jsonList);
   }
 }

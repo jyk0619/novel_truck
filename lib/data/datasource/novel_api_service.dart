@@ -34,5 +34,25 @@ class NovelApiService {
     }
   }
 
+  //커스텀 테그 등록
+  Future<Map<String, dynamic>> postTag(String tagName, int novelId) async {
+    final uri = Uri.parse('$_baseUrl/novels/${novelId}/tags');
+    final headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+    final body = jsonEncode({'tagName': tagName});
+
+    final response = await http.post(uri, headers: headers, body: body);
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return jsonDecode(response.body);
+    } else {
+      print('서비스 - 에러탐지: ${response.statusCode}');
+      throw Exception('Failed to post novel: ${response.statusCode}');
+    }
+  }
+
+
 
 }

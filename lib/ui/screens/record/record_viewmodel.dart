@@ -22,6 +22,7 @@ class RecordViewModel extends ChangeNotifier {
 
     try{
       await fetchRecordList();
+      await fetchBookMarkList();
     } catch (e) {
       print('초기화 실패: $e');
     } finally {
@@ -50,6 +51,31 @@ class RecordViewModel extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+
+  Future<void> fetchBookMarkList() async {
+    _isLoading = true;
+    errorMessage = null;
+
+    _bookMarkData.clear(); // 데이터를 먼저 초기화
+    notifyListeners();
+
+    try {
+      var record = await _recordRepository.fetchBookMarkList();
+      _bookMarkData.addAll(record.items.map((item) => RecordData.fromResponse(item)).toList());
+    } catch (e) {
+      errorMessage = '북마크 기록을 불러오는 데 실패했습니다.';
+      print('북마크 기록 목록을 불러오는 데 실패했습니다: $e');
+    } finally {
+
+      // 데이터가 변경되었으므로 UI를 갱신
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  final List<RecordData> _bookMarkData = [];
+  List<RecordData> get bookMarkData => _bookMarkData;
 
 
   final List<RecordData> _recordData = [];

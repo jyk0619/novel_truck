@@ -90,7 +90,15 @@ class NovelViewModel extends ChangeNotifier {
         return titleMatch || authorMatch;
       }),
     );
+    notifyListeners();
+  }
 
+  final TextEditingController tagController = TextEditingController();
+
+  Future<void> addTag(tagName, novelId) async{
+    // 태그 추가 로직 구현
+    await _novelRepository.postTag(tagName, novelId);
+    print('태그 추가');
     notifyListeners();
   }
 

@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:novel_truck/data/model/novel_model.dart';
 import 'package:novel_truck/ui/screens/record/newrecord_view.dart';
+import 'package:provider/provider.dart';
+
+import 'novel_viewmodel.dart';
 
 class NovelDetail extends StatelessWidget {
   final NovelData novel;
@@ -10,6 +13,7 @@ class NovelDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final viewmodel = Provider.of<NovelViewModel>(context);
 
     return  Scaffold(
       appBar: AppBar(
@@ -79,15 +83,45 @@ class NovelDetail extends StatelessWidget {
                         ...novel.tags.map((tag) {
                         return Chip(
                           label: Text('# ${tag}', style: Theme.of(context).textTheme.displaySmall),
-
                         );
                       }).toList(),
                         ActionChip(
                           label: Text('+', style: Theme.of(context).textTheme.displaySmall),
                           backgroundColor: Theme.of(context).colorScheme.background,
                           onPressed: () {
-                            // 태그 추가 기능 구현
+                            showDialog(context: context,
+                                builder: (context)=>
+                              AlertDialog(
+                                title: Text('태그 추가'),
+                                content: TextField(
+                                  controller: viewmodel.tagController,
+                                  decoration: InputDecoration(
+                                    hintText: '태그를 입력하세요',
+                                  ),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    child: Text('추가'),
+                                    onPressed: () async{
+                                      await viewmodel.addTag(
+                                          viewmodel.tagController.text,
+                                          int.parse(novel.id));
+                                      viewmodel.tagController.clear();
 
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text('태그가 추가되었습니다.'),
+                                          duration: Duration(seconds: 1),
+                                        ),
+                                      );
+                                      Navigator.of(context).pop();
+
+                                    },
+                                  ),
+                                ]
+                              )
+                            );
+                            // 태그 추가 기능 구현
                           },
                         ),
                       ]
