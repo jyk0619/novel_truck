@@ -22,7 +22,7 @@ class RecordViewModel extends ChangeNotifier {
 
     try{
       await fetchRecordList();
-      
+
     } catch (e) {
       print('초기화 실패: $e');
     } finally {

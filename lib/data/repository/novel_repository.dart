@@ -1,6 +1,7 @@
 
 import '../datasource/novel_api_service.dart';
 import '../model/novel_model.dart';
+import '../model/genre_model.dart';
 
 class NovelRepository {
   final _apiService = NovelApiService();
@@ -31,5 +32,11 @@ class NovelRepository {
       print('레포지토리 - 에러: $e');
       rethrow;
     }
+  }
+
+  Future<GenreListResponseModel> fetchGenreList() async {
+    final jsonList = await _apiService.getGenreList();
+
+    return GenreListResponseModel.fromJson(jsonList);
   }
 }

@@ -53,6 +53,18 @@ class NovelApiService {
     }
   }
 
+  Future<Map<String, dynamic>> getGenreList() async {
+    final uri = Uri.parse('$_baseUrl/genres');
+    final response = await http.get(uri);
+
+    if (response.statusCode == 200) {
+
+      return jsonDecode(response.body) as Map<String, dynamic>;
+    } else {
+      throw Exception('Failed to fetch Record list: ${response.body}');
+    }
+  }
+
 
 
 }

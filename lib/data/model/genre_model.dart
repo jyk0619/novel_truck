@@ -1,7 +1,6 @@
 class GenreResponseModel {
-  final int? id;
-  final int? name;
-
+  final String? id;
+  final String? name;
 
   GenreResponseModel({
     this.id,
@@ -11,16 +10,15 @@ class GenreResponseModel {
 
   factory GenreResponseModel.fromJson(Map<String, dynamic> json) {
     return GenreResponseModel(
-      id: json['id'],
-      name: json['userId'],
+      id: json['id'] as String?,
+      name: json['name'] as String?,
     );
   }
 }
 
 class GenreData {
-  int? id;
-  int? name;
-
+  String? id;
+  String? name;
 
   GenreData({
     this.id,
@@ -39,19 +37,15 @@ class GenreData {
 class GenreListResponseModel {
   final List<GenreResponseModel> data;
 
-
   GenreListResponseModel({
     required this.data,
-
   });
 
   factory GenreListResponseModel.fromJson(Map<String, dynamic> json) {
     final dataJson = json['data'] as List<dynamic>? ?? [];
 
-
     return GenreListResponseModel(
       data: dataJson.map((item) => GenreResponseModel.fromJson(item)).toList(),
-
     );
   }
 }
