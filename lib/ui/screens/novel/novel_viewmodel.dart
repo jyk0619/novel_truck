@@ -86,12 +86,12 @@ class NovelViewModel extends ChangeNotifier {
       _novelList.where((novel) {
         final titleMatch = novel.title.toLowerCase().contains(query.toLowerCase());
         final authorMatch = novel.author.toLowerCase().contains(query.toLowerCase());
-        notifyListeners();
         return titleMatch || authorMatch;
       }),
     );
-    notifyListeners();
+    notifyListeners(); // 여기서만 실행
   }
+
 
   final TextEditingController tagController = TextEditingController();
 

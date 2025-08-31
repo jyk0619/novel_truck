@@ -32,4 +32,17 @@ class RecordRepository {
     final jsonList = await _apiService.getBookMarkList();
     return RecordListResponseModel.fromJson(jsonList);
   }
+
+
+  Future<void> fetchBookMark(int id) async {
+    try{
+      final json = await _apiService.postBookMark(id);
+      return;
+    }
+    catch(e){
+      print('레포지토리 - 에러: $e');
+      rethrow;
+    }
+  }
+
 }

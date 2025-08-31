@@ -21,7 +21,6 @@ class RecordApiService {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
 
-      print('Response: ${response.body}');
       return jsonDecode(response.body);
     } else {
       throw Exception('Failed to post record: ${response.body}');
@@ -34,6 +33,7 @@ class RecordApiService {
     final response = await http.get(uri);
 
     if (response.statusCode == 200) {
+
       return jsonDecode(response.body) as Map<String, dynamic>;
     } else {
       throw Exception('Failed to fetch Record list: ${response.body}');
@@ -46,10 +46,32 @@ class RecordApiService {
     final response = await http.get(uri);
 
     if (response.statusCode == 200) {
-      print('Response: ${response.body}');
       return jsonDecode(response.body) as Map<String, dynamic>;
     } else {
       throw Exception('Failed to fetch BookMark list: ${response.body}');
     }
   }
+
+  // 기록 북마크 설정
+  Future<Map<String, dynamic>> postBookMark(int id) async {
+    final uri = Uri.parse('$_baseUrl/notes/${id}/bookmark');
+
+    final headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+    final body = jsonEncode(
+        {
+          'novelId': id, // 실제 novelId를 넣어야 합니다.
+        });
+
+    final response = await http.post(uri, headers: headers, body: body);
+
+    if (response.statusCode == 200|| response.statusCode == 201) {
+      return jsonDecode(response.body) as Map<String, dynamic>;
+    } else {
+      throw Exception('(service)Failed to fetch BookMark: ${response.body}');
+    }
+  }
+
 }

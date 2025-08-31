@@ -22,7 +22,7 @@ class RecordViewModel extends ChangeNotifier {
 
     try{
       await fetchRecordList();
-      await fetchBookMarkList();
+      
     } catch (e) {
       print('초기화 실패: $e');
     } finally {
@@ -41,6 +41,7 @@ class RecordViewModel extends ChangeNotifier {
     try {
       var record = await _recordRepository.fetchRecordList();
       _recordData.addAll(record.items.map((item) => RecordData.fromResponse(item)).toList());
+      fetchBookMarkList();
     } catch (e) {
       errorMessage = '기록을 불러오는 데 실패했습니다.';
       print('기록 목록을 불러오는 데 실패했습니다: $e');
@@ -52,30 +53,23 @@ class RecordViewModel extends ChangeNotifier {
     }
   }
 
+  List<RecordData> _bookMarkData = [];
+  List<RecordData> get bookMarkData => _bookMarkData;
 
-  Future<void> fetchBookMarkList() async {
-    _isLoading = true;
-    errorMessage = null;
+  void fetchBookMarkList() {
 
-    _bookMarkData.clear(); // 데이터를 먼저 초기화
-    notifyListeners();
+    _bookMarkData=[]; // 데이터를 먼저 초기화
 
-    try {
-      var record = await _recordRepository.fetchBookMarkList();
-      _bookMarkData.addAll(record.items.map((item) => RecordData.fromResponse(item)).toList());
-    } catch (e) {
-      errorMessage = '북마크 기록을 불러오는 데 실패했습니다.';
-      print('북마크 기록 목록을 불러오는 데 실패했습니다: $e');
-    } finally {
-
-      // 데이터가 변경되었으므로 UI를 갱신
-      _isLoading = false;
-      notifyListeners();
-    }
+    _bookMarkData = _recordData
+        .where((record) =>
+    record.isBookmarked) // isBookmarked가 true인 항목만 필터링)
+        .toList();
+    //isbookmarked true 인값 필터링
+     notifyListeners();
+    // }
   }
 
-  final List<RecordData> _bookMarkData = [];
-  List<RecordData> get bookMarkData => _bookMarkData;
+
 
 
   final List<RecordData> _recordData = [];
@@ -116,8 +110,20 @@ class RecordViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  // void addBookmark(int index) {
-  //   _recordData[index].isBookmarked = !_recordData[index].isBookmarked;
-  //   notifyListeners();
-  // }
+  Future<void> fetchBookmark(int id) async{
+
+    try{
+      await _recordRepository.fetchBookMark(id);
+      print('북마크 성공');
+    }
+    catch(e){
+      print('북마크 실패: $e');
+    }
+
+    finally{
+      fetchRecordList();
+      notifyListeners();
+    }
+  }
+
 }

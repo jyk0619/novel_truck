@@ -12,122 +12,126 @@ class Novel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final novelViewModel = Provider.of<NovelViewModel>(context);
+
     return
-      DefaultTabController(
-        length: 2,
-        child: Scaffold(
-            body: Column(
-              children: [
-                SizedBox(height: 20,),
-                TabBar(
-                  tabs: [
-                    Tab(text: '내 서재'),
-                    Tab(text: '소설 검색'),
-                  ],
+      Scaffold(
+          appBar: AppBar(
+            title: Text('소설 목록'),
+            centerTitle: true,
+            scrolledUnderElevation: 0,
+          ),
+          body: Column(
+            children: [
+              SizedBox(height: 10,),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: CustomTextField(
+                  label: '검색',
+                  controller: novelViewModel.searchController,
+                  onChanged: (value) {
+                    novelViewModel.searchNovel(value);
+                  },
+                  prefixIcon: Icons.search,
                 ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: TabBarView(
-                      children: [
-                        NovelGrid(),
-                        NovelSearch(),
-                      ],
-                    ),
-                  ),
+              ),
+              Container(
+                padding: EdgeInsets.all(10),
+                width: double.infinity,
+                child: Wrap(
+                  children: [
+                    Chip(label: Text('전체'))
+                    ],
                 ),
-              ],
-            ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: (){
-                Navigator.push(context,
-                MaterialPageRoute(builder: (context)=>AddNovel(sharedurl: '',)));//소설 추가 페이지로 이동
-              },
-              child: Icon(Icons.add),
-            )
-        ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: NovelGrid(),
+                ),
+              ),
+            ],
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: (){
+              Navigator.push(context,
+              MaterialPageRoute(builder: (context)=>AddNovel(sharedurl: '',)));//소설 추가 페이지로 이동
+            },
+            child: Icon(Icons.add),
+          )
       );
   }
 }
 
-class NovelGrid extends StatefulWidget {
+class NovelGrid extends StatelessWidget {
   const NovelGrid({super.key});
 
-  @override
-  State<NovelGrid> createState() => _RecordGridState();
-}
-class _RecordGridState extends State<NovelGrid> {
 
 
   @override
   Widget build(BuildContext context) {
+    return Consumer<NovelViewModel>(
+      builder: (context, novelViewModel, child) {
+        return RefreshIndicator(
+          onRefresh: () async {
+            await novelViewModel.fetchNovelList();
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: novelViewModel.isLoading
+                ? _buildShimmeringGrid()
+                : GridView.builder(
 
-final novelViewModel = Provider.of<NovelViewModel>(context);
-
-    return   RefreshIndicator(
-      onRefresh: () async {
-        await novelViewModel.fetchNovelList();
-      },
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: novelViewModel.isLoading
-        ? _buildShimmeringGrid()
-            :GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            childAspectRatio: 0.7,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-          ),
-          itemBuilder: (context, index) {
-            return InkWell(
-              child: Container(
-                height: 150.h,
-                padding: EdgeInsets.all(5),
-                child: Column(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            image: DecorationImage(
-                              image: NetworkImage(novelViewModel.novelList[index].imgPath),
-                              fit: BoxFit.cover,
-                            ),
-                        ),
-                      ),
-                      ),
-                      Text('${novelViewModel.novelList[index].title}',overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 12)),
-                    ]),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                childAspectRatio: 0.7,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
               ),
-              onTap: ( ) {
-                //탭하면 noveldetail로 이동
-                Navigator.push(context,
-                  MaterialPageRoute(
-                    builder: (context) => NovelDetail(
-                      novel: novelViewModel.novelList[index],
+              itemBuilder: (context, index) {
+                return InkWell(
+                  child: Container(
+                    height: 150.h,
+                    padding: EdgeInsets.all(5),
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+
+                              image: DecorationImage(
+                                image: NetworkImage(novelViewModel.novelList[index].imgPath),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Text('${novelViewModel.searchData[index].title}', overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 12)),
+                      ],
                     ),
                   ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => NovelDetail(
+                          novel: novelViewModel.searchData[index],
+                        ),
+                      ),
+                    );
+                  },
                 );
               },
-            );
-          },
-          itemCount: novelViewModel.novelList.length,
-        ),
-      ),
+              itemCount: novelViewModel.searchData.length,
+            ),
+          ),
+        );
+      },
     );
-
   }
 }
 
-class NovelSearch extends StatelessWidget {
-  const NovelSearch({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomTextField(label: '검색', controller: TextEditingController(),prefixIcon: Icons.search,);
-  }
-}
 
 Widget _buildShimmeringGrid() {
   return GridView.builder(

@@ -4,6 +4,7 @@ class RecordResponseModel {
   final int? novelId;
   final String? content;
   final DateTime? createdAt;
+  final bool isBookmarked;
 
   RecordResponseModel({
     this.id,
@@ -11,6 +12,7 @@ class RecordResponseModel {
     this.novelId,
     this.content,
     this.createdAt,
+    required this.isBookmarked,
   });
 
   factory RecordResponseModel.fromJson(Map<String, dynamic> json) {
@@ -20,6 +22,7 @@ class RecordResponseModel {
       novelId: json['novelId'],
       content: json['content'],
       createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
+      isBookmarked: json['isBookmarked'] ?? false,
     );
   }
 }
@@ -30,6 +33,7 @@ class RecordData {
   int? novelId;
   String? content;
   DateTime? date;
+  bool isBookmarked;
 
   RecordData({
     this.id,
@@ -37,6 +41,7 @@ class RecordData {
     this.novelId,
     this.content,
     this.date,
+    required this.isBookmarked,
   });
 
   factory RecordData.fromResponse(RecordResponseModel response) {
@@ -46,6 +51,7 @@ class RecordData {
       novelId: response.novelId,
       content: response.content,
       date: response.createdAt,
+      isBookmarked: response.isBookmarked,
     );
   }
 }
