@@ -76,6 +76,17 @@ class RecordGrid extends StatefulWidget {
 }
 class _RecordGridState extends State<RecordGrid> {
 
+  final _order = ['최신순', '오래된순'];
+  String _selectedOrder = '';
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      _selectedOrder = _order[0];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -88,16 +99,31 @@ class _RecordGridState extends State<RecordGrid> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
+          SizedBox(height: 10,),
           Container(
             child:CustomTextField(
               label: '검색',
-              controller: recordViewmodel.searchController,
+              controller: recordViewmodel.recordSearchController,
               prefixIcon: Icons.search,
               onEditingComplete: () {
-                recordViewmodel.searchRecord(recordViewmodel.searchController.text);
+                recordViewmodel.searchRecord(recordViewmodel.recordSearchController.text);
               },
             )
           ),
+          //dropdown filter 추가
+          DropdownButton(
+            value: _selectedOrder,
+              items: _order.map((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value, style: TextStyle(fontSize: 10)),
+                );
+              }).toList(),
+              onChanged: (value) {
+                setState(() {
+                  _selectedOrder = value!;
+                });
+          }),
           Expanded(
             child:
         Padding(

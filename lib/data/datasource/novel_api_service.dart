@@ -65,6 +65,18 @@ class NovelApiService {
     }
   }
 
+  Future<Map<String, dynamic>> getNovelDetail(id) async {
+    final uri = Uri.parse('$_baseUrl/novels/${id}');
+    final response = await http.get(uri);
+
+    if (response.statusCode == 200) {
+
+      return jsonDecode(response.body) as Map<String, dynamic>;
+    } else {
+      throw Exception('Failed to fetch Record list: ${response.body}');
+    }
+  }
+
 
 
 }

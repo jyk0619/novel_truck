@@ -33,9 +33,9 @@ class RecordApiService {
     final response = await http.get(uri);
 
     if (response.statusCode == 200) {
-
       return jsonDecode(response.body) as Map<String, dynamic>;
     } else {
+      print('서비스 - 에러탐지: ${response.statusCode}');
       throw Exception('Failed to fetch Record list: ${response.body}');
     }
   }

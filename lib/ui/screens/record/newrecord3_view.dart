@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:novel_truck/core/theme/app_colors.dart';
 import 'package:novel_truck/ui/components/textfields/custom_textfield.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
+import '../home/homenav_view.dart';
 import 'newrecord_viewmodel.dart';
 
 class NewRecord3 extends StatelessWidget {
@@ -73,7 +75,7 @@ class NewRecord3 extends StatelessWidget {
                                 color:AppColors.primary,
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              child: Center(child: Text('step 3',style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.bold),)),
+                              child: Center(child: Text('step 2',style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.bold),)),
                             ),
                           ],
                         ),
@@ -130,7 +132,10 @@ class NewRecord3 extends StatelessWidget {
                         // 작성 완료 버튼 클릭 시 처리 로직
                         // 예: 입력된 내용 저장, 다음 화면으로 이동 등
                         viewmodel.postRecord(int.parse(viewmodel.selectedNovel!.id),viewmodel.contentController.text);
-                        Navigator.pop(context);
+
+                        context.read<HomeNavProvider>().setIndex(0); // Record 탭 선택
+                        Navigator.popUntil(context, (route) => route.isFirst); // 스택 초기화
+
                       },
                       style: ElevatedButton.styleFrom(
                         minimumSize: Size(150.w,40.h),

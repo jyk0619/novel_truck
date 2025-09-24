@@ -23,72 +23,72 @@ class Novel extends StatelessWidget {
             centerTitle: true,
             scrolledUnderElevation: 0,
           ),
-          body:Column(
-            children: [
-              SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: CustomTextField(
-                        label: '검색',
-                        controller: novelViewModel.searchController,
-                        onChanged: (value) {
-                          novelViewModel.searchNovel(value);
-                        },
-                        prefixIcon: Icons.search,
-                      ),
-                    ),
-                    // 필터 초기화 버튼 (선택사항)
-                    if (novelViewModel.currentSearchQuery.isNotEmpty ||
-                        novelViewModel.selectedGenreIds.isNotEmpty)
-                      IconButton(
-                        onPressed: () {
-                          novelViewModel.clearAllFilters();
-                        },
-                        icon: Icon(Icons.clear_all),
-                        tooltip: '모든 필터 초기화',
-                      ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.all(10),
-                width: double.infinity,
-                child: GenreFilterWidget(genres: novelViewModel.genreList),
-              ),
-              // 필터 결과 요약 표시 (선택사항)
-              if (novelViewModel.currentSearchQuery.isNotEmpty ||
-                  novelViewModel.selectedGenreIds.isNotEmpty)
+          body:SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(height: 8),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: Row(
                     children: [
-                      Text(
-                        '필터 결과: ${novelViewModel.searchData.length}개',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey[600],
+                      Expanded(
+                        child: CustomTextField(
+                          label: '검색',
+                          controller: novelViewModel.novelSearchController,
+                          onChanged: (value) {
+                            novelViewModel.searchNovel(value);
+                          },
+                          prefixIcon: Icons.search,
                         ),
                       ),
-                      Spacer(),
-                      if (novelViewModel.currentSearchQuery.isNotEmpty)
-                        Chip(
-                          label: Text('검색: "${novelViewModel.currentSearchQuery}"'),
-                          onDeleted: () => novelViewModel.clearSearch(),
-                          deleteIcon: Icon(Icons.close, size: 16),
+                      // 필터 초기화 버튼 (선택사항)
+                      if (novelViewModel.currentSearchQuery.isNotEmpty ||
+                          novelViewModel.selectedGenreIds.isNotEmpty)
+                        IconButton(
+                          onPressed: () {
+                            novelViewModel.clearAllFilters();
+                          },
+                          icon: Icon(Icons.clear_all),
+                          tooltip: '모든 필터 초기화',
                         ),
                     ],
                   ),
                 ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
+                Container(
+                  padding: EdgeInsets.all(2),
+                  width: double.infinity,
+                  child: GenreFilterWidget(genres: novelViewModel.genreList),
+                ),
+                // 필터 결과 요약 표시 (선택사항)
+                if (novelViewModel.currentSearchQuery.isNotEmpty ||
+                    novelViewModel.selectedGenreIds.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      children: [
+                        Text(
+                          '필터 결과: ${novelViewModel.searchData.length}개',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                        Spacer(),
+                        if (novelViewModel.currentSearchQuery.isNotEmpty)
+                          Chip(
+                            label: Text('검색: "${novelViewModel.currentSearchQuery}"', style: TextStyle(fontSize: 10),),
+                            onDeleted: () => novelViewModel.clearSearch(),
+                            deleteIcon: Icon(Icons.close, size: 12),
+                          ),
+                      ],
+                    ),
+                  ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
                   child: NovelGrid(),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: (){
@@ -117,7 +117,8 @@ class NovelGrid extends StatelessWidget {
             child: novelViewModel.isLoading
                 ? _buildShimmeringGrid()
                 : GridView.builder(
-
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
                 childAspectRatio: 0.7,
@@ -135,9 +136,8 @@ class NovelGrid extends StatelessWidget {
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-
                               image: DecorationImage(
-                                image: NetworkImage(novelViewModel.novelList[index].imgPath),
+                                image: NetworkImage(novelViewModel.searchData[index].imgPath),
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -171,6 +171,8 @@ class NovelGrid extends StatelessWidget {
 
 Widget _buildShimmeringGrid() {
   return GridView.builder(
+    physics: NeverScrollableScrollPhysics(),
+    shrinkWrap: true,
     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
       crossAxisCount: 3,
       childAspectRatio: 0.7,
@@ -195,63 +197,86 @@ Widget _buildShimmeringGrid() {
   );
 }
 
-
-
 class GenreFilterWidget extends StatefulWidget {
   final List<GenreData> genres;
 
-  const GenreFilterWidget({super.key, required this.genres});
+  const GenreFilterWidget({Key? key, required this.genres}) : super(key: key);
 
   @override
-  State<GenreFilterWidget> createState() => _GenreFilterWidgetState();
+  _GenreFilterWidgetState createState() => _GenreFilterWidgetState();
 }
 
 class _GenreFilterWidgetState extends State<GenreFilterWidget> {
+  bool isExpanded = false;
+  // 두 줄 내에 보일 대략적인 Chip 개수 (디자인에 맞춰 조정)
+  final int maxVisibleChips = 5;
+
   @override
   Widget build(BuildContext context) {
     return Consumer<NovelViewModel>(
       builder: (context, novelViewModel, child) {
+        // 전체보기 + 개별 장르 Chip 리스트 생성
+        final allChips = <Widget>[
+          ActionChip(
+            label: Text('전체', style: Theme.of(context).textTheme.bodySmall),
+            backgroundColor: novelViewModel.selectedGenreIds.isEmpty
+                ? Theme.of(context).primaryColor
+                : null,
+            onPressed: () {
+              novelViewModel.filterByGenres({});
+            },
+          ),
+          ...widget.genres.map((genre) {
+            final isSelected =
+            novelViewModel.selectedGenreIds.contains(genre.id?.toString());
+            return FilterChip(
+              label: Text('# ${genre.name}',
+                  style: Theme.of(context).textTheme.bodySmall),
+              selected: isSelected,
+              selectedColor: AppColors.primary,
+              onSelected: (selected) {
+                final updated = Set<String>.from(novelViewModel.selectedGenreIds);
+                if (selected) {
+                  updated.add(genre.id!.toString());
+                } else {
+                  updated.remove(genre.id!.toString());
+                }
+                novelViewModel.filterByGenres(updated);
+              },
+            );
+          }).toList(),
+        ];
+
+        // 보여줄 Chip 리스트: 접힌 상태면 일부만, 펼친 상태면 전체
+        final visibleChips = isExpanded
+            ? allChips
+            : allChips.take(maxVisibleChips).toList();
+
         return Container(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           width: double.infinity,
-          child: Wrap(
-            spacing: 8.0,
-            runSpacing: 4.0,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // 전체 보기 버튼
-              ActionChip(
-                label: Text('전체', style: Theme.of(context).textTheme.bodyMedium),
-                backgroundColor: novelViewModel.selectedGenreIds.isEmpty
-                    ? Theme.of(context).primaryColor
-                    : null,
-                onPressed: () {
-                  novelViewModel.filterByGenres({});
-                },
+              Wrap(
+                spacing: 4.0,
+                runSpacing: 1.0,
+                children: visibleChips,
               ),
-              // 장르별 FilterChip
-              ...widget.genres.map((genre) {
-                final isSelected = novelViewModel.selectedGenreIds.contains(genre.id?.toString());
-
-                return FilterChip(
-                  label: Text(
-                    '# ${genre.name}',
-                    style: Theme.of(context).textTheme.bodyMedium,
+              if (allChips.length > maxVisibleChips)
+                Align(
+                  alignment: Alignment.center,
+                  child: IconButton(
+                    icon: Icon(
+                      isExpanded ? Icons.expand_less : Icons.expand_more,
+                      color: AppColors.primary,
+                      size: 20,
+                    ),
+                    onPressed: () => setState(() {
+                      isExpanded = !isExpanded;
+                    }),
                   ),
-                  selected: isSelected,
-                  selectedColor: AppColors.primary,
-                  onSelected: (bool selected) {
-                    Set<String> updatedGenreIds = Set.from(novelViewModel.selectedGenreIds);
-
-                    if (selected) {
-                      updatedGenreIds.add(genre.id!.toString());
-                    } else {
-                      updatedGenreIds.remove(genre.id.toString());
-                    }
-
-                    novelViewModel.filterByGenres(updatedGenreIds);
-                  },
-                );
-              }),
+                ),
             ],
           ),
         );

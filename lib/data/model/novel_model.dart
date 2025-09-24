@@ -120,3 +120,44 @@ class NovelResponseModel {
 
 
 }
+
+class NovelDetailResponseModel {
+  final String id;
+  final String title;
+  final String imgpath;
+  final String genreId;
+  final String genreName;
+  final String description;
+  final String author;
+  final List<String> tags;
+  final List<String> customTags;
+
+  NovelDetailResponseModel({
+    required this.id,
+    required this.title,
+    required this.imgpath,
+    required this.genreId,
+    required this.genreName,
+    required this.description,
+    this.author = '',
+    this.tags = const [],
+    this.customTags = const [],
+  });
+
+  factory NovelDetailResponseModel.fromJson(Map<String, dynamic> json) {
+
+    final genres = json['genres'];
+    final isGenresValid = genres is List && genres.isNotEmpty;
+    //장르 null 체크 및 유효성 검사
+
+    return NovelDetailResponseModel(
+      id: json['id']?.toString() ?? '',
+      title: json['title']?.toString() ?? '',
+      imgpath: json['coverImageUrl']?.toString() ?? '',
+      genreId: isGenresValid ? genres[0]['id'].toString() : '',
+      genreName: isGenresValid ? genres[0]['name'].toString() : '',
+      description: json['description']?.toString() ?? '',
+      tags: List<String>.from(json['tags']?.map((tag) => tag['name'].toString()) ?? [])
+    );
+  }
+}

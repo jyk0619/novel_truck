@@ -77,7 +77,7 @@ class RecordViewModel extends ChangeNotifier {
   List<RecordData> _filteredRecordData = [];
 
   // 검색 텍스트를 관리하는 controller
-  TextEditingController searchController = TextEditingController();
+  TextEditingController recordSearchController = TextEditingController();
 
   List<RecordData> get recordData => _filteredRecordData.isEmpty ? _recordData : _filteredRecordData;
 

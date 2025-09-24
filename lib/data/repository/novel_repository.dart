@@ -26,6 +26,7 @@ class NovelRepository {
   Future<NovelResponseModel> postTag(String tagName, int novelId) async {
     try{
       final json = await _apiService.postTag(tagName, novelId);
+      print('레포지토리 - 응답: $json');
       return NovelResponseModel.fromJson(json['data']);
     }
     catch(e){
@@ -39,4 +40,12 @@ class NovelRepository {
 
     return GenreListResponseModel.fromJson(jsonList);
   }
+
+  Future<NovelDetailResponseModel> fetchNovelDetail(id) async {
+    final jsonList = await _apiService.getNovelDetail(id);
+
+    return NovelDetailResponseModel.fromJson(jsonList);
+  }
+
+
 }

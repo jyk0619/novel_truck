@@ -53,7 +53,7 @@ class _NovelGridState extends State<NovelGrid> {
             SizedBox(height: 10,),
             CustomTextField(
               label: '검색',
-              controller: novelViewModel.searchController,
+              controller: novelViewModel.novelSearchController,
               onChanged: (value) {
                 novelViewModel.searchNovel(value);
               },

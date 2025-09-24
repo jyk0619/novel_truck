@@ -5,6 +5,7 @@ import 'package:novel_truck/ui/screens/record/newrecord2_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import '../../../core/theme/app_colors.dart';
+import 'newrecord3_view.dart';
 import 'newrecord_viewmodel.dart';
 
 class NewRecord extends StatelessWidget {
@@ -137,7 +138,7 @@ class NewRecord extends StatelessWidget {
                     Navigator.push(
                       context,
                       PageRouteBuilder(
-                        pageBuilder: (context, animation, secondaryAnimation) => NewRecord2(),
+                        pageBuilder: (context, animation, secondaryAnimation) => NewRecord3(),
                         transitionsBuilder: (context, animation, secondaryAnimation, child) {
                           const begin = Offset(1.0, 0.0);
                           const end = Offset.zero;

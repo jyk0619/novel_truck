@@ -9,8 +9,8 @@ import 'package:novel_truck/core/theme/theme_provider.dart';
 import '../novel/collection_view.dart';
 
 
-class Profile extends StatelessWidget {
-  Profile({super.key});
+class ProfileView extends StatelessWidget {
+  ProfileView({super.key});
 
   @override
   Widget build(BuildContext context) {

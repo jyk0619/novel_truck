@@ -5,12 +5,17 @@ import 'package:novel_truck/ui/screens/auth/login_viewmodel.dart';
 import 'package:novel_truck/ui/screens/novel/addnovel_view.dart';
 import 'package:novel_truck/ui/screens/novel/addnovel_viewmodel.dart';
 import 'package:novel_truck/ui/screens/novel/collection_viewmodel.dart';
+import 'package:novel_truck/ui/screens/novel/novel_view.dart';
 import 'package:novel_truck/ui/screens/novel/novel_viewmodel.dart';
+import 'package:novel_truck/ui/screens/novel/noveldetail_viewmodel.dart';
 import 'package:novel_truck/ui/screens/onboarding/onboarding_view.dart';
+import 'package:novel_truck/ui/screens/profile/profile_view.dart';
 import 'package:novel_truck/ui/screens/record/newrecord_viewmodel.dart';
 import 'package:novel_truck/ui/screens/record/record_viewmodel.dart';
+import 'package:novel_truck/ui/screens/search/search_view.dart';
 import 'package:provider/provider.dart';
 
+import 'package:novel_truck/ui/screens/record/record_view.dart';
 import 'package:novel_truck/ui/screens/home/home_view.dart';
 import 'package:novel_truck/ui/screens/auth/login_view.dart';
 import 'package:novel_truck/ui/screens/auth/login_viewmodel.dart';
@@ -25,11 +30,15 @@ import  'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:novel_truck/core/services/shared_url_handler.dart';
 import 'package:go_router/go_router.dart';
 import 'core/theme/theme_provider.dart';
+import 'dart:io';
+import 'package:http/http.dart';
+
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 late SharedUrlHandler sharedUrlHandler;
 
 void main() async{
+  HttpOverrides.global = MyHttpOverrides();
   // 외부 공유받기
   WidgetsFlutterBinding.ensureInitialized();
   sharedUrlHandler = SharedUrlHandler(navigatorKey);
@@ -39,6 +48,7 @@ void main() async{
   String? kakaoNativeAppKey = dotenv.env['KAKAO_API_KEY'];
   KakaoSdk.init(nativeAppKey: kakaoNativeAppKey);
   runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_)=>HomeNavProvider()),
     ChangeNotifierProvider(create: (_)=>AuthViewModel()),
     ChangeNotifierProvider(create: (_)=>NovelViewModel()),
     ChangeNotifierProvider(create: (_)=>RecordViewModel()),
@@ -46,6 +56,7 @@ void main() async{
     ChangeNotifierProvider(create: (_)=>AddNovelViewModel()),
     ChangeNotifierProvider(create: (_)=>CollectionViewModel()),
     ChangeNotifierProvider(create: (_)=>NewRecordViewModel()),
+    ChangeNotifierProvider(create: (_)=>NovelDetailViewModel()),
   ],
     child:MyApp(),
   ));
@@ -79,19 +90,19 @@ class MyApp extends StatelessWidget {
 }
 
 
-
 final GoRouter router = GoRouter(
   navigatorKey: navigatorKey,
-  initialLocation: '/',
+  initialLocation: '/home',
   routes: [
-    GoRoute(
-      path: '/',
-      builder: (context, state) => HomeNav(),
-    ),
     GoRoute(
       path: '/login',
       builder: (context, state) => Login(),
     ),
+    GoRoute(
+      path: '/home',
+      builder: (context, state) => HomeNav(),
+    ),
+
     GoRoute(
         path: '/auth/agree',
         builder: (context, state) => Agree()
@@ -103,10 +114,15 @@ final GoRouter router = GoRouter(
         path: '/auth/signupcom',
         builder: (context, state) => SignUpCom()),
 
-    GoRoute(
-      path: '/addnovel',
-      builder: (context, state) => AddNovel(sharedurl: '',),
-    )
     // 추가 라우트들...
   ],
 );
+
+//인증서 무시
+class MyHttpOverrides extends HttpOverrides{
+  @override
+  HttpClient createHttpClient(SecurityContext? context){
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true; //무조건 신뢰
+  }
+}

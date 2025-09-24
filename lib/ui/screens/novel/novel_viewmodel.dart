@@ -65,7 +65,7 @@ class NovelViewModel extends ChangeNotifier {
     }
   }
 
-  final TextEditingController searchController = TextEditingController();
+  final TextEditingController novelSearchController = TextEditingController();
 
   // 통합 필터링 로직 - 검색어와 장르 필터를 모두 적용
   List<NovelData> get searchData {
@@ -102,13 +102,13 @@ class NovelViewModel extends ChangeNotifier {
 
   // 검색어와 필터 초기화
   void clearSearch() {
-    searchController.clear();
+    novelSearchController.clear();
     _searchQuery = '';
     notifyListeners();
   }
 
   void clearAllFilters() {
-    searchController.clear();
+    novelSearchController.clear();
     _searchQuery = '';
     _selectedGenreIds.clear();
     notifyListeners();
