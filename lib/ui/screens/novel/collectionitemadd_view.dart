@@ -72,7 +72,7 @@ class CollectionAddItem extends StatelessWidget {
                                       children: [
                                         ElevatedButton(
                                           onPressed: () {
-                                            collectionViewModel.addNovelToCollection(collectionIndex,novelViewModel.novelList[index]);
+                                            //collectionViewModel.addNovelToCollection(collectionIndex,novelViewModel.novelList[index]);
                                             Navigator.pop(context);
                                             ScaffoldMessenger.of(context).showSnackBar(
                                               SnackBar(

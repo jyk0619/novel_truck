@@ -19,7 +19,6 @@ class CollectionAdd extends StatefulWidget {
 
 class _CollectionAddState extends State<CollectionAdd> {
    TextEditingController title = TextEditingController();
-
     String imagePath = '';
 
   @override
@@ -75,10 +74,19 @@ class _CollectionAddState extends State<CollectionAdd> {
                         ),
                         child: Text('취소')
                     ),
-                    ElevatedButton(onPressed: (){
-                      viewmodel.addCollection(title.text, imagePath);
-                      Navigator.pop(context);
-                    }, child: Text('생성')),
+                    ElevatedButton(
+                      onPressed: () async {
+                        if (title.text.isNotEmpty && imagePath.isNotEmpty) {
+                          await viewmodel.submitCollection(title.text, File(imagePath));
+                          print('등록 완료');
+                          Navigator.pop(context);
+                        } else {
+                          print('제목 또는 이미지 누락');
+                        }
+                      },
+                      child: Text('생성'),
+                    ),
+
                   ],
                 ),
               ),

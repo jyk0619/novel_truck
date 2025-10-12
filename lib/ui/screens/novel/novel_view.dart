@@ -136,11 +136,16 @@ class NovelGrid extends StatelessWidget {
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              image: DecorationImage(
-                                image: NetworkImage(novelViewModel.searchData[index].imgPath),
-                                fit: BoxFit.cover,
-                              ),
                             ),
+                            child: Image.network(novelViewModel.searchData[index].imgPath,
+                                fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) => Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Icon(Icons.broken_image, color: Colors.grey, size: 40),
+                              ),
+                            )
                           ),
                         ),
                         Text('${novelViewModel.searchData[index].title}', overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 12)),

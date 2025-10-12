@@ -42,7 +42,7 @@ class CollectionDetail extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child:Image.network(
-                     (collection.imagePath),
+                     (collection.thumbnail),
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
                       return Icon(Icons.error, size: 50);
@@ -130,7 +130,7 @@ class CollectionDetail extends StatelessWidget {
                 ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: collection.novels.length,
+                  itemCount: collection.count.novels,
                   itemBuilder: (context, index) {
                     return Card(
                       child: Container(
@@ -152,9 +152,9 @@ class CollectionDetail extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(collection.novels[index].title,style:Theme.of(context).textTheme.displayMedium),
-                                  Text(collection.novels[index].author,style:Theme.of(context).textTheme.displaySmall),
-                                ],
+                                //   Text(collection.novels[index].title,style:Theme.of(context).textTheme.displayMedium),
+                                //   Text(collection.novels[index].author,style:Theme.of(context).textTheme.displaySmall),
+                                 ],
                               ),
                             ),
 

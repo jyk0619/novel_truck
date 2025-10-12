@@ -106,7 +106,7 @@ class Collection extends StatelessWidget {
                           },
                           child: Card(
                             child: Image.network(
-                                (collection.imagePath),
+                                (collection.thumbnail),
                                 fit: BoxFit.cover,
                                 width: 120.w,
                                 height: 120.h,
