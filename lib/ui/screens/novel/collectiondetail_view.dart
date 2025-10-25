@@ -7,14 +7,36 @@ import 'package:novel_truck/ui/screens/novel/novel_viewmodel.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class CollectionDetail extends StatelessWidget {
+class CollectionDetail extends StatefulWidget {
   final collectionIndex;
-   CollectionDetail({super.key, required this.collectionIndex});//컬렉션 index 받음
+   CollectionDetail({super.key, required this.collectionIndex});
 
+  @override
+  State<CollectionDetail> createState() => _CollectionDetailState();
+}
+
+class _CollectionDetailState extends State<CollectionDetail> {
+
+  bool _isInitialized = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    // ✅ context 사용 가능 + 한 번만 실행되도록 보장
+    if (!_isInitialized) {
+      final viewmodel = context.read<CollectionViewModel>();
+      final collection = viewmodel.collectionList[widget.collectionIndex];
+      viewmodel.initializeCollectionNovels(collection.id);
+      _isInitialized = true;
+    }
+  }
+//컬렉션 index 받음
   @override
   Widget build(BuildContext context) {
   final viewmodel = Provider.of<CollectionViewModel>(context);
-    final collection = viewmodel.collectionList[collectionIndex];
+    final collection = viewmodel.collectionList[widget.collectionIndex];
+    final collectionNovels = viewmodel.collectionNovelList;
 
 
     return Scaffold(
@@ -115,7 +137,7 @@ class CollectionDetail extends StatelessWidget {
                               ),
                               onTap: () {
                                 Navigator.pop(context);
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => CollectionAddItem(collectionIndex:collectionIndex)));
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => CollectionAddItem(collectionIndex: widget.collectionIndex)),);
                               },
                             )
                           )
@@ -130,7 +152,7 @@ class CollectionDetail extends StatelessWidget {
                 ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: collection.count.novels,
+                  itemCount: collectionNovels.length,
                   itemBuilder: (context, index) {
                     return Card(
                       child: Container(
@@ -141,9 +163,12 @@ class CollectionDetail extends StatelessWidget {
                             Container(
                               width: 80.w,
                               height: 100.h,
-                              decoration: BoxDecoration(
-                                color: Colors.grey,
-
+                              child: Image.network(
+                                (collectionNovels[index].imgPath),
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Icon(Icons.error, size: 50);
+                                },
                               ),
                             ),
                             Container(
@@ -152,8 +177,8 @@ class CollectionDetail extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                //   Text(collection.novels[index].title,style:Theme.of(context).textTheme.displayMedium),
-                                //   Text(collection.novels[index].author,style:Theme.of(context).textTheme.displaySmall),
+                                  Text(collectionNovels[index].title,style:Theme.of(context).textTheme.displayMedium),
+                                  Text(collectionNovels[index].author,style:Theme.of(context).textTheme.displaySmall),
                                  ],
                               ),
                             ),

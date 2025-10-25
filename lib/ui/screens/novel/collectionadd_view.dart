@@ -79,6 +79,7 @@ class _CollectionAddState extends State<CollectionAdd> {
                         if (title.text.isNotEmpty && imagePath.isNotEmpty) {
                           await viewmodel.submitCollection(title.text, File(imagePath));
                           print('등록 완료');
+                          viewmodel.initialize();
                           Navigator.pop(context);
                         } else {
                           print('제목 또는 이미지 누락');

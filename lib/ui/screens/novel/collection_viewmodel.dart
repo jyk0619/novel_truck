@@ -8,32 +8,95 @@ import 'package:novel_truck/data/repository/collection_repository.dart';
 
 
 class CollectionViewModel extends ChangeNotifier {
-  final CollectionRepository _repository = CollectionRepository();
-  bool isLoading = false;
+  final CollectionRepository _repository= CollectionRepository();
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
   String? errorMessage;
 
+  final List<Collection> _collectionList = [];
+  List<Collection> get collectionList => _collectionList;
 
-  Future<void> initialize() async {
-    // 초기화 로직이 필요하다면 여기에 작성
-    notifyListeners();
+  final List<NovelData> _collectionNovelList = [];
+  List<NovelData> get collectionNovelList => _collectionNovelList;
+
+  CollectionViewModel() {
+    initialize();
   }
 
-  final List<Collection> _collectionList = [];
+  Future<void> initialize() async {
+    await fetchCollectionList();
+  }
 
-  List<Collection> get collectionList => _collectionList;
+  Future<void> initializeCollectionNovels(int collectionId) async {
+    await fetchCollectionNovelList(collectionId);
+  }
+
+  Future<void> fetchCollectionList() async {
+    _isLoading = true;
+    errorMessage = null;
+    _collectionList.clear();
+    notifyListeners();
+
+    try {
+      final collections = await _repository.fetchCollectionList();
+      _collectionList.addAll(collections);
+    } catch (e) {
+      errorMessage = '컬렉션을 불러오는 데 실패했습니다: $e';
+      print(errorMessage);
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> fetchCollectionNovelList(int collectionId) async {
+    _isLoading = true;
+    errorMessage = null;
+    _collectionNovelList.clear();
+    notifyListeners();
+
+    try {
+      final novels = await _repository.fetchCollectionNovelList(collectionId);
+      _collectionNovelList.addAll(novels);
+    } catch (e) {
+      errorMessage = '컬렉션 소설을 불러오는 데 실패했습니다: $e';
+      print(errorMessage);
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
 
 
   Future<void> submitCollection(String title, File imageFile) async {
     try {
-      isLoading = true;
+      _isLoading = true;
       notifyListeners();
 
       await _repository.addCollection(title: title, imageFile: imageFile);
 
-      isLoading = false;
+      _isLoading = false;
       notifyListeners();
     } catch (e) {
-      isLoading = false;
+      _isLoading = false;
+      errorMessage = e.toString();
+      notifyListeners();
+    }
+  }
+
+  Future<void> addNovelToCollection(int collectionId, novelId) async {
+    try {
+      _isLoading = true;
+      notifyListeners();
+
+      await _repository.addNovelToCollection(
+          collectionId: collectionId, novelId: novelId);
+
+      _isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      _isLoading = false;
       errorMessage = e.toString();
       notifyListeners();
     }
@@ -43,6 +106,7 @@ class CollectionViewModel extends ChangeNotifier {
     _collectionList.removeAt(index);
     notifyListeners();
   }
+
 
   // void addNovelToCollection(int collectionIndex, NovelData novel) {
   //   _collectionList[collectionIndex].novels.add(novel);

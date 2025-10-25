@@ -1,8 +1,11 @@
 
 import 'dart:io';
 
+import 'package:novel_truck/ui/screens/novel/novel_view.dart';
+
 import '../datasource/collection_api_service.dart';
 import '../model/collection_model.dart';
+import '../model/novel_model.dart';
 
 class CollectionRepository {
   final _apiService = CollectionApiService();
@@ -30,10 +33,35 @@ class CollectionRepository {
     }
   }
 
-  Future<CollectionListResponse> fetchCollectionList() async {
-    final jsonList = await _apiService.getCollectionList();
-    return CollectionListResponse.fromJson(jsonList);
+  Future<List<Collection>> fetchCollectionList() async {
+    final response = await _apiService.getCollectionList();
+    return (response['data'] as List)
+        .map((item) => Collection.fromJson(item))
+        .toList();
   }
+
+  Future<List<NovelData>> fetchCollectionNovelList(id) async {
+    final response = await _apiService.getCollectionDetail(id);
+
+    final novels = (response['data']?['novels'] as List?) ?? [];
+
+    return novels
+        .map((item) {
+      final novelJson = item['novel'];
+      final novelResponse = NovelResponseModel.fromJson(novelJson); // ✅ Map → Model 변환
+      return NovelData.fromResponse(novelResponse); // ✅ Model → Data 변환
+    })
+        .toList();
+  }
+
+  Future<void> addNovelToCollection({ required int collectionId,required int novelId,}) async {
+    try {
+      await _apiService.postCollectionItem(collectionId, novelId);
+    } catch (e) {
+      throw Exception('컬렉션에 소설 추가 중 오류 발생: $e');
+    }
+  }
+
 
 
 }

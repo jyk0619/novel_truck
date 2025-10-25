@@ -82,8 +82,8 @@ class Collection extends StatelessWidget {
                         children: [
                           Card(
                             child: SizedBox(
-                              width: 120.w,
-                              height: 120.h,
+                              width: 140.w,
+                              height: 140.h,
                                 child: Icon(Icons.add, color: AppColors.primary, size: 50)),
                           ),
                           Text('컬렉션 추가', style: Theme.of(context).textTheme.displayMedium),
@@ -100,20 +100,21 @@ class Collection extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => CollectionDetail(collectionIndex: index-1),//컬렉션detail에 collection index넘김
+                                builder: (context) => CollectionDetail(collectionIndex: index-1)//컬렉션detail에 collection index넘김
                               ),
                             );
                           },
                           child: Card(
+                            clipBehavior: Clip.antiAlias,
                             child: Image.network(
                                 (collection.thumbnail),
                                 fit: BoxFit.cover,
-                                width: 120.w,
-                                height: 120.h,
+                                width: 140.w,
+                                height: 140.h,
                                 errorBuilder: (context, error, stackTrace) {
                                   return Container(
-                                    width: 120.w,
-                                    height: 120.h,
+                                    width: 140.w,
+                                    height: 140.h,
                                     padding: EdgeInsets.all(10),
                                     child: Icon(Icons.error, color: AppColors.primary, size: 50),
                                   );

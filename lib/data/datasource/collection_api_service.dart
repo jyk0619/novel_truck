@@ -75,10 +75,47 @@ class CollectionApiService {
     final response = await http.get(uri, headers: headers);
 
     if (response.statusCode == 200) {
-      print('컬렉션 리스트 조회 응답: ${response.body}');
+
       return jsonDecode(response.body);
     } else {
       throw Exception('컬렉션 리스트 조회 실패: ${response.statusCode}');
     }
   }
+
+  // 컬렉션 상세 조회
+  Future<Map<String, dynamic>> getCollectionDetail(id) async {
+    final uri = Uri.parse('$_baseUrl/playlists/${id}');
+    final headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    final response = await http.get(uri, headers: headers);
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('컬렉션 리스트 조회 실패: ${response.statusCode}');
+    }
+  }
+
+  // 3. 컬렉션 등록
+  Future<void> postCollectionItem(int id,int novelid) async {
+    final uri = Uri.parse('$_baseUrl/playlists/${id}/novels');
+    final headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+    final body = jsonEncode({
+     'novelId': novelid,
+    });
+
+    final response = await http.post(uri, headers: headers, body: body);
+
+    if (response.statusCode != 200 && response.statusCode != 201) {
+      throw Exception('컬렉션 등록 실패: ${response.statusCode}');
+    }
+  }
+
+
 }
