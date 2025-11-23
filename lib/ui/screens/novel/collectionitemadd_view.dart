@@ -45,7 +45,11 @@ class CollectionAddItem extends StatelessWidget {
                         Expanded(
                           child: Container(
                             decoration: BoxDecoration(
-                              color: Colors.grey,
+                              borderRadius: BorderRadius.circular(10),
+                              image: DecorationImage(
+                                image: NetworkImage('${novelViewModel.novelList[index].imgPath}'),
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                         ),
@@ -74,6 +78,8 @@ class CollectionAddItem extends StatelessWidget {
                                           onPressed: () {
                                             collectionViewModel.addNovelToCollection(collectionViewModel.collectionList[collectionIndex].id, int.parse(novelViewModel.novelList[index].id));
                                             Navigator.pop(context);
+                                            Navigator.pop(context);
+                                            collectionViewModel.initializeCollectionNovels(collectionViewModel.collectionList[collectionIndex].id);
                                             ScaffoldMessenger.of(context).showSnackBar(
                                               SnackBar(
                                                 content: Text('플레이리스트에 소설이 추가되었어요!'),
@@ -108,3 +114,4 @@ class CollectionAddItem extends StatelessWidget {
     );
   }
 }
+

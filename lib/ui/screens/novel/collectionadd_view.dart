@@ -56,8 +56,17 @@ class _CollectionAddState extends State<CollectionAdd> {
               ),
 
               Container(
+
                 margin: EdgeInsets.symmetric(vertical: 10),
-                child: CustomTextField(label: '플레이리스트 이름을 입력해주세요', controller: title,)
+                child: TextField(
+                  controller: title,
+                  textAlign: TextAlign.center,
+                  decoration: InputDecoration(
+                    hintText: '플레이리스트 이름을 입력해주세요',
+                    hintStyle: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.grey),
+                  ),
+                ),
+                //CustomTextField(label: '플레이리스트 이름을 입력해주세요', controller: title,)
               ),
               Container(
                 margin: EdgeInsets.symmetric(vertical: 10),

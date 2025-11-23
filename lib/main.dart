@@ -92,7 +92,7 @@ class MyApp extends StatelessWidget {
 
 final GoRouter router = GoRouter(
   navigatorKey: navigatorKey,
-  initialLocation: '/home',
+  initialLocation: '/login',
   routes: [
     GoRoute(
       path: '/login',

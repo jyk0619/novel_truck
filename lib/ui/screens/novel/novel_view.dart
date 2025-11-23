@@ -19,9 +19,11 @@ class Novel extends StatelessWidget {
     return
       Scaffold(
           appBar: AppBar(
+            backgroundColor: Colors.transparent,
             title: Text('소설 목록'),
             centerTitle: true,
             scrolledUnderElevation: 0,
+
           ),
           body:SingleChildScrollView(
             child: Column(

@@ -100,18 +100,44 @@ class CollectionViewModel extends ChangeNotifier {
       errorMessage = e.toString();
       notifyListeners();
     }
+    finally{
+      await fetchCollectionNovelList(collectionId);
+    }
   }
 
-  void removeCollection(int index) {
-    _collectionList.removeAt(index);
+  Future<void> removeCollection(int collectionId) async {
+    try{
+      _isLoading = true;
+      notifyListeners();
+
+      await _repository.removeCollection(collectionId);
+
+    } catch (e) {
+      errorMessage = e.toString();
+    } finally {
+      await fetchCollectionList();
+      _isLoading = false;
+    }
+
     notifyListeners();
   }
 
+  Future<void> editCollection(int id, String title, File imageFile) async {
+    try {
+      _isLoading = true;
+      notifyListeners();
 
-  // void addNovelToCollection(int collectionIndex, NovelData novel) {
-  //   _collectionList[collectionIndex].novels.add(novel);
-  //   notifyListeners();
-  // }
+      await _repository.editCollection(id:id, title: title, imageFile: imageFile);
+
+      _isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      _isLoading = false;
+      errorMessage = e.toString();
+      notifyListeners();
+    }
+  }
+
   void removeNovelFromCollection(int collectionIndex, int novelIndex) {
     _collectionList.removeAt(novelIndex);
     notifyListeners();

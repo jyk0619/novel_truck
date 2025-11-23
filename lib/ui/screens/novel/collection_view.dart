@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import  'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:novel_truck/ui/screens/novel/collection_viewmodel.dart';
 import 'package:novel_truck/ui/screens/novel/collectionadd_view.dart';
 import 'package:novel_truck/core/theme/app_colors.dart';
@@ -19,6 +20,7 @@ class Collection extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
         surfaceTintColor: Colors.transparent,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
@@ -37,11 +39,22 @@ class Collection extends StatelessWidget {
               Container(
                 width: double.infinity,
                 margin: EdgeInsets.only(bottom: 10),
-                child:Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child:Row(
+
                   children: [
-                    Text('내 소설\n플레이리스트',style:Theme.of(context).textTheme.titleLarge),
-                    Text('내가 좋아하는 소설을 모아둔 곳입니다.',style:Theme.of(context).textTheme.displaySmall),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('내 소설\n플레이리스트',style:Theme.of(context).textTheme.titleLarge),
+                        Text('내가 좋아하는 소설을 모아둔 곳입니다.',style:Theme.of(context).textTheme.displaySmall),
+                      ],
+                    ),
+                    SizedBox(width: 30.w),
+                    SvgPicture.asset(
+                      'assets/images/playlist_icon2.svg',
+                      width: 50.w,
+                      height: 50.h,
+                    ),
                   ],
                 ),
               ),

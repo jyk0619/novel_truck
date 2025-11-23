@@ -99,7 +99,7 @@ class CollectionApiService {
     }
   }
 
-  // 3. 컬렉션 등록
+  // 3. 컬렉션 아이템 등록
   Future<void> postCollectionItem(int id,int novelid) async {
     final uri = Uri.parse('$_baseUrl/playlists/${id}/novels');
     final headers = {
@@ -116,6 +116,48 @@ class CollectionApiService {
       throw Exception('컬렉션 등록 실패: ${response.statusCode}');
     }
   }
+
+  // 컬렉션 삭제
+  Future<Map<String, dynamic>> delCollection(id) async {
+    final uri = Uri.parse('$_baseUrl/playlists/${id}');
+    final headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    final response = await http.delete(uri, headers: headers);
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('컬렉션 삭제 실패: ${response.statusCode}');
+    }
+  }
+
+
+  // 컬렉션 수정
+  Future<Map<String, dynamic>> editCollection(id,title, imgUrl) async {
+    final uri = Uri.parse('$_baseUrl/playlists/${id}');
+    final headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+    final body = jsonEncode({
+      'title': title,
+      'description': 'string',
+      'thumbnail': imgUrl,
+      'isPublic': false,
+    });
+
+    final response = await http.put(uri, headers: headers, body: body);
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('컬렉션 삭제 실패: ${response.statusCode}');
+    }
+  }
+
 
 
 }
